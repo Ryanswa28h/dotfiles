@@ -1,0 +1,154 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$cmd_duration\
+$time\
+$jobs\
+$python\
+$lua\
+$nodejs\
+$golang\
+$haskell\
+$rust\
+$ruby\
+$package\
+$aws\
+$docker_context\
+$status\
+$battery\
+$line_break\
+$character"""
+
+add_newline = true
+palette = 'onedark'
+
+[character]
+vicmd_symbol = "[❮](purple)"
+error_symbol = "[❯](red)"
+success_symbol = "[❯](bright_green)"
+
+[directory]
+style = 'bold fg:dark_blue'
+format = '[$path ]($style)'
+truncation_length = 4
+read_only = " "
+truncation_symbol = '…/'
+truncate_to_repo = false
+
+[directory.substitutions]
+'Documents' = '󰈙'
+'Downloads' = ' '
+'Music' = ' '
+'Pictures' = ' '
+
+[git_branch]
+style = 'fg:green'
+format = 'on [$symbol$branch ]($style)'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "cyan"
+
+[git_metrics]
+disabled = false
+format = '([\[+$added\]]($added_style) )([\[-$deleted\]]($deleted_style) )'
+added_style = "bold green"
+deleted_style = "bold red"
+
+[battery]
+disabled = false
+format = 'with [$symbol$percentage]($style)'
+
+[[battery.display]]
+threshold = 99
+style = 'green'
+
+[status]
+disabled = false
+symbol = '✘'
+
+[fill]
+symbol = '~'
+
+[python]
+symbol = ' '
+
+[lua]
+symbol = ' '
+
+[nodejs]
+symbol = ' '
+
+[golang]
+symbol = ' '
+
+[haskell]
+symbol = ' '
+
+[rust]
+symbol = ' '
+
+[ruby]
+symbol = ' '
+
+[package]
+symbol = '󰏗 '
+
+[aws]
+symbol = ' '
+style = 'yellow'
+format = '[$symbol($profile )(\[$duration\] )]($style)'
+
+[docker_context]
+symbol = ' '
+style = 'fg:#06969A'
+format = '[$symbol]($style) $path'
+detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile']
+detect_extensions = ['Dockerfile']
+
+[jobs]
+symbol = '󰇙'
+style = 'red'
+number_threshold = 1
+format = '{[$symbol]($style)} '
+
+[cmd_duration]
+min_time = 500
+style = "dark_blue"
+format = 'took [$duration]($style) '
+
+[time]
+disabled = false
+style = "bold white"
+format = "on [$time]($style) "
+
+[palettes.nord]
+dark_blue = '#5E81AC'
+blue = '#81A1C1'
+teal = '#88C0D0'
+red = '#BF616A'
+orange = '#D08770'
+green = '#A3BE8C'
+bright_green='#00ff00'
+yellow = '#EBCB8B'
+purple = '#B48EAD'
+gray = '#434C5E'
+black = '#2E3440'
+white='#D8DEE9'
+
+[palettes.onedark]
+dark_blue='#61afef'
+blue='#56b6c2'
+red='#e06c75'
+bright_red='#ff0000'
+green='#98c379'
+bright_green='#00ff00'
+purple='#c678dd'
+cyan='#56b6c2'
+orange='#be5046'
+yellow='#e5c07b'
+gray='#828997'
+white ='#abb2bf'
+black='#2c323c'
