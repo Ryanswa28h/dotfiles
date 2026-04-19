@@ -1,0 +1,166 @@
+@import "../waybar/color.css";
+
+* {
+	font-family: "JetBrainsMono Nerd Font";
+	font-weight: bold;
+	min-height: 0;
+	font-size: 16px;
+	border: none;
+	border-radius: 0px;
+	padding: 0;
+	margin: 0;
+	/* set font-size to 100% if font scaling is set to 1.00 using nwg-look */
+	font-size: 97%;
+	font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+}
+
+.modules-center {
+	background: @bg0;
+	padding: 9px 12px;
+	border-radius: 28px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+window#waybar {
+	background: transparent;
+}
+
+tooltip {
+	background: @bg2;
+	border: 1px solid @bg3;
+	border-radius: 12px;
+}
+
+tooltip label {
+	color: @fg;
+	padding: 6px;
+}
+
+#workspaces {
+	background: transparent;
+	padding: 0;
+	margin: 0 10px 0 10px;
+	border: none;
+	box-shadow: none;
+}
+
+#workspaces button {
+	padding: 0px 6px;
+	margin: 0px 2px;
+	border-radius: 16px;
+	color: @grey0;
+	background: transparent;
+	transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+	background: linear-gradient(135deg, @blue 0%, @purple 50%, @red 100%);
+	color: @bg0;
+	min-width: 40px;
+	transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:hover {
+	background-color: @bg3;
+	color: @fg;
+}
+
+#workspaces button.urgent {
+	background-color: @red;
+	color: @bg0;
+}
+
+#battery,
+#pulseaudio,
+#backlight,
+#custom-pacman,
+#network,
+#clock,
+#custom-weather,
+#custom-media,
+#window,
+#custom-launcher,
+#custom-notification,
+#submap,
+#power-profiles-daemon,
+#custom-home-folder {
+	background-color: @bg0;
+	padding: 0 8px;
+	margin: 0 5px;
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+}
+
+#submap {
+	color: @aqua;
+}
+
+#custom-launcher {
+	color: @fg;
+}
+
+#group-mobo_drawer {
+	color: @red;
+}
+
+#cpu,
+#power-profiles-daemon,
+#memory,
+#custom-pacman {
+	color: @red;
+}
+
+#group-mobo_drawer {
+	background-color: rgba(255, 0, 0, 0.1);
+	/* Very subtle red tint */
+	border-radius: 15px;
+	margin: 0 5px;
+	padding: 0 5px;
+}
+
+#workspaces button {
+	color: white;
+}
+
+#network {
+	color: @aqua;
+}
+
+#battery {
+	color: @green;
+}
+
+#backlight {
+	color: @yellow;
+}
+
+#pulseaudio {
+	color: @blue;
+}
+
+#custom-weather {
+	color: @orange;
+}
+
+#custom-notification {
+	color: @red;
+}
+
+/* For groups like your power/status drawer */
+#custom-power {
+	color: @red;
+}
+
+#custom-lock {
+	color: @yellow;
+}
+
+/* For your app drawer icons */
+#custom-menu,
+#custom-file_manager,
+#custom-tty,
+#custom-browser,
+#custom-settings {
+	color: @blue;
+}

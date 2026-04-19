@@ -1,0 +1,398 @@
+{
+    "position": "top",
+    "margin-top": 10,
+    "margin-bottom": -9,
+    "layer": "top",
+    // Leaving sides empty to force everything to the middle
+    "modules-left": [],
+    "modules-center": [
+        "clock",
+        "group/app_drawer",
+        "group/mobo_drawer",
+        "hyprland/workspaces",
+        "tray",
+        "network",
+        "group/laptop",
+        "group/audio",        
+        "custom/weather",
+        "custom/notification",
+        "group/status",
+    ],
+    "modules-right": [],
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "on-scroll-down": "hyprctl dispatch workspace e+1",
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "format-icons": {
+            "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+            "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
+            "11" : "11", "12" : "12", "13" : "13", "14" : "14", "15" : "15",
+            "16" : "16", "17" : "17", "18" : "18", "19" : "19", "20" : "20",
+            "default": "",
+            "urgent": "󱓻"
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+
+    "group/status": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "custom/power",
+            "transition-left-to-right": false }, "modules": [
+            "custom/power",
+            "custom/lock",
+        ]
+    },
+
+    "custom/power": {
+        "format": " ⏻  ",
+        "on-click": "$HOME/.config/hypr/scripts/Wlogout.sh",
+        "on-click-right": "$HOME/.config/hypr/scripts/ChangeBlur.sh",
+        "tooltip": true,
+        "tooltip-format": "Left Click: Logout Menu\nRight Click: Change Blur",
+    },
+
+    "custom/lock": {
+        "format": " 󰌾 ",
+        "on-click": "$HOME/.config/hypr/scripts/LockScreen.sh",
+        "tooltip": true,
+        "tooltip-format": "󰷛 Screen Lock",
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} 󰂰 {volume}%",
+        "format-muted": "󰖁 ",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "", "", "󰕾",  ""
+            ],
+            "ignored-sinks": [
+                "Easy Effects Sink"
+            ],
+        },
+        "scroll-step": 5.0,
+        "on-click": "$HOME/.config/hypr/scripts/Volume.sh --toggle",
+        "on-click-right": "pavucontrol -t 3",
+        "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+        "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+        "tooltip-format": "{icon} {desc} | {volume}%",
+        "smooth-scrolling-threshold": 1,
+    },
+
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "on-click": "$HOME/.config/hypr/scripts/Volume.sh --toggle-mic",
+        "on-click-right": "pavucontrol -t 4",
+        "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --mic-inc",
+        "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --mic-dec",
+        "tooltip-format": "{source_desc} | {source_volume}%",
+        "scroll-step": 5,
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "interval": 1,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "format": {
+                "today": "<span color='#ff0000'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "shift_down",
+            "on-click": "shift_up"
+        }
+    },
+
+    "mpris": {
+        "interval": 10,
+        "format": " {player_icon}  ",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "on-click-middle": "playerctl play-pause",
+        "on-click": "playerctl previous",
+        "on-click-right": "playerctl next",
+        "scroll-step": 5.0,
+        "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+        "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+        "smooth-scrolling-threshold": 1,
+        "tooltip": true,
+        "tooltip-format": "{status_icon} {dynamic}\nLeft Click: previous\nMid Click: Pause\nRight Click: Next",
+        "player-icons": {
+            "chromium": "",
+            "default": "",
+            "firefox": "",
+            "kdeconnect": "",
+            "mopidy": "",
+            "mpv": "󰐹",
+            "spotify": "",
+            "vlc": "󰕼",
+        },
+        "status-icons": {
+            "paused": "󰐎",
+            "playing": "",
+            "stopped": "",
+        },
+        // "ignored-players": ["firefox"]
+        "max-length": 30,
+    },
+
+    "group/audio": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "pulseaudio",
+            "transition-left-to-right": true
+            },
+        "modules": [
+            "pulseaudio",
+            "pulseaudio#microphone",
+        ]
+    },
+
+    "network": {
+        "interface": "wlp3s0",
+        "format": "{ifname}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤮",
+        "on-click": "kitty --hold nmtui",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+    },
+
+    "battery": {
+        //"interval": 5,
+        "align": 0,
+        "rotate": 0,
+        //"bat": "BAT1",
+        //"adapter": "ACAD",
+        "full-at": 100,
+        "design-capacity": false,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": "󱘖 {capacity}%",
+        "format-alt-click": "click",
+        "format-full": "{icon} Full",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["", "", "", "", ""],
+        "format-time": "{H}h {M}min",
+        "tooltip": true,
+        "tooltip-format": "{timeTo} {power}w",
+        "on-click-middle": "$HOME/.config/hypr/scripts/ChangeBlur.sh",
+        "on-click-right": "$HOME/.config/hypr/scripts/Wlogout.sh",
+    },
+
+    "custom/notification": {
+        "tooltip": true,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "",
+            "none": "",
+            "dnd-notification": "󰂛",
+            "dnd-none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "sleep 0.1 && swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    "group/app_drawer": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "custom/menu",
+            "transition-left-to-right": true
+            },
+        "modules": [
+            "custom/menu",
+            "custom/file_manager",
+            "custom/tty",
+            "custom/browser",
+            "custom/settings",
+        ]
+    },
+
+    "custom/pacman": {
+        "format": "󰮯 {}",
+        "interval": "once",
+        "exec": "checkupdates | wc -l",
+        "on-click": "kitty --hold yay -Syu",
+        "signal": 8
+    },
+
+    "custom/home_folder": {
+        "format": "󰋜 {}",
+        "interval": "once",
+        "exec": "ls -l ~ | wc -l",
+        "on-click": "kitty --hold ls -l ~"
+    },
+
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "format-alt": "{alt}: {}",
+        "format-alt-click": "click",
+        "interval": 3600,
+        "return-type": "json",
+        "exec": "$HOME/.config/hypr/UserScripts/Weather.py",
+        //"exec": "$HOME/.config/hypr/UserScripts/Weather.sh",
+        //"exec-if": "ping wttr.in -c1",
+        "tooltip": true,
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+
+    "custom/menu": {
+        "format": "   ",
+        "on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
+        "on-click-middle": "$HOME/.config/hypr/UserScripts/WallpaperSelect.sh",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh",
+        "tooltip": true,
+        "tooltip-format": "Left Click: Rofi Menu\nMiddle Click: Wallpaper Menu\nRight Click: Waybar Layout Menu",
+    },
+
+    "custom/file_manager": {
+        "format": "  ",
+        "on-click": "$HOME/.config/hypr/scripts/WaybarScripts.sh --files",
+        "tooltip": true,
+        "tooltip-format": "File Manager",
+    },
+
+    "custom/tty": {
+        "format": "  ",
+        "on-click": "$HOME/.config/hypr/scripts/WaybarScripts.sh --term",
+        "tooltip": true,
+        "tooltip-format": "Launch Terminal",
+    },
+
+    "custom/browser": {
+        "format": "  ",
+        "on-click": "xdg-open https://",
+        "tooltip": true,
+        "tooltip-format": "Launch Browser",
+    },
+
+    "custom/settings": {
+        "format": "  ",
+        "on-click": "$HOME/.config/hypr/scripts/Kool_Quick_Settings.sh",
+        "tooltip": true,
+        "tooltip-format": "Launch KooL Hyprland Settings Menu",
+    },
+
+    "backlight": {
+        "interval": 2,
+        "align": 0,
+        "rotate": 0,
+        //"format": "{icon}",
+        "format-icons": [
+            " ",
+            " ",
+            " ",
+            "󰃝 ",
+            "󰃞 ",
+            "󰃟 ",
+            "󰃠 "
+        ],
+        "format": "{icon}",
+        //"format-icons": ["","","","","","","","","","","","","","",""],
+        "tooltip-format": "backlight {percent}%",
+        "icon-size": 10,
+        "on-click": "",
+        "on-click-middle": "",
+        "on-click-right": "",
+        "on-update": "",
+        "on-scroll-up": "$HOME/.config/hypr/scripts/Brightness.sh --inc",
+        "on-scroll-down": "$HOME/.config/hypr/scripts/Brightness.sh --dec",
+        "smooth-scrolling-threshold": 1,
+    },
+
+    "group/laptop": {
+        "orientation": "inherit",
+        "modules": [
+            "backlight",
+            "battery",
+        ]
+    },
+
+    "group/mobo_drawer": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "cpu",
+            "transition-left-to-right": true
+            },
+        "modules": [
+            "cpu",
+            "power-profiles-daemon",	
+            "memory",
+            "custom/pacman",
+        ]
+    },
+
+    "memory": {
+        "interval": 10,
+        "format": "{used:0.1f}G 󰾆  ",
+        "format-alt": "{percentage}% 󰾆",
+        "format-alt-click": "click",
+        "tooltip": true,
+        "tooltip-format": "{used:0.1f}GB/{total:0.1f}G",
+        "on-click-right": "$HOME/.config/hypr/scripts/WaybarScripts.sh --btop"
+    },
+
+    "power-profiles-daemon": {
+      "format": " {icon} ",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+
+    "cpu": {
+        "format": "{usage}% 󰍛",
+        "interval": 1,
+        "min-length": 5,
+        "format-alt-click": "click",
+        "format-alt": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% 󰍛",
+        "format-icons": [
+            "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
+        ],
+        "on-click-right": "gnome-system-monitor",
+    },
+}
