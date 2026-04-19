@@ -1,0 +1,38 @@
+[user]
+	name = Ryanswa28h
+	email = 12345678+Ryanswa28h@users.noreply.github.com 
+[init]
+	defaultBranch = main
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[alias]
+	st = status
+	co = checkout
+	cb = checkout -b
+	br = branch
+	cm = commit
+	ca = commit -a
+	amend = commit --amend
+	lg = log --oneline --graph --decorate --all
+	last = log -1 HEAD
+	unstage = reset HEAD --
+[core]
+	editor = nvim
+	autocrlf = input
+	pager = less -FRX
+[pull]
+	rebase = true
+[push]
+	default = simple
+[color]
+	ui = auto
+[diff]
+	colorMoved = default
+[merge]
+	tool = nvimdiff
+[include]
+	path = ~/.gitconfig.local
