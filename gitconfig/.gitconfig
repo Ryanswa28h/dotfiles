@@ -7,8 +7,6 @@
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = !/usr/bin/gh auth git-credential
-[url "git@github.com:"]
-	insteadOf = https://github.com/
 [alias]
 	st = status
 	co = checkout
