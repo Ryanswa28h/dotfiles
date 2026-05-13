@@ -41,6 +41,18 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
 zinit light zdharma-continuum/fast-syntax-highlighting
 
+zinit light Aloxaf/fzf-tab
+# Disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# Set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# Set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# Preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# Switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+
 # zinit light olets/zsh-abbr
 
 # ===============================
@@ -49,6 +61,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 export EDITOR=nvim
 export VISUAL=nvim
 export HISTFILE=~/.zsh_history
+
 HISTSIZE=20000
 SAVEHIST=20000
 setopt appendhistory
@@ -69,8 +82,6 @@ zstyle ':completion:*' verbose yes
 # Tools Initialization
 # ===============================
 eval "$(zoxide init --cmd cd zsh)"
-[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
-[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 
 # ===============================
 # Aliases
@@ -84,13 +95,18 @@ alias ll='eza -alh --icons=always --git --group-directories-first --time-style=l
 alias lsf='eza --group-directories-first --color=auto'
 alias lsb='/usr/bin/ls --color=auto'
 
-alias pacupg='sudo pacman -Syu'
 alias e='exit'
 alias i='paru -S'
 alias s='paru -Ss'
 alias r='paru -Rns'
 alias py='python3'
 alias cf='clear && fastfetch --config arch'
+alias cff='clear && fastfetch'
+alias cp='cp -i'
+alias mv='mv -i'
+alias mkdir='mkdir -p'
+alias ping='ping -c 5'
+alias update='sudo pacman -Syu'
 alias c='clear'
 alias z='cd'
 alias rm='rm -I --preserve-root'
@@ -111,7 +127,10 @@ alias aqrm='asciiquarium'
 alias czsh='nvim ~/dotfiles/zsh/.zshrc'
 alias jf='nvim justfile'
 alias anf='anifetch example.mp4 -r 10 -W 80 -H 80 -c "--symbols wide --fg-only"'
-alias dr='__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia prime-run davinci-resolve'
+alias oc='opencode'
+alias gdrive='rclone mount gdrive: ~/gdrive \
+  --vfs-cache-mode minimal \
+  --buffer-size 32M'
 
 # ===============================
 # Functions
@@ -134,6 +153,18 @@ done
 function emptytrash() {
   read "?Empty trash? (y/N) " ans
   [[ $ans == y ]] && gio trash --empty
+}
+
+rgvim() {
+    local query="$*"
+    # Use quotes around the subshell and ensure fzf doesn't get tripped up by zsh globbing
+    local choice
+    choice=$(rg -il "$query" | fzf -0 -1 --ansi --preview "rg --context 3 --color always '$query' {}")
+
+    # If choice is empty, choice=$(...) returns a non-zero exit code or empty string
+    if [[ -n "$choice" ]]; then
+        nvim "+/${query:l}" "$choice"
+    fi
 }
 
 # Navigate using yazi
@@ -212,7 +243,7 @@ eval "$(starship init zsh)"
 # [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
 # Run fastfetch only when starting a tmux pane/session
 if [ -n "$TMUX" ]; then
-  fastfetch --config arch
+  fastfetch
 fi
 
 # Tmux Cheatsheet Function
@@ -562,7 +593,10 @@ if [[ -z "$TMUX" && -z "$ZSH_NO_TMUX" ]]; then
     exit
   fi
 fi
+#
+# export GTK_IM_MODULE=fcitx
+# export QT_IM_MODULE=fcitx
+# export XMODIFIERS=@im=fcitx   
+[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx   
