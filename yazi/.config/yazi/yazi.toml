@@ -8,25 +8,25 @@ mouse_events = [ "click", "scroll", "touch", "move", "drag" ]
 [plugin]
 prepend_previewers = [
     # archives (zip, rar, 7z, tar)
-    { name = "*.tar.gz", run = "ouch" },
-    { name = "*.tar.xz", run = "ouch" },
-    { name = "*.zip",    run = "ouch" },
-    { name = "*.7z",     run = "ouch" },
-    { name = "*.rar",    run = "ouch" },
+    { url = "*.tar.gz", run = "ouch" },
+    { url = "*.tar.xz", run = "ouch" },
+    { url = "*.zip",    run = "ouch" },
+    { url = "*.7z",     run = "ouch" },
+    { url = "*.rar",    run = "ouch" },
     
     # office
-    { name = "*.docx", run = "office" },
-    { name = "*.pptx", run = "office" },
-    { name = "*.xlsx", run = "office" },
+    { url = "*.docx", run = "office" },
+    { url = "*.pptx", run = "office" },
+    { url = "*.xlsx", run = "office" },
     
     # pretty code and json
-    { name = "*.md",   run = "rich-preview" },
-    { name = "*.json", run = "rich-preview" },
-    { name = "*.csv",  run = "rich-preview" },
-    { name = "*.py",   run = "rich-preview" },
-    { name = "*.js",   run = "rich-preview" },
-    { name = "*.rs",   run = "rich-preview" },
-    { name = "*.go",   run = "rich-preview" },
+    { url = "*.md",   run = "rich-preview" },
+    { url = "*.json", run = "rich-preview" },
+    { url = "*.csv",  run = "rich-preview" },
+    { url = "*.py",   run = "rich-preview" },
+    { url = "*.js",   run = "rich-preview" },
+    { url = "*.rs",   run = "rich-preview" },
+    { url = "*.go",   run = "rich-preview" },
 
     # audio
     { mime = "audio/*", run = "audio-preview" },

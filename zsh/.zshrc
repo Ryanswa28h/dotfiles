@@ -42,6 +42,7 @@ zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit light Aloxaf/fzf-tab
+zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
 # Disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # Set descriptions format to enable group support
@@ -120,13 +121,19 @@ alias cmx='cmatrix'
 alias vim='nvim'
 alias vi='nvim'
 alias nv='nvim'
+alias cv='nvim'
+alias v='nvim'
+alias f='fabric'
+alias g='git'
+alias lg='lazygit'
 alias lv='NVIM_APPNAME=lazyvim nvim'
 alias gv='NVIM_APPNAME=gokgoknvim nvim'
 alias pp='pipes.sh'
 alias aqrm='asciiquarium'
 alias czsh='nvim ~/dotfiles/zsh/.zshrc'
+alias rezsh='exec zsh'
+alias chis='nvim ~/.zsh_history'
 alias jf='nvim justfile'
-alias anf='anifetch example.mp4 -r 10 -W 80 -H 80 -c "--symbols wide --fg-only"'
 alias oc='opencode'
 alias gdrive='rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode minimal \
@@ -223,7 +230,7 @@ function sudo() {
 # ===============================
 # PATH
 # ===============================
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH"
 export PATH="/home/ryan/.opencode/bin:$PATH"
 [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
@@ -235,7 +242,7 @@ export PATH="/home/ryan/.opencode/bin:$PATH"
 
 # Starship 
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"
+(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
 
 # ===============================
 # Startup info
@@ -243,7 +250,7 @@ eval "$(starship init zsh)"
 # [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
 # Run fastfetch only when starting a tmux pane/session
 if [ -n "$TMUX" ]; then
-  fastfetch
+    fastfetch
 fi
 
 # Tmux Cheatsheet Function
@@ -597,6 +604,6 @@ fi
 # export GTK_IM_MODULE=fcitx
 # export QT_IM_MODULE=fcitx
 # export XMODIFIERS=@im=fcitx   
-[[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
-[[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
+# [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+# [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 
