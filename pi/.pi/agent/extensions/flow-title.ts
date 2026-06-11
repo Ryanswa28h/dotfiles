@@ -13,8 +13,8 @@ const GREEN: Rgb = [50, 200, 80];
 const SKY: Rgb = [93, 171, 255];
 const DEEP_BLUE: Rgb = [22, 83, 189];
 const ICE: Rgb = [151, 205, 255];
-// const PALETTE: Rgb[] = [DEEP_BLUE, BLUE, SKY, ICE, SKY, BLUE]; // Blue Palette
-const PALETTE: Rgb[] = [RED, GREEN, BLUE, RED, GREEN, BLUE]; // RGB Palette
+const BLUEPAL: Rgb[] = [DEEP_BLUE, BLUE, SKY, ICE, SKY, BLUE]; // Blue Palette
+const RGBPAL: Rgb[] = [RED, GREEN, BLUE, RED, GREEN, BLUE]; // RGB Palette
 
 type Rgb = [number, number, number];
 type Renderable = {
@@ -27,7 +27,16 @@ type TuiLike = RenderableContainer & { requestRender(force?: boolean): void };
 const ANSI_PATTERN =
   /[\u001B\u009B][[\]()#;?]*(?:(?:(?:[a-zA-Z\d]*(?:;[a-zA-Z\d]*)*)?\u0007)|(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-nq-uy=><~]))/g;
 
-const TITLE_LINES = [
+const TITLE_LINES_1 = [
+  "     ██╗ █████╗ ███╗   ██╗ ██████╗  █████╗ ███╗   ██╗    ██████╗ ███████╗ ██████╗  ██████╗ ",
+  "     ██║██╔══██╗████╗  ██║██╔════╝ ██╔══██╗████╗  ██║    ██╔══██╗██╔════╝██╔════╝ ██╔═══██╗",
+  "     ██║███████║██╔██╗ ██║██║  ███╗███████║██╔██╗ ██║    ██████╔╝█████╗  ██║  ███╗██║   ██║",
+  "██   ██║██╔══██║██║╚██╗██║██║   ██║██╔══██║██║╚██╗██║    ██╔══██╗██╔══╝  ██║   ██║██║   ██║",
+  "╚█████╔╝██║  ██║██║ ╚████║╚██████╔╝██║  ██║██║ ╚████║    ██████╔╝███████╗╚██████╔╝╚██████╔╝",
+  " ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝    ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ",
+];
+
+const TITLE_LINES_2 = [
   "████████████╗            ██████╗    ██╗██╗  ██╗ ██╗███████╗ █████╗          ",
   "╚═██╔══██╔══╝  ██████╗   ╚════██╗  ███║██║  ██║███║██╔════╝██╔══██╗         ",
   "  ██║  ██║     ╚═════╝    █████╔╝  ╚██║███████║╚██║███████╗╚██████║         ",
@@ -40,14 +49,14 @@ function mix(a: number, b: number, t: number) {
   return Math.round(a + (b - a) * t);
 }
 
-function sampleGradient(position: number) {
+function sampleGradient(position: number, palette: Array) {
   const wrapped = ((position % 1) + 1) % 1;
-  const scaled = wrapped * PALETTE.length;
+  const scaled = wrapped * palette.length;
   const index = Math.floor(scaled);
-  const nextIndex = (index + 1) % PALETTE.length;
+  const nextIndex = (index + 1) % palette.length;
   const t = scaled - index;
-  const a = PALETTE[index]!;
-  const b = PALETTE[nextIndex]!;
+  const a = palette[index]!;
+  const b = palette[nextIndex]!;
   return [mix(a[0], b[0], t), mix(a[1], b[1], t), mix(a[2], b[2], t)] as Rgb;
 }
 
@@ -55,13 +64,13 @@ function fg([r, g, b]: Rgb, text: string) {
   return `\x1b[38;2;${r};${g};${b}m${text}${RESET}`;
 }
 
-function gradientText(text: string, phase: number) {
+function gradientText(text: string, phase: number, palette: Array) {
   const chars = [...text];
   const span = Math.max(chars.length - 1, 1);
   return chars
     .map((char, index) => {
       if (char === " ") return char;
-      return fg(sampleGradient(index / span + phase), char);
+      return fg(sampleGradient(index / span + phase, palette), char);
     })
     .join("");
 }
@@ -121,15 +130,19 @@ function isBlankSpacer(component: Renderable) {
 }
 
 function renderHeader(width: number, phase: number, subtitleText: string) {
-  const lines = TITLE_LINES.map((line, row) =>
-    gradientText(center(line, width), phase + row * 0.045),
+  const lines_1 = TITLE_LINES_1.map((line, row) =>
+    gradientText(center(line, width), phase + row * 0.045, BLUEPAL),
+  );
+  const lines_2 = TITLE_LINES_2.map((line, row) =>
+    gradientText(center(line, width), phase + row * 0.045, RGBPAL),
   );
   const subtitle = center(subtitleText, width);
 
   return [
     "",
-    ...lines,
-    `${BOLD}${gradientText(subtitle, phase + 0.18)}${RESET}`,
+    ...lines_1,
+    ...lines_2,
+    `${BOLD}${gradientText(subtitle, phase + 0.18, RGBPAL)}${RESET}`,
     "",
   ];
 }

@@ -232,6 +232,7 @@ function sudo() {
 # ===============================
 export PATH="$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH"
 export PATH="/home/ryan/.opencode/bin:$PATH"
+export PATH="/home/ryan/.npm-global/bin:$PATH"
 [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # ===============================
@@ -606,4 +607,3 @@ fi
 # export XMODIFIERS=@im=fcitx   
 # [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 # [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
-
