@@ -140,6 +140,7 @@ function renderHeader(width: number, phase: number, subtitleText: string) {
 
   return [
     "",
+    "",
     ...lines_1,
     ...lines_2,
     `${BOLD}${gradientText(subtitle, phase + 0.18, RGBPAL)}${RESET}`,
