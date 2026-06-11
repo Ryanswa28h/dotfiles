@@ -1,0 +1,25 @@
+node_modules
+**/node_modules/
+
+# opencode
+opencode/.config/opencode/package.json
+opencode/.config/opencode/bun.lock
+opencode/.config/opencode/antigravity-accounts.json
+opencode/.config/opencode/antigravity-accounts.json.*.tmp
+opencode/.config/opencode/antigravity-signature-cache.json
+opencode/.config/opencode/antigravity-logs/
+opencode/.config/opencode/context-mode/
+opencode/.config/opencode/.gitignore
+
+# pi
+pi/.pi/agent/.env
+pi/.pi/agent/sessions
+pi/.pi/agent/auth.json
+pi/.pi/agent/models.json
+pi/.pi/agent/settings.json
+pi/.pi/agent/mcp-cache.json
+pi/.pi/agent/git/
+pi/.pi/agent/extensions/oc.ts
+pi/.pi/agent/extensions/tx9/
+pi/.pi/agent/tx9/jobs
+pi/.pi/agent/.gitignore

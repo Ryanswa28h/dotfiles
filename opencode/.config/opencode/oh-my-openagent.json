@@ -1,0 +1,88 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "sisyphus_agent": {
+    "replace_plan": true,
+    "planner_enabled": true
+  },
+  "team_mode": {
+    "enabled": true,
+    "max_parallel_members": 4,
+    "max_members": 8
+  },
+  "agents": {
+    "build": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "plan": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "sisyphus": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "hephaestus": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "oracle": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "explore": {
+      "model": "opencode/big-pickle"
+    },
+    "multimodal-looker": {
+      "model": "opencode/mimo-v2.5-free"
+    },
+    "prometheus": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "metis": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "momus": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "atlas": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "sisyphus-junior": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "librarian": {
+      "model": "opencode/big-pickle"
+    },
+    "athena": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "athena-junior": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "council-member": {
+      "model": "opencode/deepseek-v4-flash-free"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "ultrabrain": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "deep": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "artistry": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "quick": {
+      "model": "opencode/big-pickle"
+    },
+    "unspecified-low": {
+      "model": "opencode/mimo-v2.5-free"
+    },
+    "unspecified-high": {
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "writing": {
+      "model": "opencode/mimo-v2.5-free"
+    }
+  }
+}
