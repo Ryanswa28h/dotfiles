@@ -4,7 +4,7 @@
 
 iDIR="$HOME/.config/swaync/icons"
 notification_timeout=1000
-step=10  # INCREASE/DECREASE BY THIS VALUE
+step=5 # INCREASE/DECREASE BY THIS VALUE
 
 # Get current brightness as an integer (without %)
 get_brightness() {
@@ -14,8 +14,8 @@ get_brightness() {
 # Determine the icon based on brightness level
 get_icon_path() {
     local brightness=$1
-    local level=$(( (brightness + 19) / 20 * 20 ))  # Round up to next 20
-    if (( level > 100 )); then
+    local level=$(((brightness + 19) / 20 * 20)) # Round up to next 20
+    if ((level > 100)); then
         level=100
     fi
     echo "$iDIR/brightness-${level}.png"
@@ -43,8 +43,8 @@ change_brightness() {
     new=$((current + delta))
 
     # Clamp between 5 and 100
-    (( new < 5 )) && new=5
-    (( new > 100 )) && new=100
+    ((new < 5)) && new=5
+    ((new > 100)) && new=100
 
     brightnessctl set "${new}%"
 
@@ -54,16 +54,17 @@ change_brightness() {
 
 # Main
 case "$1" in
-    "--get")
-        get_brightness
-        ;;
-    "--inc")
-        change_brightness "$step"
-        ;;
-    "--dec")
-        change_brightness "-$step"
-        ;;
-    *)
-        get_brightness
-        ;;
+"--get")
+    get_brightness
+    ;;
+"--inc")
+    change_brightness "$step"
+    ;;
+"--dec")
+    change_brightness "-$step"
+    ;;
+*)
+    get_brightness
+    ;;
 esac
+
