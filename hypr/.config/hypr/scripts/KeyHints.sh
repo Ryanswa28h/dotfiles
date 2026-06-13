@@ -28,45 +28,82 @@ GDK_BACKEND=$BACKEND yad \
 " SHIFT E" "KooL Hyprland Settings Menu" "" \
 "" "" "" \
 " enter" "Terminal" "(kitty)" \
-" SHIFT enter" "DropDown Terminal" " Q to close" \
+" SHIFT enter" "DropDown Terminal" "(kitty)" \
 " B" "Launch Browser" "(Default browser)" \
-" A" "Desktop Overview" "(AGS - if opted to install)" \
 " D" "Application Launcher" "(rofi-wayland)" \
-" E" "Open File Manager" "(Thunar)" \
+" A" "Desktop Overview" "(quickshell)" \
+" E" "Open File Manager" "(kitty yazi)" \
+" R" "KRunner" "(krunner)" \
 " S" "Google Search using rofi" "(rofi)" \
-" Q" "close active window" "(not kill)" \
-" Shift Q " "kills an active window" "(kill)" \
-" ALT mouse scroll up/down   " "Desktop Zoom" "Desktop Magnifier" \
-" Alt V" "Clipboard Manager" "(cliphist)" \
 " W" "Choose wallpaper" "(Wallpaper Menu)" \
-" Shift W" "Choose wallpaper effects" "(imagemagick + swww)" \
+" SHIFT W" "Choose wallpaper effects" "(imagemagick + swww)" \
 "CTRL ALT W" "Random wallpaper" "(via swww)" \
-" CTRL ALT B" "Hide/UnHide Waybar" "waybar" \
-" CTRL B" "Choose waybar styles" "(waybar styles)" \
-" ALT B" "Choose waybar layout" "(waybar layout)" \
+" C" "Launch VS Code" "(code)" \
+" Y" "Yazi file manager" "(kitty yazi)" \
+" O" "Launch Obsidian" "(obsidian)" \
+" V" "Neovim" "(kitty -e nvim)" \
+" T" "Terminal" "(kitty)" \
+" Q" "close active window" "(not kill)" \
+" Shift Q" "Kill active window" "(kill)" \
+" N" "Toggle night light" "(Hyprsunset)" \
+" G" "Toggle Expo overview" "(hyprexpo)" \
+" ALT mouse scroll up/down" "Desktop Zoom" "Desktop Magnifier" \
+" Alt V" "Clipboard Manager" "(cliphist)" \
 " ALT R" "Reload Waybar swaync Rofi" "CHECK NOTIFICATION FIRST!!!" \
 " SHIFT N" "Launch Notification Panel" "swaync Notification Center" \
-" Print" "screenshot" "(grim)" \
-" Shift Print" "screenshot region" "(grim + slurp)" \
-" Shift S" "screenshot region" "(swappy)" \
-" CTRL Print" "screenshot timer 5 secs " "(grim)" \
-" CTRL SHIFT Print" "screenshot timer 10 secs " "(grim)" \
-"ALT Print" "Screenshot active window" "active window only" \
-"CTRL ALT P" "power-menu" "(wlogout)" \
-"CTRL ALT L" "screen lock" "(hyprlock)" \
-"CTRL ALT Del" "Hyprland Exit" "(NOTE: Hyprland Will exit immediately)" \
 " SHIFT F" "Fullscreen" "Toggles to full screen" \
 " CTL F" "Fake Fullscreen" "Toggles to fake full screen" \
+"ALT tab" "Cycle windows + bring to top" "" \
+"Print" "Screenshot area" "(grim)" \
+" Print" "Screenshot" "(grim)" \
+" Shift Print" "Screenshot region" "(swappy)" \
+" CTRL Print" "Screenshot timer 5 secs" "(grim)" \
+" CTRL SHIFT Print" "Screenshot timer 10 secs" "(grim)" \
+"ALT Print" "Screenshot active window" "active window only" \
+"CTRL ALT Delete" "Power-menu" "(wlogout)" \
+"CTRL ALT L" "Screen lock" "(hyprlock)" \
+"CTRL SHIFT ALT Delete" "Hyprland Exit" "(NOTE: Hyprland Will exit immediately)" \
 " ALT L" "Toggle Dwindle | Master Layout" "Hyprland Layout" \
 " SPACEBAR" "Toggle float" "single window" \
 " ALT SPACEBAR" "Toggle all windows to float" "all windows" \
 " ALT O" "Toggle Blur" "normal or less blur" \
 " CTRL O" "Toggle Opaque ON or OFF" "on active window only" \
-" Shift A" "Animations Menu" "Choose Animations via rofi" \
+" SHIFT A" "Animations Menu" "Choose Animations via rofi" \
 " CTRL R" "Rofi Themes Menu" "Choose Rofi Themes via rofi" \
-" CTRL Shift R" "Rofi Themes Menu v2" "Choose Rofi Themes via Theme Selector (modified)" \
+" CTRL SHIFT R" "Rofi Themes Menu v2" "Choose Rofi Themes via Theme Selector (modified)" \
 " SHIFT G" "Gamemode! All animations OFF or ON" "toggle" \
 " ALT E" "Rofi Emoticons" "Emoticon" \
-" H" "Launch this Quick Cheat Sheet" "" \
+" H" "Move focus left" "" \
+" J" "Cycle next window" "cyclenext" \
+" K" "Cycle previous window" "cyclenext prev" \
+" L" "Swap with master / focus master layout" "" \
+" I" "Add master" "layoutmsg addmaster" \
+" M" "Change split ratio" "splitratio 0.3" \
+" P" "Toggle pseudo" "dwindle" \
+" CTRL D" "Remove master" "layoutmsg removemaster" \
+" CTRL Return" "Swap with master" "layoutmsg swapwithmaster" \
+" CTRL L" "Focus master" "layoutmsg focusmaster" \
+" left/right/up/down" "Move focus" "" \
+" SHIFT left/right/up/down" "Resize windows" "" \
+" CTRL left/right/up/down" "Move windows" "" \
+" ALT left/right/up/down" "Swap windows" "" \
+" [0-9]" "Switch workspaces" "" \
+" SHIFT [0-9]" "Move window to workspace" "" \
+" CTRL [0-9]" "Move window to workspace silently" "" \
+" tab" "Next workspace" "" \
+" SHIFT tab" "Previous workspace" "" \
+" SHIFT U" "Move to special workspace" "" \
+" U" "Toggle special workspace" "" \
+" mouse_down" "Next workspace" "" \
+" mouse_up" "Previous workspace" "" \
+" LMB" "Move windows with mouse" "" \
+" RMB" "Resize windows with mouse" "" \
+"CTRL ALT W" "Random wallpaper" "(via swww)" \
+"ALT_L + SHIFT_L" "Change keyboard layout" "global" \
+"SHIFT_L + ALT_L" "Change keyboard layout per window" "local" \
+" CTRL F9/F10/F11/F12" "Move workspace to monitor" "left/right/up/down" \
+" SHIFT M" "Online music" "(rofi)" \
+" SHIFT O" "Zsh Theme Change" "(oh-my-zsh)" \
+" ALT C" "Calculator" "(qalculate)" \
 "" "" "" \
 "More tips:" "https://github.com/JaKooLit/Hyprland-Dots/wiki" ""\

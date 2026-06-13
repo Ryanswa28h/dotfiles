@@ -2,8 +2,8 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # For Searching via web browsers
 
-# Define the path to the config file
-config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf
+# Define the path to the config file (Lua format)
+config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.lua
 
 # Check if the config file exists
 if [[ ! -f "$config_file" ]]; then
@@ -11,15 +11,12 @@ if [[ ! -f "$config_file" ]]; then
     exit 1
 fi
 
-# Process the config file in memory, removing the $ and fixing spaces
-config_content=$(sed 's/\$//g' "$config_file" | sed 's/ = /=/')
+# Extract Search_Engine value from the Lua config
+Search_Engine=$(grep 'Search_Engine' "$config_file" | sed "s/.*=\s*'\([^']*\)'.*/\1/" | sed "s/.*=\s*\"\([^"]*\)\".*/\1/")
 
-# Source the modified content directly from the variable
-eval "$config_content"
-
-# Check if $term is set correctly
+# Check if Search_Engine is set correctly
 if [[ -z "$Search_Engine" ]]; then
-    echo "Error: \$Search_Engine is not set in the configuration file!"
+    echo "Error: Search_Engine is not set in the configuration file!"
     exit 1
 fi
 

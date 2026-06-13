@@ -1,31 +1,27 @@
+#!/bin/bash
+# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
+# Script for toggling layouts.
+
 notif="$HOME/.config/swaync/images/arch.png"
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
 LAYOUT=$(hyprctl -j getoption general:layout | jq '.str' | sed 's/"//g')
 
 case $LAYOUT in
 "master")
-	hyprctl keyword general:layout dwindle
-	hyprctl keyword unbind SUPER,J
-	hyprctl keyword unbind SUPER,K
-	hyprctl keyword bind SUPER,J,cyclenext
-	hyprctl keyword bind SUPER,K,cyclenext,prev
-	hyprctl keyword bind SUPER,O,togglesplit
+	hyprctl eval "hl.config({ general = { layout = 'dwindle' } })"
 	notify-send -e -u low -i "$notif" " Dwindle Layout"
 	;;
 "dwindle")
-	hyprctl keyword general:layout scrolling
-	notify-send -e -u low -i "$notif" " Scrolling Layout"
-	hyprctl keyword bind SUPER,J,layoutmsg,cyclenext
-	hyprctl keyword bind SUPER,K,layoutmsg,cycleprev
-	;;
-"scrolling")
-	hyprctl keyword general:layout master
-	hyprctl keyword unbind SUPER,J
-	hyprctl keyword unbind SUPER,K
-	hyprctl keyword unbind SUPER,O
-	hyprctl keyword bind SUPER,J,layoutmsg,cyclenext
-	hyprctl keyword bind SUPER,K,layoutmsg,cycleprev
+	hyprctl eval "hl.config({ general = { layout = 'master' } })"
 	notify-send -e -u low -i "$notif" " Master Layout"
+	;;
+"master")
+	hyprctl eval "hl.config({ general = { layout = 'scrolling' } })"
+	notify-send -e -u low -i "$notif" " Scrolling Layout"
 	;;
 *) ;;
 esac
+
+sleep 1
+"$SCRIPTSDIR/RefreshNoWaybar.sh"

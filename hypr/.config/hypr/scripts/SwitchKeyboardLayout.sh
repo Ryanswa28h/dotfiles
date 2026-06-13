@@ -3,7 +3,7 @@
 # This is for changing kb_layouts. Set kb_layouts in $settings_file
 
 layout_file="$HOME/.cache/kb_layout"
-settings_file="$HOME/.config/hypr/UserConfigs/UserSettings.conf"
+settings_file="$HOME/.config/hypr/UserConfigs/UserSettings.lua"
 notif_icon="$HOME/.config/swaync/images/ja.png"
 
 # Refined ignore list with patterns or specific device names
@@ -27,11 +27,9 @@ fi
 current_layout=$(cat "$layout_file")
 echo "Current layout: $current_layout"
 
-# Read available layouts from settings file
+# Read available layouts from settings file (Lua format)
 if [ -f "$settings_file" ]; then
-  kb_layout_line=$(grep 'kb_layout = ' "$settings_file" | cut -d '=' -f 2)
-  # Remove leading and trailing spaces around each layout
-  kb_layout_line=$(echo "$kb_layout_line" | tr -d '[:space:]')
+  kb_layout_line=$(grep 'kb_layout' "$settings_file" | grep -v '^\s*--' | head -1 | sed "s/.*kb_layout\s*=\s*['\"]\([^'\"]*\)['\"].*/\1/")
   IFS=',' read -r -a layout_mapping <<< "$kb_layout_line"
 else
   echo "Settings file not found!"

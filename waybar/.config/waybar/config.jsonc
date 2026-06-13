@@ -3,18 +3,19 @@
   "modules-left": [
     "clock",
     "custom/notification",
+    "tray",
     "group/media"
   ],
   "modules-center": [
-    "hyprland/workspaces",
+    "hyprland/workspaces"
   ],
   "modules-right": [
     "hyprland/submap",
     "group/volume",
     "battery",
     "backlight",
-    "bluetooth",
-    "network",
+    //"bluetooth",
+    //"network",
     "cpu",
     "memory",
     "power-profiles-daemon",
@@ -122,7 +123,7 @@
     "on-click": "exec kitty --title=nmtui -e nmtui"
   },
   "clock": {
-    "format": "󰥔 {:%a, %d. %b %I:%M %p}",
+    "format": "{:%H:%M | %a, %d %b}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "format": {
@@ -257,7 +258,7 @@
     "tooltip": false
   },
   "power-profiles-daemon": {
-    "format": " {icon} ",
+    "format": "{icon} ",
     "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
     "tooltip": true,
     "format-icons": {
@@ -286,5 +287,9 @@
     "on-click": "sleep 0.1 && swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
   }
 }

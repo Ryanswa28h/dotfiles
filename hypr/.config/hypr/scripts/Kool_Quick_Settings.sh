@@ -1,7 +1,8 @@
-config_file="$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf"
+config_file="$HOME/.config/hypr/UserConfigs/01-UserDefaults.lua"
 
 tmp_config_file=$(mktemp)
-sed 's/^\$//g; s/ = /=/g' "$config_file" >"$tmp_config_file"
+# Extract variables from Lua format into shell variables
+grep '^local ' "$config_file" | sed "s/^local //; s/ = /='/; s/$/'/; s/--.*//" >"$tmp_config_file"
 source "$tmp_config_file"
 # ##################################### #
 
@@ -48,7 +49,7 @@ main() {
 
     # Map choices to corresponding files
     case "$choice" in
-    "view/edit User Defaults") file="$UserConfigs/01-UserDefaults.conf" ;;
+    "view/edit User Defaults") file="$UserConfigs/01-UserDefaults.lua" ;;
     "view/edit ENV variables") file="$UserConfigs/ENVariables.conf" ;;
     "view/edit Window Rules") file="$UserConfigs/WindowRules.conf" ;;
     "view/edit User Keybinds") file="$UserConfigs/UserKeybinds.conf" ;;
