@@ -23,6 +23,12 @@ window#waybar {
   color: white;
   transition: all 0.2s ease-in-out;
   padding: 1px 9px 1px 9px;
+  border-radius: 8px;
+}
+
+#workspaces button:hover {
+  background: @dark-7;
+  color: @highlight;
 }
 
 #workspaces button.active {
@@ -31,11 +37,23 @@ window#waybar {
   font-weight: 700;
 }
 
+#workspaces button.active:hover {
+  background: @highlight;
+  color: black;
+  opacity: 0.8;
+}
+
+#workspaces button.urgent:hover {
+  background: rgba(227, 81, 73, 1);
+  color: black;
+}
+
 #submap,
 #battery,
 #bluetooth,
 #network,
 #backlight,
+#custom-cpu,
 #cpu,
 #memory,
 #power-profiles-daemon,
@@ -46,6 +64,73 @@ window#waybar {
   padding: 5px 8px;
   background: @dark-8;
   margin: 1px 10px 1px 0px;
+  transition: all 0.2s ease-in-out;
+}
+
+#battery:hover,
+#bluetooth:hover,
+#network:hover,
+#backlight:hover,
+#custom-cpu:hover,
+#cpu:hover,
+#memory:hover,
+#power-profiles-daemon:hover,
+#custom-notification:hover,
+#tray:hover,
+#clock:hover {
+  background: @dark-7;
+}
+
+#volume:hover {
+  background: @dark-7;
+}
+
+#custom-power:hover,
+#custom-lock:hover {
+  background: @dark-7;
+  border-radius: 8px;
+}
+
+#custom-media-now-playing:hover,
+#custom-media-animation:hover {
+  color: @highlight;
+}
+
+#battery:hover {
+  color: #a3e635;
+}
+
+#cpu:hover,
+#custom-cpu:hover {
+  color: #67e8f9;
+}
+
+#memory:hover {
+  color: #fbbf24;
+}
+
+#backlight:hover {
+  color: #fde68a;
+}
+
+#network:hover {
+  color: #6ee7b7;
+}
+
+#bluetooth:hover {
+  color: #60a5fa;
+}
+
+#power-profiles-daemon.performance {
+  color: #ef4444;
+}
+
+#power-profiles-daemon.balanced {
+  color: #eab308;
+}
+
+#power-profiles-daemon.power-saver {
+  color: #22c55e;
 }
 
 #status {
@@ -55,6 +140,9 @@ window#waybar {
 #clock {
   margin-left: 10px;
   margin-right: 15px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
 }
 
 #submap,

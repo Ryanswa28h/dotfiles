@@ -9,7 +9,7 @@ local livewallpaper = ""
 
 -- wallpaper stuff
 hl.on("hyprland.start", function()
-    hl.exec_cmd("swww-daemon --format xrgb")
+    hl.exec_cmd("swww-daemon")
     --hl.exec_cmd("mpvpaper '*' -o \"load-scripts=no no-audio --loop\" " .. livewallpaper)
 end)
 
