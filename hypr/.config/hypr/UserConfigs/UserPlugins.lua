@@ -39,22 +39,22 @@
 -- })
 
 -- Hyprexpo: expose-style workspace overview
-hl.config({
-    plugin = {
-        hyprexpo = {
-            columns = 3,
-            gaps_in = 5,
-            gaps_out = 0,
-            bg_col = "rgb(111111)",
-            workspace_method = "center current",
-            gesture_distance = 200,
-            cancel_key = "escape",
-            show_cursor = 1,
-        },
-    },
-})
+-- hl.config({
+--     plugin = {
+--         hyprexpo = {
+--             columns = 3,
+--             gaps_in = 5,
+--             gaps_out = 0,
+--             bg_col = "rgb(111111)",
+--             workspace_method = "center current",
+--             gesture_distance = 200,
+--             cancel_key = "escape",
+--             show_cursor = 1,
+--         },
+--     },
+-- })
 
 -- This will toggle HyprExpo when SUPER+g is pressed
 hl.bind("SUPER + G", function()
-    hl.plugin.hyprexpo.expo("toggle")
+	hl.plugin.hyprexpo.expo("toggle")
 end)

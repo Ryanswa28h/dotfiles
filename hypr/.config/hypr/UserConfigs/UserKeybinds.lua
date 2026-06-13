@@ -39,8 +39,14 @@ hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd("hyprctl dispatch workspace
 hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd(scriptsDir .. "/Dropterminal.sh kitty")) -- Dropdown terminal
 
 -- Desktop zooming or magnifier
-hl.bind(mainMod .. " + ALT + mouse_down", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor * 2.0}')\""))
-hl.bind(mainMod .. " + ALT + mouse_up", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor / 2.0}')\""))
+hl.bind("CTRL + SUPER + mouse_down", hl.dsp.exec_cmd([[
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 2}')
+  hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
+]]))
+hl.bind("CTRL + SUPER + mouse_up", hl.dsp.exec_cmd([[
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 2}')
+  hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
+]]))
 
 -- Waybar / Bar related
 hl.bind(mainMod .. " + CTRL + ALT + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar")) -- Toggle hide/show waybar
@@ -84,5 +90,5 @@ hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.exec_cmd("hyprctl dispatch layoutm
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto u"))
 hl.bind(mainMod .. " + SHIFT + down", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto d"))
 
-hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("hyprctl dispatch cyclenext"))
-hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("hyprctl dispatch cyclenext prev"))
+hl.bind(mainMod .. " + J", hl.dsp.window.cycle_next())
+hl.bind(mainMod .. " + K", hl.dsp.window.cycle_next("prev"))
