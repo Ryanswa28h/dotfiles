@@ -23,6 +23,7 @@ After a file change or command execution, ALWAYS make a summary of the changes d
 If you require a system specific action, ALWAYS remember that the user is on Arch Linux. That means using pacman, yay, or paru to install a system package.
 
 > [!IMPORTANT]
+>
 > ## Always Use `ask_user_question` Tool
 >
 > When you need to ask the user something, NEVER ask through chat directly. Always use the built-in `ask_user_question` tool with structured options (the `options` parameter). This keeps decisions trackable and avoids conversational drift.
@@ -46,6 +47,7 @@ After completing a task, identify and run the relevant verification command (tes
 If a task has ambiguous requirements or open questions, use the `ask_user_question` tool to resolve them before writing any code. When asking questions, ask them one at a time.
 
 > [!IMPORTANT]
+>
 > ## Never Read `.env` Files
 >
 > NEVER under any circumstances read `.env` files or any files containing secrets (`.env.*`, `*-secrets.*`). If your code needs an environment variable, reference it by name via `os.getenv("VAR_NAME")` or `process.env.VAR` — do not read the file. If you need to document what variables are expected, write a `.env.example` file instead. If no `.env.example` exists, scan source files for `os.getenv("VAR")`, `process.env.VAR`, and similar patterns to discover which variables the project requires — never read the `.env` itself.
@@ -74,4 +76,5 @@ If a task has ambiguous requirements or open questions, use the `ask_user_questi
 
 ## Web Searches
 
-- Always set `workflow` to `"none"` on `web_search` calls to skip the browser curator approval step — the user does not want to review search results manually.
+- NEVER use the browser curated search that requires approval from the user.
+- ALWAYS set `workflow: "none"` on every `web_search` tool call to skip the interactive curator.

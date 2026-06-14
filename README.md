@@ -18,6 +18,7 @@ nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 - `@tmustier/pi-arcade:spice-invaders.ts`
 - `@tmustier/pi-arcade:tetris.ts`
 - `@tmustier/pi-code-actions`
+- `pi-vim`
 
 # Credit
 
