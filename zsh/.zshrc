@@ -87,9 +87,6 @@ eval "$(zoxide init --cmd cd zsh)"
 # ===============================
 # Aliases
 # ===============================
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias lazydotfiles='GIT_DIR=$HOME/.dotfiles GIT_WORK_TREE=$HOME lazygit'
-
 alias ls='eza -a --icons=always --git --group-directories-first --time-style=long-iso --color=always'
 alias lt='eza --tree --level=2 --icons=always --group-directories-first'
 alias ll='eza -alh --icons=always --git --group-directories-first --time-style=long-iso'
@@ -156,6 +153,32 @@ function gread { gpg --no-symkey-cache -d "$1" }
 for fn in tlt math sixseven mreben plsspeed botak quote iuab; do
     eval "function ${fn}rpt { for i in {1..50}; do $fn \"\$@\"; done }"
 done
+
+dotfiles() {
+    local base="$HOME/dotfiles"
+
+    [[ -z "$1" ]] && { cd "$base"; return; }
+
+    local matches=($base/${~1}*(N))
+
+    if (( ${#matches[@]} == 0 )); then
+        echo "No match: $1"
+        return 1
+    elif (( ${#matches[@]} > 1 )); then
+        printf '%s\n' "${matches[@]}"
+        return 1
+    fi
+
+    local target="$matches[1]"
+
+    if [[ -d "$target/.config" ]]; then
+        local configs=("$target/.config"/*(/))
+        (( ${#configs[@]} == 1 )) && target="$configs[1]"
+    fi
+
+    cd "$target"
+}
+alias dotf='dotfiles'
 
 function emptytrash() {
   read "?Empty trash? (y/N) " ans
