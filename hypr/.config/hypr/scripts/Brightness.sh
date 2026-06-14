@@ -63,6 +63,11 @@ case "$1" in
 "--dec")
     change_brightness "-$step"
     ;;
+"--set")
+    brightnessctl set "${2}%"
+    icon=$(get_icon_path "$2")
+    send_notification "$2" "$icon"
+    ;;
 *)
     get_brightness
     ;;

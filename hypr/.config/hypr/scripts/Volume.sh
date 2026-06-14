@@ -126,6 +126,12 @@ elif [[ "$1" == "--inc" ]]; then
     inc_volume
 elif [[ "$1" == "--dec" ]]; then
     dec_volume
+elif [[ "$1" == "--set" ]]; then
+    pamixer --set-volume "$2" --allow-boost
+    if [[ "$2" -gt 0 ]]; then
+        pamixer -u
+    fi
+    notify_user
 elif [[ "$1" == "--toggle" ]]; then
     toggle_mute
 elif [[ "$1" == "--toggle-mic" ]]; then
