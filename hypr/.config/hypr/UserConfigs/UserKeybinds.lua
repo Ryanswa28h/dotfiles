@@ -117,7 +117,21 @@ hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"))
 
 -- Volume quick set: CTRL + ` = 0%, CTRL + 1-9 = 10-90%, CTRL + 0 = 100%
-hl.bind("CTRL + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 0")) -- ` = 0%
+hl.bind(
+	"CTRL + code:49",
+	hl.dsp.exec_cmd(
+		"vol=$(pamixer --get-volume); "
+			.. 'if [ "$vol" -eq 0 ]; then '
+			.. "pamixer --set-volume 100; " -- --set-volume caps at 100
+			.. "pamixer -i 50 --allow-boost --set-limit 150; " -- boost above 100
+			.. scriptsDir .. "/Sounds.sh --volume; "
+			.. 'notify-send -e -h int:value:150 -h "string:x-canonical-private-synchronous:volume_notif" -h boolean:SWAYNC_BYPASS_DND:true -u low -i "$HOME/.config/swaync/icons/volume-high.png" " Volume Level:" "150 % (boost)"; '
+			.. "else "
+			.. scriptsDir
+			.. "/Volume.sh --set 0; "
+			.. "fi"
+	)
+) -- ` = toggle 0% / 150%
 hl.bind("CTRL + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 10")) -- 1 = 10%
 hl.bind("CTRL + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 20")) -- 2 = 20%
 hl.bind("CTRL + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 30")) -- 3 = 30%

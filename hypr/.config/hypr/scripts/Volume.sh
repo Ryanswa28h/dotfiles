@@ -126,7 +126,7 @@ elif [[ "$1" == "--inc" ]]; then
 elif [[ "$1" == "--dec" ]]; then
     dec_volume
 elif [[ "$1" == "--set" ]]; then
-    pamixer --set-volume "$2" --allow-boost
+    pamixer --set-volume "$2" --allow-boost --set-limit 150
     if [[ "$2" -gt 0 ]]; then
         pamixer -u
     fi
