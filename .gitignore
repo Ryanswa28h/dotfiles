@@ -15,7 +15,6 @@ opencode/.config/opencode/.gitignore
 pi/.pi/agent/.env
 pi/.pi/agent/sessions
 pi/.pi/agent/auth.json
-pi/.pi/agent/models.json
 pi/.pi/agent/settings.json
 pi/.pi/agent/mcp-cache.json
 pi/.pi/agent/git/
