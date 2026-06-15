@@ -40,8 +40,8 @@ hl.bind(mainMod .. " + CTRL + tab", hl.dsp.exec_cmd("hyprctl dispatch changegrou
 local cyclenext = hl.dsp.window.cycle_next()
 local bringtotop = hl.dsp.window.bring_to_top()
 hl.bind("ALT + tab", function()
-    hl.dispatch(cyclenext)
-    hl.dispatch(bringtotop)
+	hl.dispatch(cyclenext)
+	hl.dispatch(bringtotop)
 end)
 
 -- Special Keys / Hot Keys
@@ -84,10 +84,10 @@ hl.bind(mainMod .. " + CTRL + up", hl.dsp.exec_cmd("hyprctl dispatch movewindow 
 hl.bind(mainMod .. " + CTRL + down", hl.dsp.exec_cmd("hyprctl dispatch movewindow d"))
 
 -- Swap windows
-hl.bind(mainMod .. " + ALT + left", hl.dsp.exec_cmd("hyprctl dispatch swapwindow l"))
-hl.bind(mainMod .. " + ALT + right", hl.dsp.exec_cmd("hyprctl dispatch swapwindow r"))
-hl.bind(mainMod .. " + ALT + up", hl.dsp.exec_cmd("hyprctl dispatch swapwindow u"))
-hl.bind(mainMod .. " + ALT + down", hl.dsp.exec_cmd("hyprctl dispatch swapwindow d"))
+hl.bind(mainMod .. " + ALT + left", hl.dsp.window.swap({ direction = "left" }))
+hl.bind(mainMod .. " + ALT + right", hl.dsp.window.swap({ direction = "right" }))
+hl.bind(mainMod .. " + ALT + up", hl.dsp.window.swap({ direction = "up" }))
+hl.bind(mainMod .. " + ALT + down", hl.dsp.window.swap({ direction = "down" }))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "l" }))
@@ -99,9 +99,15 @@ hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "d" }))
 hl.bind(mainMod .. " + tab", hl.dsp.focus({ workspace = "m+1" }))
 hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.focus({ workspace = "m-1" }))
 
--- Special workspace
-hl.bind(mainMod .. " + SHIFT + U", hl.dsp.window.move({ workspace = "special" }))
-hl.bind(mainMod .. " + U", hl.dsp.workspace.toggle_special())
+-- Special workspaces
+hl.bind(mainMod .. " + SHIFT + U", hl.dsp.window.move({ workspace = "special:one" }))
+hl.bind(mainMod .. " + U", hl.dsp.workspace.toggle_special("one"))
+
+hl.bind(mainMod .. " + SHIFT + I", hl.dsp.window.move({ workspace = "special:two" }))
+hl.bind(mainMod .. " + I", hl.dsp.workspace.toggle_special("two"))
+
+hl.bind(mainMod .. " + SHIFT + O", hl.dsp.window.move({ workspace = "special:three" }))
+hl.bind(mainMod .. " + O", hl.dsp.workspace.toggle_special("three"))
 
 -- The following mappings use the key codes to better support various keyboard layouts
 -- 1 is code:10, 2 is code 11, etc
@@ -150,6 +156,8 @@ hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 -- hl.bind(mainMod .. " + period", hl.dsp.focus({ workspace = "e+1" }))
 -- hl.bind(mainMod .. " + comma", hl.dsp.focus({ workspace = "e-1" }))
+-- hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ workspace = "e+1" }))
+-- hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.window.move({ workspace = "e-1" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true }) -- NOTE: mouse:272 = left click

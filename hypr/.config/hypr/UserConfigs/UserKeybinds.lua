@@ -13,7 +13,6 @@ hl.bind(mainMod .. " + A", hl.dsp.global("quickshell:overviewToggle")) -- deskto
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty yazi")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
-hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("obsidian"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
@@ -103,41 +102,45 @@ hl.bind(mainMod .. " + CTRL + F12", hl.dsp.exec_cmd("hyprctl dispatch movecurren
 -- end)
 
 -- scrolling-only (ignored in other layouts)
-hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg move +col"))
-hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg move -col"))
+-- Column navigation is handled by J/K via LayoutCycle.sh
+-- SHIFT variants move windows between columns
 hl.bind(mainMod .. " + SHIFT + period", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto r"))
 hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto l"))
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto u"))
 hl.bind(mainMod .. " + SHIFT + down", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto d"))
 
-hl.bind(mainMod .. " + J", hl.dsp.window.cycle_next())
-hl.bind(mainMod .. " + K", hl.dsp.window.cycle_next("prev"))
+hl.bind(mainMod .. " + J", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh next"))
+hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh prev"))
+
+-- Workspace switch: mainMod + , (numeric prev) / . (numeric next), creates empty workspaces
+hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'"))
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"))
 
 -- Volume quick set: CTRL + ` = 0%, CTRL + 1-9 = 10-90%, CTRL + 0 = 100%
-hl.bind("CTRL + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 0"))                                  -- ` = 0%
-hl.bind("CTRL + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 10"))                                 -- 1 = 10%
-hl.bind("CTRL + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 20"))                                 -- 2 = 20%
-hl.bind("CTRL + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 30"))                                 -- 3 = 30%
-hl.bind("CTRL + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 40"))                                 -- 4 = 40%
-hl.bind("CTRL + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 50"))                                 -- 5 = 50%
-hl.bind("CTRL + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 60"))                                 -- 6 = 60%
-hl.bind("CTRL + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 70"))                                 -- 7 = 70%
-hl.bind("CTRL + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 80"))                                 -- 8 = 80%
-hl.bind("CTRL + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 90"))                                 -- 9 = 90%
-hl.bind("CTRL + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 100"))                                -- 0 = 100%
+hl.bind("CTRL + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 0")) -- ` = 0%
+hl.bind("CTRL + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 10")) -- 1 = 10%
+hl.bind("CTRL + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 20")) -- 2 = 20%
+hl.bind("CTRL + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 30")) -- 3 = 30%
+hl.bind("CTRL + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 40")) -- 4 = 40%
+hl.bind("CTRL + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 50")) -- 5 = 50%
+hl.bind("CTRL + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 60")) -- 6 = 60%
+hl.bind("CTRL + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 70")) -- 7 = 70%
+hl.bind("CTRL + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 80")) -- 8 = 80%
+hl.bind("CTRL + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 90")) -- 9 = 90%
+hl.bind("CTRL + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 100")) -- 0 = 100%
 
 -- Brightness quick set: CTRL + SHIFT + ` = 0%, CTRL + SHIFT + 1-9 = 10-90%, CTRL + SHIFT + 0 = 100%
-hl.bind("CTRL + SHIFT + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 0"))                     -- ~ = 0%
-hl.bind("CTRL + SHIFT + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 10"))                    -- ! = 10%
-hl.bind("CTRL + SHIFT + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 20"))                    -- @ = 20%
-hl.bind("CTRL + SHIFT + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 30"))                    -- # = 30%
-hl.bind("CTRL + SHIFT + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 40"))                    -- $ = 40%
-hl.bind("CTRL + SHIFT + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 50"))                    -- % = 50%
-hl.bind("CTRL + SHIFT + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 60"))                    -- ^ = 60%
-hl.bind("CTRL + SHIFT + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 70"))                    -- & = 70%
-hl.bind("CTRL + SHIFT + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 80"))                    -- * = 80%
-hl.bind("CTRL + SHIFT + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 90"))                    -- ( = 90%
-hl.bind("CTRL + SHIFT + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 100"))                   -- ) = 100%
+hl.bind("CTRL + SHIFT + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 0")) -- ~ = 0%
+hl.bind("CTRL + SHIFT + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 10")) -- ! = 10%
+hl.bind("CTRL + SHIFT + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 20")) -- @ = 20%
+hl.bind("CTRL + SHIFT + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 30")) -- # = 30%
+hl.bind("CTRL + SHIFT + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 40")) -- $ = 40%
+hl.bind("CTRL + SHIFT + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 50")) -- % = 50%
+hl.bind("CTRL + SHIFT + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 60")) -- ^ = 60%
+hl.bind("CTRL + SHIFT + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 70")) -- & = 70%
+hl.bind("CTRL + SHIFT + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 80")) -- * = 80%
+hl.bind("CTRL + SHIFT + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 90")) -- ( = 90%
+hl.bind("CTRL + SHIFT + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 100")) -- ) = 100%
 
 -- Volume step (5%): mainMod + - / +
 hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --dec"), { repeating = true })

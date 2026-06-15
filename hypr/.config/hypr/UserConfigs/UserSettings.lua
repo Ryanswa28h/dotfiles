@@ -15,9 +15,13 @@ hl.config({
 	},
 
 	master = {
-		new_status = "master",
+		-- new_status = "master",
 		new_on_top = 1,
 		mfact = 0.5,
+	},
+
+	scrolling = {
+		column_width = 0.5,
 	},
 
 	general = {
