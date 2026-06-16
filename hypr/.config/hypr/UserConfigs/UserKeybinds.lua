@@ -116,22 +116,23 @@ hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh prev")
 hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'"))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"+1\" })'"))
 
--- Volume quick set: CTRL + ` = 0%, CTRL + 1-9 = 10-90%, CTRL + 0 = 100%
+-- Volume quick set: CTRL + ` = 0/100%, CTRL + 1-9 = 10-90%
 hl.bind(
 	"CTRL + code:49",
 	hl.dsp.exec_cmd(
 		"vol=$(pamixer --get-volume); "
 			.. 'if [ "$vol" -eq 0 ]; then '
 			.. "pamixer --set-volume 100; " -- --set-volume caps at 100
-			.. "pamixer -i 50 --allow-boost --set-limit 150; " -- boost above 100
-			.. scriptsDir .. "/Sounds.sh --volume; "
-			.. 'notify-send -e -h int:value:150 -h "string:x-canonical-private-synchronous:volume_notif" -h boolean:SWAYNC_BYPASS_DND:true -u low -i "$HOME/.config/swaync/icons/volume-high.png" " Volume Level:" "150 % (boost)"; '
+			.. "pamixer -i 50 --allow-boost" -- boost above 100
+			.. scriptsDir
+			.. "/Sounds.sh --volume; "
+			.. 'notify-send -e -h int:value:100 -h "string:x-canonical-private-synchronous:volume_notif" -h boolean:SWAYNC_BYPASS_DND:true -u low -i "$HOME/.config/swaync/icons/volume-high.png" " Volume Level:" "100 %"; '
 			.. "else "
 			.. scriptsDir
 			.. "/Volume.sh --set 0; "
 			.. "fi"
 	)
-) -- ` = toggle 0% / 150%
+)
 hl.bind("CTRL + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 10")) -- 1 = 10%
 hl.bind("CTRL + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 20")) -- 2 = 20%
 hl.bind("CTRL + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 30")) -- 3 = 30%
@@ -141,7 +142,6 @@ hl.bind("CTRL + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 60")) 
 hl.bind("CTRL + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 70")) -- 7 = 70%
 hl.bind("CTRL + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 80")) -- 8 = 80%
 hl.bind("CTRL + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 90")) -- 9 = 90%
-hl.bind("CTRL + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 100")) -- 0 = 100%
 
 -- Brightness quick set: CTRL + SHIFT + ` = 0%, CTRL + SHIFT + 1-9 = 10-90%, CTRL + SHIFT + 0 = 100%
 hl.bind("CTRL + SHIFT + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 0")) -- ~ = 0%
@@ -154,7 +154,6 @@ hl.bind("CTRL + SHIFT + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh 
 hl.bind("CTRL + SHIFT + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 70")) -- & = 70%
 hl.bind("CTRL + SHIFT + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 80")) -- * = 80%
 hl.bind("CTRL + SHIFT + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 90")) -- ( = 90%
-hl.bind("CTRL + SHIFT + code:19", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 100")) -- ) = 100%
 
 -- Volume step (5%): mainMod + - / +
 hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --dec"), { repeating = true })

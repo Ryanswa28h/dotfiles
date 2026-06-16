@@ -176,6 +176,9 @@ hl.window_rule({ match = { title = "^(wind.*)$" }, no_initial_focus = true })
 -- hl.window_rule({ match = { class = "^discord$" }, opacity = 0.75 })
 
 -- LAYER RULES
+hl.layer_rule({ match = { namespace = "^waybar$" }, blur = true })
+hl.layer_rule({ match = { namespace = "^waybar$" }, ignore_alpha = 0.5 })
+hl.layer_rule({ match = { namespace = "^waybar$" }, blur_popups = true })
 hl.layer_rule({ match = { namespace = "^rofi$" }, blur = true })
 hl.layer_rule({ match = { namespace = "^logout_dialog$" }, blur = true })
 hl.layer_rule({ match = { namespace = "^quickshell:overview$" }, blur = true })
