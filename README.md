@@ -12,11 +12,6 @@ nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 
 - `@juicesharp/rpiv-todo`
 - `@termdraw/pi`
-- `@tmustier/pi-arcade:mario-not/mario-not.ts`
-- `@tmustier/pi-arcade:picman.ts`
-- `@tmustier/pi-arcade:ping.ts`
-- `@tmustier/pi-arcade:spice-invaders.ts`
-- `@tmustier/pi-arcade:tetris.ts`
 - `@tmustier/pi-code-actions`
 - `pi-vim`
 

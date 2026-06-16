@@ -133,6 +133,7 @@ alias chis='nvim ~/.zsh_history'
 alias jf='nvim justfile'
 alias oc='opencode'
 alias p='pi'
+alias pir='pi -r'
 alias gdrive='rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode minimal \
   --buffer-size 32M'
