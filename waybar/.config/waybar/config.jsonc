@@ -1,14 +1,14 @@
 {
   "layer": "top",
   "modules-left": [
-    "clock",
+    "hyprland/workspaces",
     "custom/weather",
     "custom/notification",
     "tray",
     "group/media"
   ],
   "modules-center": [
-    "hyprland/workspaces"
+    "clock"
   ],
   "modules-right": [
     "hyprland/submap",
@@ -126,7 +126,8 @@
     "on-click": "exec kitty --title=nmtui -e nmtui"
   },
   "clock": {
-    "format": "{:%H:%M | %a, %d %b}",
+    //"format": "{:%H:%M | %a, %d %b}",
+    "format": "{:%b %d - %H:%M}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "format": {
