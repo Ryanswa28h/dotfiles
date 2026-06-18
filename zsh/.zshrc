@@ -105,6 +105,7 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias ping='ping -c 5'
 alias update='sudo pacman -Syu'
+alias updateaur='paru -Syu'
 alias c='clear'
 alias z='cd'
 alias rm='rm -I --preserve-root'
@@ -227,9 +228,8 @@ function cacheclean {
     echo "Safely cleaning package caches..."
     sudo find /var/cache/pacman/pkg -type f -name "*.part" -delete
     sudo find /var/cache/pacman/pkg -maxdepth 1 -type d -name "download-*" -exec rm -rf {} +
-    sudo paccache -rk2
-    sudo paccache -ruk0
-    sudo pacman -Sc --noconfirm
+    sudo paccache -rk0
+    sudo pacman -Scc --noconfirm
     command -v yay >/dev/null && { yay -Sc --noconfirm --norebuild --cleanafter; rm -rf ~/.cache/yay/*; }
     command -v paru >/dev/null && { paru -Sc --noconfirm --norebuild --cleanafter; rm -rf ~/.cache/paru/*; }
     flatpak uninstall --unused -y
