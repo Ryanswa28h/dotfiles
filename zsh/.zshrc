@@ -120,7 +120,6 @@ alias .....='cd ../../../..'
 
 # File Searching
 
-alias f='fd'
 alias rg='rg --hidden'
 
 # Editors
@@ -201,6 +200,10 @@ alias fixme='rg FIXME'
 # Development Tools
 
 alias oc='opencode'
+alias f='fabric'
+
+alias p='pi'
+alias pir='pi -r'
 
 # Terminal Toys
 
@@ -211,9 +214,6 @@ alias aqrm='asciiquarium'
 # Personal Utilities
 
 alias dotf='dotfiles'
-
-alias p='pi'
-alias pir='pi -r'
 
 alias gdrive='rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode minimal \
@@ -371,7 +371,7 @@ cacheclean() {
 }
 
 zshrcbackup() {
-    local backup_dir="$HOME/ruanDezbatu/backups/zshrc"
+    local backup_dir="$HOME/backups/zshrc"
     local timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
     mkdir -p "$backup_dir"
@@ -459,13 +459,13 @@ function bp() {
     local CONFIG_DIR="$HOME/.config/bp"
     local CONFIG_FILE="$CONFIG_DIR/config"
 
-    mkdir -p "$CONFIG_DIR"
+    command mkdir -p "$CONFIG_DIR"
 
     # -------------------------
     # Load config or fallback
     # -------------------------
     if [[ -f "$CONFIG_FILE" ]]; then
-        source "$CONFIG_FILE"
+        command source "$CONFIG_FILE"
     fi
 
     if [[ -z "$MASTER_DIR" ]]; then
@@ -476,8 +476,8 @@ function bp() {
     # Helpers
     # -------------------------
     _save_config() {
-        mkdir -p "$CONFIG_DIR"
-        cat > "$CONFIG_FILE" <<EOF
+        command mkdir -p "$CONFIG_DIR"
+        command cat > "$CONFIG_FILE" <<EOF
 MASTER_DIR="$MASTER_DIR"
 EOF
     }
@@ -485,10 +485,10 @@ EOF
     _hash_target() {
         local target="$1"
         if [[ -f "$target" ]]; then
-            sha256sum "$target" | awk '{print $1}'
+            command sha256sum "$target" | command awk '{print $1}'
         elif [[ -d "$target" ]]; then
-            find "$target" -type f -exec sha256sum {} + 2>/dev/null \
-                | sort | sha256sum | awk '{print $1}'
+            command find "$target" -type f -exec sha256sum {} + 2>/dev/null \
+                | command sort | command sha256sum | command awk '{print $1}'
         fi
     }
 
@@ -502,7 +502,7 @@ EOF
         init)
             echo "📦 bp init"
             read -r "MASTER_DIR?Enter master backup directory: "
-            mkdir -p "$MASTER_DIR" || return 1
+            command mkdir -p "$MASTER_DIR" || return 1
             _save_config
             echo "✔ Backup directory set to:"
             echo "  $MASTER_DIR"
@@ -523,10 +523,10 @@ EOF
                     continue
                 }
 
-                local name="$(basename "$target")"
+                local name="$(command basename "$target")"
                 local dest="$MASTER_DIR/$group/$name"
 
-                mkdir -p "$dest"
+                command mkdir -p "$dest"
                 echo "$target" > "$dest/.source"
 
                 echo "✔ Added '$target' → group '$group'"
@@ -543,7 +543,7 @@ EOF
             }
 
             for name in "$@"; do
-                rm -rf "$MASTER_DIR/$group/$name"
+                command rm -rf "$MASTER_DIR/$group/$name"
                 echo "✖ Removed '$name' from '$group'"
             done
             ;;
@@ -566,7 +566,7 @@ EOF
             if $all && [[ -z "$group" ]]; then
                 for g in "$MASTER_DIR"/*; do
                     [[ -d "$g" ]] || continue
-                    local gname="$(basename "$g")"
+                    local gname="$(command basename "$g")"
                     echo "🔁 Backing up group: $gname"
                     bp backup "$gname" --all
                 done
@@ -591,8 +591,8 @@ EOF
                 targets=()
                 while IFS= read -r d; do
                     [[ -f "$d/.source" ]] || continue
-                    targets+=("$(basename "$d")")
-                done < <(find "$group_dir" -mindepth 1 -maxdepth 1 -type d)
+                    targets+=("$(command basename "$d")")
+                done < <(command find "$group_dir" -mindepth 1 -maxdepth 1 -type d)
             fi
 
             for name in "${targets[@]}"; do
@@ -604,7 +604,7 @@ EOF
                     continue
                 }
 
-                local source="$(cat "$source_file")"
+                local source="$(command cat "$source_file")"
                 [[ ! -e "$source" ]] && {
                     echo "❌ Source missing: $source"
                     continue
@@ -614,20 +614,20 @@ EOF
                 local last_hash_file="$base/.last_hash"
 
                 if [[ -f "$last_hash_file" ]] \
-                   && [[ "$(cat "$last_hash_file")" == "$current_hash" ]]; then
+                   && [[ "$(command cat "$last_hash_file")" == "$current_hash" ]]; then
                     echo "⏭  No changes → skipping '$name'"
                     continue
                 fi
 
-                local ts="$(date +"%Y-%m-%d_%H-%M-%S")"
+                local ts="$(command date +"%Y-%m-%d_%H-%M-%S")"
                 local dest="$base/${name}_$ts"
 
-                mkdir -p "$dest"
+                command mkdir -p "$dest"
 
                 if [[ -d "$source" ]]; then
-                    cp -a "$source/." "$dest/"
+                    command cp -a "$source/." "$dest/"
                 else
-                    cp -a "$source" "$dest/"
+                    command cp -a "$source" "$dest/"
                 fi
 
                 echo "$current_hash" > "$last_hash_file"
@@ -638,11 +638,11 @@ EOF
             ;;
 
         list)
-            tree -a -L 3 "$MASTER_DIR"
+            command tree -a -L 3 "$MASTER_DIR"
             ;;
 
         *)
-            cat <<EOF
+            command cat <<EOF
 bp — personal backup utility
 
 SETUP:
