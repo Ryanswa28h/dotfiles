@@ -449,30 +449,6 @@ gread() {
     gpg --no-symkey-cache -d "$1"
 }
 
-# Tmux
-
-tmuxcs() {
-    cat << 'EOF'
-TMUX CHEATSHEET
-
-Prefix + I      Install plugins
-Prefix + r      Reload config
-Prefix + d      Detach
-
-Prefix + \      Split vertically
-Prefix + -      Split horizontally
-Prefix + m      Maximize pane
-Prefix + x      Close pane
-
-Ctrl+h/j/k/l    Move panes
-Prefix+h/j/k/l  Resize panes
-
-Prefix + c      New window
-Prefix + n/p    Next/prev window
-Prefix + [      Copy mode
-EOF
-}
-
 # Fun Commands
 
 tlt() { toilet -f smblock "$*" -F border | lolcat; }
@@ -703,6 +679,14 @@ EOF
             ;;
     esac
 }
+
+# ===============================
+# PATH
+# ===============================
+export PATH="$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"
+[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Starship 
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
