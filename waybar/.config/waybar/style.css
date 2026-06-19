@@ -34,6 +34,7 @@ window#waybar {
 
 #workspaces button:hover {
   background: @dark-7;
+  border: 2px solid @highlight;
   color: @highlight;
 }
 
