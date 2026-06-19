@@ -38,8 +38,11 @@ zinit light jeffreytse/zsh-vi-mode
 zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
 
-zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
+zinit ice wait"0" lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
+
+autoload -Uz compinit
+compinit
 
 zinit light Aloxaf/fzf-tab
 zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
@@ -70,10 +73,8 @@ setopt appendhistory
 # ===============================
 # Improve tab menu
 # ===============================
-autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-compinit
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' group-name ''
@@ -87,54 +88,133 @@ eval "$(zoxide init --cmd cd zsh)"
 # ===============================
 # Aliases
 # ===============================
+
+# Navigation
+
+alias z='cd' 
+alias e='exit'
+alias h='history'
+alias c='clear'
+alias rezsh='exec zsh'
+
+# File Management
+
 alias ls='eza -a --icons=always --git --group-directories-first --time-style=long-iso --color=always'
-alias lt='eza --tree --level=2 --icons=always --group-directories-first'
 alias ll='eza -alh --icons=always --git --group-directories-first --time-style=long-iso'
+alias lt='eza --tree --level=2 --icons=always --group-directories-first'
 alias lsf='eza --group-directories-first --color=auto'
 alias lsb='/usr/bin/ls --color=auto'
 
-alias e='exit'
+alias dl='cd ~/Downloads/'
+alias dev='cd ~/Projects/'
+
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -Iv --preserve-root'
+alias mkdir='mkdir -p'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# File Searching
+
+alias f='fd'
+alias rg='rg --hidden'
+
+# Editors
+
+alias vim='nvim'
+alias vi='nvim'
+alias v='nvim'
+alias vv='nvim .'
+
+alias lv='NVIM_APPNAME=lazyvim nvim'
+alias gv='NVIM_APPNAME=gokgoknvim nvim'
+
+alias czsh='nvim ~/dotfiles/zsh/.zshrc'
+alias chis='nvim ~/.zsh_history'
+alias jf='nvim justfile'
+
+# Git
+
+alias g='git'
+alias lg='lazygit'
+
+# Package Management (Arch)
+
 alias i='paru -S'
 alias s='paru -Ss'
 alias r='paru -Rns'
-alias py='python3'
-alias cf='clear && fastfetch --config arch'
-alias cff='clear && fastfetch'
-alias cp='cp -i'
-alias mv='mv -i'
-alias mkdir='mkdir -p'
-alias ping='ping -c 5'
+
 alias update='sudo pacman -Syu'
 alias updateaur='paru -Syu'
-alias c='clear'
-alias z='cd'
-alias rm='rm -I --preserve-root'
+
+# Python
+
+alias py='python3'
+alias pip='python -m pip'
 
 alias venvact='source .venv/bin/activate'
+alias serve='python -m http.server 8000'
+
+# Docker
+
+alias d='docker'
+alias dc='docker compose'
+
+alias dps='docker ps'
+alias di='docker images'
+
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+
+# Tmux
+
+alias t='tmux'
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tk='tmux kill-server'
+alias ts='tmux new -As main'
+
+# Monitoring & System
+
 alias ff='fastfetch'
 alias ffca='ff --config arch'
+alias cf='clear && fastfetch --config arch'
+alias cff='clear && fastfetch'
+
 alias bt='btop'
 alias ht='htop'
+
+alias ports='ss -tulpen'
+alias myip='curl ifconfig.me'
+
+alias ping5='ping -c 5'
+
+# Search
+
+alias todo='rg TODO'
+alias fixme='rg FIXME'
+
+# Development Tools
+
+alias oc='opencode'
+
+# Terminal Toys
+
 alias cmx='cmatrix'
-alias vim='nvim'
-alias vi='nvim'
-alias nv='nvim'
-alias cv='nvim'
-alias v='nvim'
-alias f='fabric'
-alias g='git'
-alias lg='lazygit'
-alias lv='NVIM_APPNAME=lazyvim nvim'
-alias gv='NVIM_APPNAME=gokgoknvim nvim'
 alias pp='pipes.sh'
 alias aqrm='asciiquarium'
-alias czsh='nvim ~/dotfiles/zsh/.zshrc'
-alias rezsh='exec zsh'
-alias chis='nvim ~/.zsh_history'
-alias jf='nvim justfile'
-alias oc='opencode'
+
+# Personal Utilities
+
+alias dotf='dotfiles'
+
 alias p='pi'
 alias pir='pi -r'
+
 alias gdrive='rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode minimal \
   --buffer-size 32M'
@@ -142,20 +222,12 @@ alias gdrive='rclone mount gdrive: ~/gdrive \
 # ===============================
 # Functions
 # ===============================
-function tlt { toilet -f smblock "$*" -F border | lolcat }
-function iuab { toilet -f smblock "i use arch btw" -F border | lolcat }
-function math { toilet -f smblock "mAtH sUcKs!!!!" -F border | lolcat }
-function sixseven { toilet -f smblock "67 67 67 67 67 67 67 67" -F border | lolcat }
-function mreben { toilet -f smblock "MR EBEN GANTENG" -F border | lolcat }
-function plsspeed { toilet -f smblock "pls speed i need this" -F border | lolcat }
-function botak { toilet -f smblock "Suharto botak sam ganteng" -F border | lolcat }
-function quote { fortune | cowsay -f tux | lolcat }
-function gread { gpg --no-symkey-cache -d "$1" }
 
-# Repeat commands generator
-for fn in tlt math sixseven mreben plsspeed botak quote iuab; do
-    eval "function ${fn}rpt { for i in {1..50}; do $fn \"\$@\"; done }"
-done
+# Navigation
+
+notmux() {
+    kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'
+}
 
 dotfiles() {
     local base="$HOME/dotfiles"
@@ -181,26 +253,17 @@ dotfiles() {
 
     cd "$target"
 }
-alias dotf='dotfiles'
 
-function emptytrash() {
-  read "?Empty trash? (y/N) " ans
-  [[ $ans == y ]] && gio trash --empty
+mkcd() {
+    mkdir -p "$1" && cd "$1"
 }
 
-rgvim() {
-    local query="$*"
-    # Use quotes around the subshell and ensure fzf doesn't get tripped up by zsh globbing
-    local choice
-    choice=$(rg -il "$query" | fzf -0 -1 --ansi --preview "rg --context 3 --color always '$query' {}")
-
-    # If choice is empty, choice=$(...) returns a non-zero exit code or empty string
-    if [[ -n "$choice" ]]; then
-        nvim "+/${query:l}" "$choice"
-    fi
+cdf() {
+    local dir
+    dir=$(find . -type d | fzf) || return
+    cd "$dir"
 }
 
-# Navigate using yazi
 y() {
     local tmp cwd
     tmp="$(mktemp -t yazi-cwd.XXXXXX)" || return
@@ -214,177 +277,207 @@ y() {
     }
 
     cwd="$(<"$tmp")"
-    rm -f "$tmp"
+    command rm -f "$tmp"
 
     [[ -d $cwd ]] && cd "$cwd"
 }
 
-autocomplete () {
-    zinit ice lucid
-    zinit light marlonrichert/zsh-autocomplete
+# Git
+
+gr() {
+    local root
+    root=$(git rev-parse --show-toplevel 2>/dev/null) || return
+    cd "$root"
 }
 
-function cacheclean {
+# Python
+
+venv() {
+    python -m venv .venv
+    source .venv/bin/activate
+}
+
+mkvenv-ipynb() {
+    local venv_name=${1:-venv}
+    local kernel_name=${2:-$(basename "$PWD")}
+
+    if [[ -d "$venv_name" ]]; then
+        echo "Error: venv '$venv_name' already exists"
+        return 1
+    fi
+
+    echo "Creating venv: $venv_name"
+    python -m venv "$venv_name" || return 1
+
+    echo "Activating venv"
+    source "$venv_name/bin/activate" || return 1
+
+    echo "Upgrading pip tooling"
+    pip install -U pip setuptools wheel
+
+    echo "Installing ipykernel"
+    pip install ipykernel
+
+    echo "Registering Jupyter kernel: Python ($kernel_name)"
+    python -m ipykernel install --user \
+        --name "$kernel_name" \
+        --display-name "Python ($kernel_name)"
+}
+
+# Search
+
+rgvim() {
+    local query="$*"
+    local choice
+
+    choice=$(rg -il "$query" | \
+        fzf -0 -1 --ansi \
+        --preview "rg --context 3 --color always '$query' {}")
+
+    [[ -n "$choice" ]] && nvim "+/${query:l}" "$choice"
+}
+
+# System Utilities
+
+emptytrash() {
+    read "?Empty trash? (y/N) " ans
+    [[ $ans == y ]] && gio trash --empty
+}
+
+cacheclean() {
     echo "Safely cleaning package caches..."
+
     sudo find /var/cache/pacman/pkg -type f -name "*.part" -delete
-    sudo find /var/cache/pacman/pkg -maxdepth 1 -type d -name "download-*" -exec rm -rf {} +
+    sudo find /var/cache/pacman/pkg -maxdepth 1 -type d \
+        -name "download-*" -exec rm -rf {} +
+
     sudo paccache -rk0
     sudo pacman -Scc --noconfirm
-    command -v yay >/dev/null && { yay -Sc --noconfirm --norebuild --cleanafter; rm -rf ~/.cache/yay/*; }
-    command -v paru >/dev/null && { paru -Sc --noconfirm --norebuild --cleanafter; rm -rf ~/.cache/paru/*; }
+
+    command -v yay >/dev/null && {
+        yay -Sc --noconfirm --norebuild --cleanafter
+        rm -rf ~/.cache/yay/*
+    }
+
+    command -v paru >/dev/null && {
+        paru -Sc --noconfirm --norebuild --cleanafter
+        rm -rf ~/.cache/paru/*
+    }
+
     flatpak uninstall --unused -y
     sudo journalctl --vacuum-size=100M
+
     echo "Cache cleaning complete!"
 }
 
-function zshrcbackup {
+zshrcbackup() {
     local backup_dir="$HOME/ruanDezbatu/backups/zshrc"
     local timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+
     mkdir -p "$backup_dir"
     cp ~/.zshrc "$backup_dir/zshrcbackup_$timestamp"
-    echo ".zshrc backed up to $backup_dir/zshrcbackup_$timestamp"
+
+    echo ".zshrc backed up to:"
+    echo "$backup_dir/zshrcbackup_$timestamp"
 }
 
-function sudo() {
+# Display / Monitor
+
+mirror_screen() {
+    [[ -z "$1" ]] && {
+        echo "Usage: mirror_screen <output_name>"
+        return 1
+    }
+
+    local output="$1"
+    local primary
+
+    primary=$(wlr-randr | grep -w enabled | awk '{print $1}' | head -n1)
+
+    [[ -z "$primary" ]] && {
+        echo "No primary monitor detected!"
+        return 1
+    }
+
+    wlr-randr \
+        --output "$output" \
+        --mode "$(wlr-randr | grep "$output" | grep -oP '\d+x\d+@\d+')" \
+        --mirror "$primary"
+}
+
+extend_screen() {
+    [[ -z "$1" ]] && {
+        echo "Usage: extend_screen <output_name>"
+        return 1
+    }
+
+    local output="$1"
+    local primary
+    local width
+
+    primary=$(wlr-randr | grep -w enabled | awk '{print $1}' | head -n1)
+
+    [[ -z "$primary" ]] && {
+        echo "No primary monitor detected!"
+        return 1
+    }
+
+    width=$(wlr-randr | grep "$primary" | grep -oP '\d+x\d+' | head -n1 | cut -dx -f1)
+
+    wlr-randr \
+        --output "$output" \
+        --mode "$(wlr-randr | grep "$output" | grep -oP '\d+x\d+@\d+')" \
+        --pos "${width}x0" \
+        --enable
+}
+
+sudo() {
     for i in "$@"; do
-        [[ "$i" == "nvim" ]] && { echo "⚠️ Use sudoedit instead"; command sudoedit "${@[(r)nvim]+1}"; return; }
+        [[ "$i" == "nvim" ]] && {
+            echo "Use sudoedit instead"
+            command sudoedit "${@[(r)nvim]+1}"
+            return
+        }
     done
+
     command sudo "$@"
 }
 
-# ===============================
-# PATH
-# ===============================
-export PATH="$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH"
-export PATH="/home/ryan/.opencode/bin:$PATH"
-export PATH="/home/ryan/.npm-global/bin:$PATH"
-[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Encryption
 
-# ===============================
-# Powerlevel10k
-# ===============================
-# [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
+gread() {
+    gpg --no-symkey-cache -d "$1"
+}
 
-# Starship 
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
+# Tmux
 
-# ===============================
-# Startup info
-# ===============================
-# [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
-# Run fastfetch only when starting a tmux pane/session
-if [ -n "$TMUX" ]; then
-    fastfetch
-fi
-
-# Tmux Cheatsheet Function
 tmuxcs() {
     cat << 'EOF'
- -------------------------------------------------------------------
- |  TMUX CHEATSHEET (Prefix: Ctrl + Space)                         |
- -------------------------------------------------------------------
- |  SESSIONS & CONFIG                                              |
- |  Prefix + I      : Install Plugins                              |
- |  Prefix + r      : Reload Config                                |
- |  Prefix + d      : Detach Session                               |
- -------------------------------------------------------------------
- |  PANES (Splits)                                                 |
- |  Prefix + \      : Split Vertically                             |
- |  Prefix + -      : Split Horizontally                           |
- |  Prefix + m      : Maximize/Restore Pane                        |
- |  Prefix + x      : Close pane/window                            |
- |  Ctrl + h/j/k/l  : Move between Panes (Vim style)               |
- |  Prefix + h/j/k/l: Resize Panes                                 |
- -------------------------------------------------------------------
- |  WINDOWS (Tabs)                                                 |
- |  Prefix + c      : New Window                                   |
- |  Prefix + x      : Close pane/window                            |
- |  Prefix + n/p    : Next/Previous Window                         |
- |  Prefix + 1-9    : Jump to Window #                             |
- |  COPY MODE (Vim Mode)                                           |
- |  Prefix + [      : Enter Copy Mode                              |
- |  v / y           : Start Select / Copy (Yank)                   |
- |  Prefix + P      : Paste Buffer                                 |
- -------------------------------------------------------------------
+TMUX CHEATSHEET
+
+Prefix + I      Install plugins
+Prefix + r      Reload config
+Prefix + d      Detach
+
+Prefix + \      Split vertically
+Prefix + -      Split horizontally
+Prefix + m      Maximize pane
+Prefix + x      Close pane
+
+Ctrl+h/j/k/l    Move panes
+Prefix+h/j/k/l  Resize panes
+
+Prefix + c      New window
+Prefix + n/p    Next/prev window
+Prefix + [      Copy mode
 EOF
 }
 
-# automated ipynb python venv setup
-mkvenv-ipynb() {
-  local venv_name=${1:-venv}
-  local kernel_name=${2:-$(basename "$PWD")}
+# Fun Commands
 
-  if [[ -d "$venv_name" ]]; then
-    echo "Error: venv '$venv_name' already exists"
-    return 1
-  fi
-
-  echo "Creating venv: $venv_name"
-  python -m venv "$venv_name" || return 1
-
-  echo "Activating venv"
-  source "$venv_name/bin/activate" || return 1
-
-  echo "Upgrading pip tooling"
-  pip install -U pip setuptools wheel
-
-  echo "Installing ipykernel"
-  pip install ipykernel
-
-  echo "Registering Jupyter kernel: Python ($kernel_name)"
-  python -m ipykernel install --user \
-    --name "$kernel_name" \
-    --display-name "Python ($kernel_name)"
-
-  echo "Done."
-  echo "Run: jupyter lab"
-  echo "Select kernel: Python ($kernel_name)"
-}
-
-# Mirror the main screen to the given output
-mirror_screen() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: mirror_screen <output_name>"
-        return 1
-    fi
-    local OUTPUT="$1"
-
-    # Detect primary monitor
-    local PRIMARY=$(wlr-randr | grep -w "enabled" | awk '{print $1}' | head -n1)
-
-    if [[ -z "$PRIMARY" ]]; then
-        echo "No primary monitor detected!"
-        return 1
-    fi
-
-    echo "Mirroring $PRIMARY to $OUTPUT..."
-    wlr-randr --output "$OUTPUT" --mode $(wlr-randr | grep "$OUTPUT" | grep -oP '\d+x\d+@\d+') --mirror "$PRIMARY"
-}
-
-# Extend the desktop to the given output (to the right of primary)
-extend_screen() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: extend_screen <output_name>"
-        return 1
-    fi
-    local OUTPUT="$1"
-
-    # Detect primary monitor
-    local PRIMARY=$(wlr-randr | grep -w "enabled" | awk '{print $1}' | head -n1)
-
-    if [[ -z "$PRIMARY" ]]; then
-        echo "No primary monitor detected!"
-        return 1
-    fi
-
-    # Get primary monitor width to position new monitor to the right
-    local WIDTH=$(wlr-randr | grep "$PRIMARY" | grep -oP '\d+x\d+' | head -n1 | cut -dx -f1)
-
-    echo "Extending desktop to $OUTPUT..."
-    wlr-randr --output "$OUTPUT" --mode $(wlr-randr | grep "$OUTPUT" | grep -oP '\d+x\d+@\d+') --pos ${WIDTH}x0 --enable
-}
+tlt() { toilet -f smblock "$*" -F border | lolcat; }
+tltrpt() { for i in {1..50}; do tlt "$@"; done }
+quote() { fortune | cowsay -f tux | lolcat }
 
 function bp() {
     local CONFIG_DIR="$HOME/.config/bp"
@@ -610,6 +703,19 @@ EOF
             ;;
     esac
 }
+
+# Starship 
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
+
+# ===============================
+# Startup info
+# ===============================
+# [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
+# Run fastfetch only when starting a tmux pane/session
+if [ -n "$TMUX" ]; then
+    fastfetch
+fi
 
 # Block --no-preserve-root
 preexec() {
