@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("swww init && swww img ~/ruanDezbatu/ArchWPaper.jpg")
 
-    hl.exec_cmd("hyprsunset --temperature 6000")
+    hl.exec_cmd(scriptsDir .. "/Hyprsunset.sh startup")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
 
     -- Initialize Drop Down terminal - See Bug#810 https://github.com/JaKooLit/Hyprland-Dots/issues/810#issuecomment-3351947644

@@ -6,7 +6,10 @@
 
 -- windowrule - tags - add apps under appropriate tag to use the same settings
 -- browser tags
-hl.window_rule({ match = { class = "^([Ff]irefox|org.mozilla.firefox|[Ff]irefox-esr|[Ff]irefox-bin)$" }, tag = "+browser" })
+hl.window_rule({
+	match = { class = "^([Ff]irefox|org.mozilla.firefox|[Ff]irefox-esr|[Ff]irefox-bin)$" },
+	tag = "+browser",
+})
 hl.window_rule({ match = { class = "^([Gg]oogle-chrome(-beta|-dev|-unstable)?)$" }, tag = "+browser" })
 hl.window_rule({ match = { class = "^(chrome-.+-Default)$" }, tag = "+browser" })
 hl.window_rule({ match = { class = "^([Cc]hromium)$" }, tag = "+browser" })
@@ -16,7 +19,10 @@ hl.window_rule({ match = { class = "^([Tt]horium-browser|[Cc]achy-browser)$" }, 
 hl.window_rule({ match = { class = "^(zen-alpha|zen)$" }, tag = "+browser" })
 
 -- notif tags
-hl.window_rule({ match = { class = "^(swaync-control-center|swaync-notification-window|swaync-client|class)$" }, tag = "+notif" })
+hl.window_rule({
+	match = { class = "^(swaync-control-center|swaync-notification-window|swaync-client|class)$" },
+	tag = "+notif",
+})
 
 -- KooL settings tag
 hl.window_rule({ match = { title = "^(KooL Quick Cheat Sheet)$" }, tag = "+KooL_Cheat" })
@@ -77,14 +83,20 @@ hl.window_rule({ match = { class = "^(gnome-disks|wihotspot(-gui)?)$" }, tag = "
 hl.window_rule({ match = { title = "(Kvantum Manager)" }, tag = "+settings" })
 hl.window_rule({ match = { class = "^(file-roller|org.gnome.FileRoller)$" }, tag = "+settings" })
 hl.window_rule({ match = { class = "^(nm-applet|nm-connection-editor|blueman-manager)$" }, tag = "+settings" })
-hl.window_rule({ match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$" }, tag = "+settings" })
+hl.window_rule({
+	match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$" },
+	tag = "+settings",
+})
 hl.window_rule({ match = { class = "^(qt5ct|qt6ct|[Yy]ad)$" }, tag = "+settings" })
 hl.window_rule({ match = { class = "(xdg-desktop-portal-gtk)" }, tag = "+settings" })
 hl.window_rule({ match = { class = "^(org.kde.polkit-kde-authentication-agent-1)$" }, tag = "+settings" })
 hl.window_rule({ match = { class = "^([Rr]ofi)$" }, tag = "+settings" })
 
 -- viewer tags
-hl.window_rule({ match = { class = "^(gnome-system-monitor|org.gnome.SystemMonitor|io.missioncenter.MissionCenter)$" }, tag = "+viewer" })
+hl.window_rule({
+	match = { class = "^(gnome-system-monitor|org.gnome.SystemMonitor|io.missioncenter.MissionCenter)$" },
+	tag = "+viewer",
+})
 hl.window_rule({ match = { class = "^(evince)$" }, tag = "+viewer" })
 hl.window_rule({ match = { class = "^(eog|org.gnome.Loupe)$" }, tag = "+viewer" })
 
@@ -99,7 +111,10 @@ hl.window_rule({ match = { class = "^([Tt]hunar)$", title = "^negative:(.*[Tt]hu
 hl.window_rule({ match = { title = "^(ROG Control)$" }, center = true })
 hl.window_rule({ match = { tag = "^KooL-Settings$" }, center = true })
 hl.window_rule({ match = { title = "^(Keybindings)$" }, center = true })
-hl.window_rule({ match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$" }, center = true })
+hl.window_rule({
+	match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$" },
+	center = true,
+})
 hl.window_rule({ match = { class = "^([Ww]hatsapp-for-linux|ZapZap|com.rtosta.zapzap)$" }, center = true })
 hl.window_rule({ match = { class = "^([Ff]erdium)$" }, center = true })
 hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, move = "72% 7%" })
@@ -122,8 +137,14 @@ hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, float = true })
 
 -- windowrule - float popups and dialogue
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true, center = true })
-hl.window_rule({ match = { class = "^(codium|codium-url-handler|VSCodium)$", title = "^negative:(.*codium.*|.*VSCodium.*)$" }, float = true })
-hl.window_rule({ match = { class = "^(com.heroicgameslauncher.hgl)$", title = "^negative:(Heroic Games Launcher)$" }, float = true })
+hl.window_rule({
+	match = { class = "^(codium|codium-url-handler|VSCodium)$", title = "^negative:(.*codium.*|.*VSCodium.*)$" },
+	float = true,
+})
+hl.window_rule({
+	match = { class = "^(com.heroicgameslauncher.hgl)$", title = "^negative:(Heroic Games Launcher)$" },
+	float = true,
+})
 hl.window_rule({ match = { class = "^([Ss]team)$", title = "^negative:^([Ss]team)$" }, float = true })
 hl.window_rule({ match = { class = "^([Tt]hunar)$", title = "^negative:(.*[Tt]hunar.*)$" }, float = true })
 
@@ -176,6 +197,11 @@ hl.window_rule({ match = { title = "^(wind.*)$" }, no_initial_focus = true })
 -- hl.window_rule({ match = { class = "^discord$" }, opacity = 0.75 })
 
 -- LAYER RULES
+-- swaync blur
+hl.layer_rule({ match = { namespace = "^swaync-notification-window$" }, blur = true })
+hl.layer_rule({ match = { namespace = "^swaync-notification-window$" }, ignore_alpha = 0.4 })
+hl.layer_rule({ match = { namespace = "^swaync-control-center$" }, blur = true })
+hl.layer_rule({ match = { namespace = "^swaync-control-center$" }, ignore_alpha = 0.4 })
 hl.layer_rule({ match = { namespace = "^waybar$" }, blur = true })
 hl.layer_rule({ match = { namespace = "^waybar$" }, ignore_alpha = 0.5 })
 hl.layer_rule({ match = { namespace = "^waybar$" }, blur_popups = true })

@@ -13,4 +13,4 @@ local term = "kitty" -- Terminal
 local files = "thunar"
 
 -- Default Search Engine for ROFI Search (SUPER S)
-local Search_Engine = "https://www.startpage.com/search?q={}"
+local Search_Engine = "https://search.brave.com/search?q={}"

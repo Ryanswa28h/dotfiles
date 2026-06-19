@@ -12,7 +12,7 @@ set -euo pipefail
 #   HYPERSUNSET_ICON_MODE  sunset|blue  (default: sunset)
 
 STATE_FILE="$HOME/.cache/.hyprsunset_state"
-TARGET_TEMP="${HYPERSUNSET_TEMP:5400}"
+TARGET_TEMP="${HYPERSUNSET_TEMP:-6000}"
 ICON_MODE="${HYPERSUNSET_ICON_MODE:-sunset}"
 
 ensure_state() {
@@ -39,6 +39,18 @@ icon_on() {
     printf "☀"
     ;;
   esac
+}
+
+cmd_startup() {
+  ensure_state
+  state="$(cat "$STATE_FILE" || echo off)"
+
+  # Apply saved state: start if on, do nothing if off
+  if [[ "$state" == "on" ]]; then
+    if command -v hyprsunset >/dev/null 2>&1; then
+      nohup hyprsunset -t "$TARGET_TEMP" >/dev/null 2>&1 &
+    fi
+  fi
 }
 
 cmd_toggle() {
@@ -93,6 +105,7 @@ cmd_status() {
 }
 
 case "${1:-}" in
+startup) cmd_startup ;;
 toggle) cmd_toggle ;;
 status) cmd_status ;;
 *)
