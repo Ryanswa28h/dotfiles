@@ -50,8 +50,6 @@ zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
 zstyle ':completion:*:git-checkout:*' sort false
 # Set descriptions format to enable group support
 zstyle ':completion:*:descriptions' format '[%d]'
-# Set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Preview directory's content with eza when completing cd
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # Switch group using `<` and `>`
@@ -72,8 +70,6 @@ bindkey '^[u' undo
 autoload -U add-zsh-hook
 autoload zmv
 
-# zinit light olets/zsh-abbr
-
 # ===============================
 # Environment & Editor
 # ===============================
@@ -81,8 +77,8 @@ export EDITOR=nvim
 export VISUAL=nvim
 export HISTFILE=~/.zsh_history
 
-HISTSIZE=20000
-SAVEHIST=20000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt appendhistory
 
 # ===============================
@@ -187,7 +183,7 @@ alias t='tmux'
 alias ta='tmux attach'
 alias tls='tmux ls'
 alias tk='tmux kill-server'
-alias ts='tmux new -As main'
+alias ts='tmux new -As default'
 
 # Monitoring & System
 alias ff='fastfetch'
@@ -234,7 +230,6 @@ alias gdrive='rclone mount gdrive: ~/gdrive \
 # Pipes
 alias -g G='| rg'
 alias -g GI='| rg -i'
-alias -g V='| rg -v'
 alias -g G1='| rg -n'
 alias -g GI1='| rg -in'
 alias -g GV='| rg -v'
@@ -247,7 +242,6 @@ alias -g U='| uniq'
 alias -g WC='| wc -l'
 
 # Text tools
-alias -g RG='| rg'
 alias -g AWK='| awk'
 alias -g SED='| sed'
 alias -g JQ='| jq'
@@ -342,7 +336,7 @@ alias -s ini='$EDITOR'
 alias -s conf='$EDITOR'
 alias -s cfg='$EDITOR'
 alias -s env='$EDITOR'
-alias -s lock='$EDITOR'
+alias -s lock='bat'
 
 # Scripts and miscellaneous
 alias -s vim='$EDITOR'
@@ -413,7 +407,7 @@ bindkey -s '^Xfd' 'fd '
 
 # Search 
 bindkey -s '^Xrr' 'rg ""\C-b'
-bindkey -s '^Xrp' 'ps aux | grep ""\C-b'
+bindkey -s '^Xrp' 'ps aux | rg ""\C-b'
 
 # Packages
 bindkey -s '^Xpu' 'sudo pacman -Syu'
@@ -444,6 +438,9 @@ bindkey -s '^Xya' 'source .venv/bin/activate'
 # SSH 
 bindkey -s '^Xss' 'ssh '
 bindkey -s '^Xsc' 'scp '
+
+# Zsh
+bindkey -s '^Xr' 'exec zsh'
 
 # ===============================
 # Widgets
@@ -667,9 +664,13 @@ mirror_screen() {
         return 1
     }
 
+    local mode_line
+    mode_line=$(wlr-randr | grep "$output")
+    [[ $mode_line =~ ([0-9]+x[0-9]+@[0-9]+) ]] || return 1
+
     wlr-randr \
         --output "$output" \
-        --mode "$(wlr-randr | grep "$output" | grep -oP '\d+x\d+@\d+')" \
+        --mode "$match[1]" \
         --mirror "$primary"
 }
 
@@ -690,11 +691,17 @@ extend_screen() {
         return 1
     }
 
-    width=$(wlr-randr | grep "$primary" | grep -oP '\d+x\d+' | head -n1 | cut -dx -f1)
+    local mode_line primary_line
+    primary_line=$(wlr-randr | grep "$primary")
+    [[ $primary_line =~ ([0-9]+)x[0-9]+ ]] || return 1
+    width=$match[1]
+
+    mode_line=$(wlr-randr | grep "$output")
+    [[ $mode_line =~ ([0-9]+x[0-9]+@[0-9]+) ]] || return 1
 
     wlr-randr \
         --output "$output" \
-        --mode "$(wlr-randr | grep "$output" | grep -oP '\d+x\d+@\d+')" \
+        --mode "$match[1]" \
         --pos "${width}x0" \
         --enable
 }
@@ -959,11 +966,10 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # ===============================
 # Startup info
 # ===============================
-# [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
 # Run fastfetch only when starting a tmux pane/session
-if [ -n "$TMUX" ]; then
-    # fastfetch
-fi
+# if [ -n "$TMUX" ]; then
+#     fastfetch
+# fi
 
 # Block --no-preserve-root
 preexec() {
@@ -974,15 +980,10 @@ preexec() {
 }
 
 # Auto-start tmux
-if [[ -z "$TMUX" && -z "$ZSH_NO_TMUX" ]]; then
+if [[ -z "$TMUX" && -z "$ZSH_NO_TMUX" && -z "$_ZSH_TMUX_STARTED" ]]; then
+  typeset -g _ZSH_TMUX_STARTED=1
   if command -v tmux >/dev/null 2>&1; then
     tmux attach -t default 2>/dev/null || tmux new -s default
     exit
   fi
 fi
-#
-# export GTK_IM_MODULE=fcitx
-# export QT_IM_MODULE=fcitx
-# export XMODIFIERS=@im=fcitx   
-# [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
-# [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
