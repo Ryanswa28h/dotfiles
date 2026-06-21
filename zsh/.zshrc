@@ -57,6 +57,21 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # Switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
+# Edit command buffer
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line # Bind to ctrl+x e
+
+# Magic space
+bindkey ' ' magic-space
+
+# Undo
+bindkey '^[u' undo
+
+# Autoload
+autoload -U add-zsh-hook
+autoload zmv
+
 # zinit light olets/zsh-abbr
 
 # ===============================
@@ -83,14 +98,19 @@ zstyle ':completion:*' verbose yes
 # ===============================
 # Tools Initialization
 # ===============================
+
+# Zoxide
 eval "$(zoxide init --cmd cd zsh)"
+
+# Starship 
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
 
 # ===============================
 # Aliases
 # ===============================
 
 # Navigation
-
 alias z='cd' 
 alias e='exit'
 alias h='history'
@@ -98,7 +118,6 @@ alias c='clear'
 alias rezsh='exec zsh'
 
 # File Management
-
 alias ls='eza -a --icons=always --git --group-directories-first --time-style=long-iso --color=always'
 alias ll='eza -alh --icons=always --git --group-directories-first --time-style=long-iso'
 alias lt='eza --tree --level=2 --icons=always --group-directories-first'
@@ -119,11 +138,9 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # File Searching
-
 alias rg='rg --hidden'
 
 # Editors
-
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
@@ -137,12 +154,10 @@ alias chis='nvim ~/.zsh_history'
 alias jf='nvim justfile'
 
 # Git
-
 alias g='git'
 alias lg='lazygit'
 
 # Package Management (Arch)
-
 alias i='paru -S'
 alias s='paru -Ss'
 alias r='paru -Rns'
@@ -151,7 +166,6 @@ alias update='sudo pacman -Syu'
 alias updateaur='paru -Syu'
 
 # Python
-
 alias py='python3'
 alias pip='python -m pip'
 
@@ -159,7 +173,6 @@ alias venvact='source .venv/bin/activate'
 alias serve='python -m http.server 8000'
 
 # Docker
-
 alias d='docker'
 alias dc='docker compose'
 
@@ -170,7 +183,6 @@ alias dcu='docker compose up'
 alias dcd='docker compose down'
 
 # Tmux
-
 alias t='tmux'
 alias ta='tmux attach'
 alias tls='tmux ls'
@@ -178,7 +190,6 @@ alias tk='tmux kill-server'
 alias ts='tmux new -As main'
 
 # Monitoring & System
-
 alias ff='fastfetch'
 alias ffca='ff --config arch'
 alias cf='clear && fastfetch --config arch'
@@ -193,12 +204,10 @@ alias myip='curl ifconfig.me'
 alias ping5='ping -c 5'
 
 # Search
-
 alias todo='rg TODO'
 alias fixme='rg FIXME'
 
 # Development Tools
-
 alias oc='opencode'
 alias f='fabric'
 
@@ -206,18 +215,252 @@ alias p='pi'
 alias pir='pi -r'
 
 # Terminal Toys
-
 alias cmx='cmatrix'
 alias pp='pipes.sh'
 alias aqrm='asciiquarium'
+alias wttr='curl wttr.in'
 
 # Personal Utilities
-
 alias dotf='dotfiles'
 
 alias gdrive='rclone mount gdrive: ~/gdrive \
   --vfs-cache-mode minimal \
   --buffer-size 32M'
+
+# ===============================
+# Global Aliases
+# ===============================
+
+# Pipes
+alias -g G='| rg'
+alias -g GI='| rg -i'
+alias -g V='| rg -v'
+alias -g G1='| rg -n'
+alias -g GI1='| rg -in'
+alias -g GV='| rg -v'
+alias -g L='| less'
+alias -g M='| more'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g S='| sort'
+alias -g U='| uniq'
+alias -g WC='| wc -l'
+
+# Text tools
+alias -g RG='| rg'
+alias -g AWK='| awk'
+alias -g SED='| sed'
+alias -g JQ='| jq'
+alias -g JQP='| jq .'
+alias -g JQ0='| jq -c'
+alias -g JQ1='| jq .[]'
+
+# View helpers
+alias -g NL='| nl'
+alias -g C='| bat'
+alias -g P='| column -t'
+
+# Debug
+alias -g V0='| cat -v'
+alias -g V1='| xxd'
+alias -g LOG='| tee /dev/stderr'
+
+# Sort helpers
+alias -g SC='| sort | uniq -c'
+alias -g S0='| sort | uniq'
+alias -g SN='| sort -n'
+
+# Quick view
+alias -g TL='| tail -n 50 | less'
+alias -g TH='| head -n 50'
+
+# Redirects
+alias -g DN='> /dev/null'
+alias -g NE='2> /dev/null'
+alias -g NUL='> /dev/null 2>&1'
+
+# ===============================
+# Suffix Aliases
+# ===============================
+
+# Executable / interpreted languages
+alias -s py='python3'
+alias -s js='node'
+alias -s mjs='node'
+alias -s cjs='node'
+alias -s ts='bun'
+alias -s mts='bun'
+alias -s sh='bash'
+alias -s zsh='zsh'
+alias -s fish='fish'
+alias -s rb='ruby'
+alias -s lua='lua'
+alias -s pl='perl'
+alias -s php='php'
+alias -s awk='awk -f'
+alias -s tcl='tclsh'
+
+# Open in editor
+alias -s c='$EDITOR'
+alias -s h='$EDITOR'
+alias -s cpp='$EDITOR'
+alias -s cc='$EDITOR'
+alias -s cxx='$EDITOR'
+alias -s hpp='$EDITOR'
+alias -s hxx='$EDITOR'
+alias -s rs='$EDITOR'
+alias -s go='$EDITOR'
+alias -s java='$EDITOR'
+alias -s kt='$EDITOR'
+alias -s zig='$EDITOR'
+alias -s nim='$EDITOR'
+alias -s hs='$EDITOR'
+alias -s ml='$EDITOR'
+alias -s fs='$EDITOR'
+alias -s cs='$EDITOR'
+alias -s swift='$EDITOR'
+
+# Web / markup / config files
+alias -s html='$EDITOR'
+alias -s css='$EDITOR'
+alias -s scss='$EDITOR'
+alias -s sass='$EDITOR'
+alias -s xml='$EDITOR'
+alias -s md='$EDITOR'
+alias -s txt='$EDITOR'
+alias -s tex='$EDITOR'
+alias -s rst='$EDITOR'
+alias -s org='$EDITOR'
+
+# Configuration files
+alias -s json='jless'
+alias -s jsonc='jless'
+alias -s yaml='$EDITOR'
+alias -s yml='$EDITOR'
+alias -s toml='$EDITOR'
+alias -s ini='$EDITOR'
+alias -s conf='$EDITOR'
+alias -s cfg='$EDITOR'
+alias -s env='$EDITOR'
+alias -s lock='$EDITOR'
+
+# Scripts and miscellaneous
+alias -s vim='$EDITOR'
+alias -s nvim='$EDITOR'
+alias -s log='$EDITOR'
+
+# Images
+alias -s png='xdg-open'
+alias -s jpg='xdg-open'
+alias -s jpeg='xdg-open'
+alias -s webp='xdg-open'
+alias -s gif='xdg-open'
+alias -s svg='xdg-open'
+
+# Documents
+alias -s pdf='xdg-open'
+
+# Audio
+alias -s mp3='xdg-open'
+alias -s flac='xdg-open'
+alias -s wav='xdg-open'
+alias -s ogg='xdg-open'
+alias -s m4a='xdg-open'
+
+# Video
+alias -s mp4='xdg-open'
+alias -s mkv='xdg-open'
+alias -s webm='xdg-open'
+alias -s mov='xdg-open'
+alias -s avi='xdg-open'
+
+# ===============================
+# Named Directories
+# ===============================
+
+hash -d dotf=~/dotfiles
+hash -d dotfr=~/dotfile_repos
+hash -d dev=~/Projects
+hash -d dl=~/Downloads
+hash -d conf=~/.config
+hash -d rde=~/ruanDezbatu
+
+# ===============================
+# Hotkey Shortcuts
+# ===============================
+
+# Git
+bindkey -s '^Xga' 'git add .'
+bindkey -s '^Xgc' 'git commit -m ""\C-b'
+bindkey -s '^XgA' 'git commit --amend'
+bindkey -s '^Xgp' 'git push'
+bindkey -s '^XgP' 'git pull'
+bindkey -s '^Xgs' 'git status'
+bindkey -s '^Xgd' 'git diff'
+bindkey -s '^Xgl' 'git log --oneline --graph --decorate --all'
+bindkey -s '^Xgb' 'git switch '
+bindkey -s '^XgB' 'git switch -c '
+bindkey -s '^Xgr' 'git restore '
+bindkey -s '^XgR' 'git reset --hard HEAD'
+
+# Files 
+bindkey -s '^Xfm' 'mkdir -p '
+bindkey -s '^Xfr' 'rm -ri '
+bindkey -s '^Xfc' 'cp -ir '
+bindkey -s '^Xfv' 'mv -i '
+bindkey -s '^Xff' 'find . -name ""\C-b'
+bindkey -s '^Xfd' 'fd '
+
+# Search 
+bindkey -s '^Xrr' 'rg ""\C-b'
+bindkey -s '^Xrp' 'ps aux | grep ""\C-b'
+
+# Packages
+bindkey -s '^Xpu' 'sudo pacman -Syu'
+bindkey -s '^Xps' 'pacman -Ss '
+bindkey -s '^Xpq' 'pacman -Qs '
+bindkey -s '^Xpi' 'sudo pacman -S '
+bindkey -s '^Xpr' 'yay -Rns '
+
+# Journal/System 
+bindkey -s '^Xjf' 'journalctl -f'
+bindkey -s '^Xju' 'journalctl -u  -f\C-b\C-b\C-b'
+
+# Network 
+bindkey -s '^Xni' 'curl ifconfig.me'
+bindkey -s '^Xnc' 'curl -I '
+bindkey -s '^Xnp' 'ping google.com'
+
+# Docker 
+bindkey -s '^Xdu' 'docker compose up -d'
+bindkey -s '^Xdd' 'docker compose down'
+bindkey -s '^Xdl' 'docker compose logs -f'
+
+# Python
+bindkey -s '^Xyy' 'python3 '
+bindkey -s '^Xyv' 'python3 -m venv .venv'
+bindkey -s '^Xya' 'source .venv/bin/activate'
+
+# SSH 
+bindkey -s '^Xss' 'ssh '
+bindkey -s '^Xsc' 'scp '
+
+# ===============================
+# Widgets
+# ===============================
+
+clear-keep-buffer() {
+    zle clear-screen
+}
+zle -N clear-keep-buffer
+bindkey '^Xl' clear-keep-buffer
+
+copy-command() {
+    echo -n $BUFFER | wl-copy
+    zle -M "Copied to clipboard"
+}
+zle -N copy-command
+bindkey '^Xc' copy-command
 
 # ===============================
 # Functions
@@ -370,16 +613,41 @@ cacheclean() {
     echo "Cache cleaning complete!"
 }
 
-zshrcbackup() {
-    local backup_dir="$HOME/backups/zshrc"
-    local timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+auto_venv() {
+    local dir="$PWD"
+    local venv=""
 
-    mkdir -p "$backup_dir"
-    cp ~/.zshrc "$backup_dir/zshrcbackup_$timestamp"
+    # Search current directory and parents for .venv
+    while [[ "$dir" != "/" ]]; do
+        if [[ -f "$dir/.venv/bin/activate" ]]; then
+            venv="$dir/.venv"
+            break
+        fi
+        dir=$(dirname "$dir")
+    done
 
-    echo ".zshrc backed up to:"
-    echo "$backup_dir/zshrcbackup_$timestamp"
+    if [[ -n "$venv" ]]; then
+        if [[ "$VIRTUAL_ENV" == "$venv" ]]; then
+            return
+        fi
+
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            deactivate
+        fi
+
+        echo "Activating $venv"
+        source "$venv/bin/activate"
+
+    else
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            echo "Deactivating $VIRTUAL_ENV"
+            deactivate
+        fi
+    fi
 }
+
+add-zsh-hook chpwd auto_venv
+auto_venv
 
 # Display / Monitor
 
@@ -688,17 +956,13 @@ export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
 [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Starship 
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
-
 # ===============================
 # Startup info
 # ===============================
 # [[ -o interactive && -z "$SSH_CONNECTION" ]] && fastfetch
 # Run fastfetch only when starting a tmux pane/session
 if [ -n "$TMUX" ]; then
-    fastfetch
+    # fastfetch
 fi
 
 # Block --no-preserve-root
