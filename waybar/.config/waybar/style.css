@@ -115,6 +115,14 @@ window#waybar {
   color: #a3e635;
 }
 
+#battery.warning {
+  color: #eab308;
+}
+
+#battery.critical {
+  color: #ef4444;
+}
+
 #cpu:hover,
 #custom-cpu:hover {
   color: #67e8f9;
