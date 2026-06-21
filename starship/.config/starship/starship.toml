@@ -122,7 +122,7 @@ format = 'took [$duration]($style) '
 [time]
 disabled = false
 style = "bold white"
-format = "on [$time]($style) "
+format = "on [󰥔 $time]($style) "
 
 [palettes.nord]
 dark_blue = '#5E81AC'
