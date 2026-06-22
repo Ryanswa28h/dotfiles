@@ -54,6 +54,21 @@ If a task has ambiguous requirements or open questions, use the `ask_user_questi
 >
 > If the project only contains a `.env` file, assume that the project is empty and NEVER read the `.env` file to try to understand context. When trying to understand the project context, read the `.env.example` file instead.
 
+## CLI Tool Preferences
+
+Use modern tools by default:
+
+- Use `rg` (ripgrep) instead of `grep` for searching code/repositories.
+- Use `fd` instead of `find` for locating files.
+
+Both are preferred because they are faster, simpler, and respect `.gitignore`.
+
+Fallback to `grep` or `find` only if:
+
+- the tool is not installed
+- the task requires specific features not supported by `rg`/`fd`
+- working with strict POSIX or system constraints
+
 ---
 
 # Language-Specific Guidelines
