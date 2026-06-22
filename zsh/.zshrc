@@ -204,6 +204,7 @@ alias ports='ss -tulpen'
 alias myip='curl ifconfig.me'
 
 alias ping5='ping -c 5'
+alias pingg='ping -c 5 google.com'
 
 # Search
 alias todo='rg TODO'
