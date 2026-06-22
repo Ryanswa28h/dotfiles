@@ -380,7 +380,7 @@ alias -s avi='xdg-open'
 # ===============================
 
 hash -d dotf=~/dotfiles
-hash -d dotfr=~/dotfile_repos
+hash -d rep=~/repos
 hash -d dev=~/Projects
 hash -d dl=~/Downloads
 hash -d conf=~/.config
