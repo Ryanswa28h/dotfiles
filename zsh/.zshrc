@@ -58,7 +58,7 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 # Edit command buffer
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey '^xe' edit-command-line # Bind to ctrl+x e
+bindkey '^Xe' edit-command-line # Bind to ctrl+x e
 
 # Magic space
 bindkey ' ' magic-space
@@ -75,11 +75,17 @@ autoload zmv
 # ===============================
 export EDITOR=nvim
 export VISUAL=nvim
-export HISTFILE=~/.zsh_history
 
+export HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
+
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt share_history
 setopt appendhistory
+setopt extended_glob
+setopt null_glob
 
 # ===============================
 # Improve tab menu
@@ -958,10 +964,21 @@ EOF
 # ===============================
 # PATH
 # ===============================
-export PATH="$HOME/.local/bin:$HOME/.config/emacs/bin:$PATH"
-export PATH="$HOME/.opencode/bin:$PATH"
-export PATH="$HOME/.npm-global/bin:$PATH"
-[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+path=(
+    $HOME/.local/bin
+    $HOME/.config/emacs/bin
+    $HOME/.opencode/bin
+    $HOME/.npm-global/bin
+    $path
+)
+
+[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] &&
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+typeset -U path
+path=($^path(N-/))
+
+export PATH
 
 # ===============================
 # Startup info
