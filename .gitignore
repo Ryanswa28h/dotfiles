@@ -22,3 +22,5 @@ pi/.pi/agent/extensions/oc.ts
 pi/.pi/agent/extensions/tx9/
 pi/.pi/agent/tx9/jobs
 pi/.pi/agent/.gitignore
+pi/.pi/agent/package.json
+pi/.pi/agent/pnpm-lock.yaml

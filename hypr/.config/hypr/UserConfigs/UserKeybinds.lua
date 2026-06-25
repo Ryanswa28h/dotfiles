@@ -16,6 +16,8 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
+hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
+hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 
 hl.bind(
 	mainMod .. " + L",
