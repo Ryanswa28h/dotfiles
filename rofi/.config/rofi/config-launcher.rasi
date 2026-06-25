@@ -1,0 +1,15 @@
+/* App Launcher with adaptive window sizing */
+/* Imports the user's chosen theme, overrides to be height-adaptive */
+
+@import "~/.config/rofi/config.rasi"
+
+/* ---- Window ---- */
+window {
+   height: inherit;
+}
+
+/* ---- Listview ---- */
+listview {
+   fixed-height: false;
+   scrollbar: true;
+}

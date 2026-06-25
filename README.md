@@ -18,3 +18,4 @@ nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 # Credit
 
 Base Tmux Config: [Henry Misc Dotfiles](https://github.com/hendrikmi/dotfiles)
+Base Hyprland Config: [JaKooLit Hyprland](https://github.com/JaKooLit/Arch-Hyprland)
