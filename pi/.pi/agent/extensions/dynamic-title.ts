@@ -7,6 +7,7 @@
  *   🟠 pi  — agent is thinking (model reasoning)
  *   🔴 pi  — agent is outputting (streaming response)
  *   🟡 pi  — agent is stuck/question/waiting
+ *   🟣 pi  — agent is executing a tool (file read, file edit, command, etc.)
  */
 
 import type {
@@ -14,13 +15,14 @@ import type {
 	ExtensionContext,
 } from "@mariozechner/pi-coding-agent";
 
-type AgentStatus = "idle" | "thinking" | "outputting" | "waiting";
+type AgentStatus = "idle" | "thinking" | "outputting" | "waiting" | "tool";
 
 const STATUS_EMOJI: Record<AgentStatus, string> = {
 	idle: "🟢",
 	thinking: "🟠",
 	outputting: "🔴",
 	waiting: "🟡",
+	tool: "🟣",
 };
 
 let tmuxWindow: string | null = null;
@@ -28,6 +30,7 @@ let tmuxWindow: string | null = null;
 export default function (pi: ExtensionAPI) {
 	let status: AgentStatus = "idle";
 	let pendingQuestions = 0;
+	let activeTools = 0;
 
 	/**
 	 * Build the title string: {emoji} pi
@@ -158,6 +161,20 @@ export default function (pi: ExtensionAPI) {
 		} else if (eventType.startsWith("thinking")) {
 			await setStatusAndUpdate(ctx, "thinking");
 		}
+	});
+
+	// Detect when any tool starts executing (file read, edit, bash, etc.)
+	pi.on("tool_execution_start", async (event, ctx) => {
+		// Don't override the waiting (🟡) state — ask_user_question is handled below
+		if (event.toolName === "ask_user_question") return;
+		activeTools++;
+		await setStatusAndUpdate(ctx, "tool");
+	});
+
+	// When a tool finishes, only revert if no more tools are active
+	pi.on("tool_execution_end", async (_event, ctx) => {
+		activeTools = Math.max(0, activeTools - 1);
+		// Don't change status here — the next turn_start or agent_end will handle it
 	});
 
 	// Detect when the agent asks the user a question (waiting state)
