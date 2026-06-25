@@ -216,6 +216,7 @@ alias f='fabric'
 
 alias p='pi'
 alias pir='pi -r'
+alias pis='pi --session'
 
 # Terminal Toys
 alias cmx='cmatrix'
