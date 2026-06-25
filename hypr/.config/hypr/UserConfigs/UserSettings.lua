@@ -114,7 +114,7 @@ hl.config({
 		sync_gsettings_theme = true,
 		no_hardware_cursors = 1, -- change to 1 if want to disable
 		enable_hyprcursor = true,
-		warp_on_change_workspace = 2,
+		warp_on_change_workspace = 0, -- 0=off, 1=on, 2=force (ignores no_warps)
 		no_warps = true,
 	},
 })

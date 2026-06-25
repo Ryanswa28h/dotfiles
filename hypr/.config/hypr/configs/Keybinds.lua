@@ -9,7 +9,7 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close()) -- close active (not kill)
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(scriptsDir .. "/KillActiveProcess.sh")) -- Kill active process
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/LockScreen.sh")) -- screen lock
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd(scriptsDir .. "/Wlogout.sh")) -- power menu
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw")) -- swayNC notification panel
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw")) -- swayNC notification panel
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scriptsDir .. "/Kool_Quick_Settings.sh")) -- Settings Menu KooL Hyprland Settings
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("kitty yazi"))
