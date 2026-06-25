@@ -206,6 +206,12 @@ alias myip='curl ifconfig.me'
 alias ping5='ping -c 5'
 alias pingg='ping -c 5 google.com'
 
+# Hyprland
+
+alias hypr='hyprctl'
+alias hreload='hyprctl reload'
+alias hmon='hyprmon'
+
 # Search
 alias todo='rg TODO'
 alias fixme='rg FIXME'
@@ -653,66 +659,6 @@ auto_venv() {
 
 add-zsh-hook chpwd auto_venv
 auto_venv
-
-# Display / Monitor
-
-mirror_screen() {
-    [[ -z "$1" ]] && {
-        echo "Usage: mirror_screen <output_name>"
-        return 1
-    }
-
-    local output="$1"
-    local primary
-
-    primary=$(wlr-randr | grep -w enabled | awk '{print $1}' | head -n1)
-
-    [[ -z "$primary" ]] && {
-        echo "No primary monitor detected!"
-        return 1
-    }
-
-    local mode_line
-    mode_line=$(wlr-randr | grep "$output")
-    [[ $mode_line =~ ([0-9]+x[0-9]+@[0-9]+) ]] || return 1
-
-    wlr-randr \
-        --output "$output" \
-        --mode "$match[1]" \
-        --mirror "$primary"
-}
-
-extend_screen() {
-    [[ -z "$1" ]] && {
-        echo "Usage: extend_screen <output_name>"
-        return 1
-    }
-
-    local output="$1"
-    local primary
-    local width
-
-    primary=$(wlr-randr | grep -w enabled | awk '{print $1}' | head -n1)
-
-    [[ -z "$primary" ]] && {
-        echo "No primary monitor detected!"
-        return 1
-    }
-
-    local mode_line primary_line
-    primary_line=$(wlr-randr | grep "$primary")
-    [[ $primary_line =~ ([0-9]+)x[0-9]+ ]] || return 1
-    width=$match[1]
-
-    mode_line=$(wlr-randr | grep "$output")
-    [[ $mode_line =~ ([0-9]+x[0-9]+@[0-9]+) ]] || return 1
-
-    wlr-randr \
-        --output "$output" \
-        --mode "$match[1]" \
-        --pos "${width}x0" \
-        --enable
-}
 
 sudo() {
     for i in "$@"; do
