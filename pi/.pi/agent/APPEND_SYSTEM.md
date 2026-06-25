@@ -59,6 +59,8 @@ Use modern tools by default:
 
 Both are preferred because they are faster, simpler, and respect `.gitignore`.
 
+If `rg` and `fd` are available, NEVER use `grep` or `find` unless you have a compelling reason to do so and explain that reason to the user.
+
 Fallback to `grep` or `find` only if:
 
 - the tool is not installed
