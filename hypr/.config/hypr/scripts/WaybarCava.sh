@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # WaybarCava.sh — safer single-instance handling, cleanup, and robustness
-# Original concept by JaKooLit; this variant focuses on lifecycle hardening.
+# Cava audio visualizer for waybar
 
 set -euo pipefail
 

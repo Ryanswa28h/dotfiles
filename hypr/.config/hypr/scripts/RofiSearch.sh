@@ -2,7 +2,7 @@
 # For Searching via web browsers
 
 # Define the path to the config file (Lua format)
-config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.lua
+config_file=$HOME/.config/hypr/configs/Defaults.lua
 
 # Check if the config file exists
 if [[ ! -f "$config_file" ]]; then

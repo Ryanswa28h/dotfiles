@@ -2,7 +2,7 @@
 # Toggle rainbow borders on/off - persists across hyprctl reload
 
 notif="$HOME/.config/swaync/images/arch.png"
-DECO_FILE="$HOME/.config/hypr/UserConfigs/UserDecorations.lua"
+DECO_FILE="$HOME/.config/hypr/configs/Decorations.lua"
 
 # Get current active border from hyprctl (runtime state)
 current=$(hyprctl getoption general:col.active_border -j | jq -r '.gradient')

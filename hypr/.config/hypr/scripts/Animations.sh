@@ -9,9 +9,9 @@ fi
 iDIR="$HOME/.config/swaync/images"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 animations_dir="$HOME/.config/hypr/animations"
-UserConfigs="$HOME/.config/hypr/UserConfigs"
+configs="$HOME/.config/hypr/configs"
 rofi_theme="$HOME/.config/rofi/config-Animations.rasi"
-msg='❗NOTE:❗ This will copy animations into UserAnimations.lua'
+msg='❗NOTE:❗ This will copy animations into configs/Animations.lua'
 # list of animation files, sorted alphabetically with numbers first
 animations_list=$(find -L "$animations_dir" -maxdepth 1 -type f | sed 's/.*\///' | sed 's/\.lua$//' | sort -V)
 
@@ -21,7 +21,7 @@ chosen_file=$(echo "$animations_list" | rofi -i -dmenu -config $rofi_theme -mesg
 # Check if a file was selected
 if [[ -n "$chosen_file" ]]; then
   full_path="$animations_dir/$chosen_file.lua"
-  cp "$full_path" "$UserConfigs/UserAnimations.lua"
+  cp "$full_path" "$configs/Animations.lua"
   notify-send -u low -i "$iDIR/ja.png" "$chosen_file" "Hyprland Animation Loaded"
 fi
 

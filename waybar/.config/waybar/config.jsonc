@@ -388,7 +388,7 @@
     "format-alt-click": "click",
     "interval": 3600,
     "return-type": "json",
-    "exec": "$HOME/.config/hypr/UserScripts/Weather.py",
+    "exec": "$HOME/.config/hypr/scripts/Weather.py",
     "tooltip": true,
   },
 }

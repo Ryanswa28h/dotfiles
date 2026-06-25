@@ -17,6 +17,4 @@ nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 
 # Credit
 
-Base Hyprland Config: [JaKooLit Hyprland Dots](https://github.com/JaKooLit/Hyprland-Dots)
-
 Base Tmux Config: [Henry Misc Dotfiles](https://github.com/hendrikmi/dotfiles)

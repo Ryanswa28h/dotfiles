@@ -19,7 +19,7 @@ if [[ "$1" == "--search" || "$1" == "-s" ]]; then
 ESC|close this app
 SUPER = Windows Key
 SUPER SHIFT K|Searchable Keybinds (via rofi)
-SUPER SHIFT E|KooL Hyprland Settings Menu
+SUPER SHIFT E|Quick Settings Menu
 SUPER enter|Terminal (kitty)
 SUPER SHIFT enter|DropDown Terminal (kitty)
 SUPER B|Launch Browser
@@ -122,7 +122,7 @@ GDK_BACKEND=$BACKEND yad \
     --timeout-indicator=bottom \
     "ESC" "close this app" "" " = " "SUPER KEY (Windows Key Button)" "(SUPER KEY)" \
     " SHIFT K" "Searchable Keybinds" "(Search all Keybinds via rofi)" \
-    " SHIFT E" "KooL Hyprland Settings Menu" "" \
+    " SHIFT E" "Quick Settings Menu" "" \
     "" "" "" \
     " enter" "Terminal" "(kitty)" \
     " SHIFT enter" "DropDown Terminal" "(kitty)" \

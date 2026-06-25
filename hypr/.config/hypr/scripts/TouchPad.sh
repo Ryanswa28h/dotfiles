@@ -1,6 +1,6 @@
 #!/bin/bash
 # For disabling touchpad.
-# Edit the Touchpad_Device on ~/.config/hypr/UserConfigs/Laptops.lua according to your system
+# Edit the Touchpad_Device on ~/.config/hypr/configs/Laptops.lua according to your system
 # use hyprctl devices to get your system touchpad device name
 # source https://github.com/hyprwm/Hyprland/discussions/4283?sort=new#discussioncomment-8648109
 
@@ -9,7 +9,7 @@ notif="$HOME/.config/swaync/images/ja.png"
 export STATUS_FILE="$XDG_RUNTIME_DIR/touchpad.status"
 
 # Get touchpad device name from Laptops.lua
-TOUCHPAD_DEVICE=$(grep 'Touchpad_Device' "$HOME/.config/hypr/UserConfigs/Laptops.lua" | sed "s/.*=\s*['\"]\([^'\"]*\)['\"].*/\1/")
+TOUCHPAD_DEVICE=$(grep 'Touchpad_Device' "$HOME/.config/hypr/configs/Laptops.lua" | sed "s/.*=\s*['\"]\([^'\"]*\)['\"].*/\1/")
 
 enable_touchpad() {
     printf "true" >"$STATUS_FILE"

@@ -1,8 +1,8 @@
 #!/bin/bash
-# This file used on waybar modules sourcing defaults set in $HOME/.config/hypr/UserConfigs/01-UserDefaults.lua
+# This file used on waybar modules sourcing defaults set in $HOME/.config/hypr/configs/Defaults.lua
 
 # Define the path to the config file (Lua format)
-config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.lua
+config_file=$HOME/.config/hypr/configs/Defaults.lua
 
 # Check if the config file exists
 if [[ ! -f "$config_file" ]]; then
