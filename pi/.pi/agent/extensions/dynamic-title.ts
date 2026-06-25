@@ -23,6 +23,8 @@ const STATUS_EMOJI: Record<AgentStatus, string> = {
 	waiting: "🟡",
 };
 
+let tmuxWindow: string | null = null;
+
 export default function (pi: ExtensionAPI) {
 	let status: AgentStatus = "idle";
 	let pendingQuestions = 0;
@@ -36,18 +38,51 @@ export default function (pi: ExtensionAPI) {
 	}
 
 	/**
+	 * Capture pi's own tmux window ID so we always target the correct window.
+	 * pi.exec() returns { stdout, stderr, code, killed }.
+	 */
+	async function captureTmuxWindow(): Promise<void> {
+		if (!process.env.TMUX) return;
+		try {
+			const result = await pi.exec("tmux", [
+				"display-message",
+				"-p",
+				"#{window_id}",
+			]);
+			const id = result.stdout.trim();
+			if (id) tmuxWindow = id;
+		} catch {
+			// not in tmux or tmux ended
+		}
+	}
+
+	/**
 	 * Set the title across all available channels.
 	 */
-	async function setTitle(ctx: ExtensionContext, title: string): Promise<void> {
+	async function setTitle(
+		ctx: ExtensionContext,
+		title: string,
+	): Promise<void> {
 		if (!ctx.hasUI) return;
 
 		ctx.ui.setTitle(title);
 		process.stderr.write(`\x1b]0;${title}\x07`);
 
-		if (process.env.TMUX) {
+		if (tmuxWindow) {
 			try {
-				await pi.exec("tmux", ["set-window-option", "automatic-rename", "off"]);
-				await pi.exec("tmux", ["rename-window", title]);
+				await pi.exec("tmux", [
+					"set-window-option",
+					"-t",
+					tmuxWindow,
+					"automatic-rename",
+					"off",
+				]);
+				await pi.exec("tmux", [
+					"rename-window",
+					"-t",
+					tmuxWindow,
+					title,
+				]);
 			} catch {
 				// tmux session may have ended
 			}
@@ -55,9 +90,15 @@ export default function (pi: ExtensionAPI) {
 	}
 
 	async function restoreTmux(): Promise<void> {
-		if (!process.env.TMUX) return;
+		if (!tmuxWindow) return;
 		try {
-			await pi.exec("tmux", ["set-window-option", "automatic-rename", "on"]);
+			await pi.exec("tmux", [
+				"set-window-option",
+				"-t",
+				tmuxWindow,
+				"automatic-rename",
+				"on",
+			]);
 		} catch {
 			// tmux session may have ended
 		}
@@ -86,14 +127,13 @@ export default function (pi: ExtensionAPI) {
 	pi.on("session_start", async (_event, ctx) => {
 		status = "idle";
 		pendingQuestions = 0;
+		await captureTmuxWindow();
 		await doUpdate(ctx);
 	});
 
 	pi.on("session_shutdown", async (_event, ctx) => {
 		status = "idle";
 		pendingQuestions = 0;
-		if (ctx.hasUI) ctx.ui.setTitle("pi");
-		process.stderr.write("\x1b]0;pi\x07");
 		await restoreTmux();
 	});
 
