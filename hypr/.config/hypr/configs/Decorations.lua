@@ -63,8 +63,8 @@
 
 hl.config({
 	general = {
-		gaps_in = 5,
-		gaps_out = 10,
+		gaps_in = 2,
+		gaps_out = 4,
 
 		border_size = 2,
 
@@ -86,8 +86,8 @@ hl.config({
 	},
 
 	decoration = {
-		rounding = 10,
-		rounding_power = 10,
+		rounding = 4,
+		rounding_power = 4,
 
 		active_opacity = 0.9,
 		inactive_opacity = 0.875,
@@ -113,7 +113,7 @@ hl.config({
 		},
 
 		shadow = {
-			enabled = true,
+			enabled = false,
 			-- ignore_window = true
 			range = 15,
 			-- offset = "0 2"

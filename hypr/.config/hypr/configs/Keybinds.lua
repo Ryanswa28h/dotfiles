@@ -166,7 +166,12 @@ hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg fo
 
 -- common shortcuts
 --hl.bind(mainMod .. " + " .. mainMod .. "_L", hl.dsp.exec_cmd("pkill rofi || rofi -show drun -modi drun,filebrowser,run,window")) -- Super Key to Launch rofi menu
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window -config ~/.config/rofi/config-launcher.rasi")) -- Main Menu (APP Launcher)
+hl.bind(
+	mainMod .. " + D",
+	hl.dsp.exec_cmd(
+		"pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window -config ~/.config/rofi/config-launcher.rasi"
+	)
+) -- Main Menu (APP Launcher)
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('xdg-open "https://"')) -- default browser
 --hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("pkill rofi || true && ags -t 'overview'")) -- desktop overview (if installed)
 hl.bind(mainMod .. " + A", hl.dsp.global("quickshell:overviewToggle")) -- desktop overview (if installed)
@@ -176,6 +181,7 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
+hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 
 -- FEATURES / EXTRAS
@@ -186,6 +192,7 @@ hl.bind(mainMod .. " + S", hl.dsp.exec_cmd(scriptsDir .. "/RofiSearch.sh")) -- G
 hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("rofi -show window")) -- list/switch apps using rofi
 hl.bind(mainMod .. " + ALT + O", hl.dsp.exec_cmd(scriptsDir .. "/ChangeBlur.sh")) -- Toggle blur settings
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/GameMode.sh")) -- Toggle animations ON/OFF
+hl.bind(mainMod .. " + CTRL + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/SemiGameMode.sh")) -- Toggle animations ON/OFF (with blur on)
 hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/ChangeLayout.sh")) -- Toggle Master or Dwindle Layout
 hl.bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd(scriptsDir .. "/ClipManager.sh")) -- Clipboard Manager
 hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd(scriptsDir .. "/RofiThemeSelector.sh")) -- Rofi Menu Theme Selector
