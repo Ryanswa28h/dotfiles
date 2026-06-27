@@ -118,6 +118,7 @@ alias e='exit'
 alias h='history'
 alias c='clear'
 alias rezsh='exec zsh'
+alias sl='ls'
 
 # File Management
 alias ls='eza -a --icons=always --git --group-directories-first --time-style=long-iso --color=always'
