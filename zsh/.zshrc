@@ -80,12 +80,12 @@ export HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt share_history
-setopt appendhistory
-setopt extended_glob
-setopt null_glob
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt APPENDHISTORY
+setopt EXTENDED_GLOB
+setopt NULL_GLOB
 
 # ===============================
 # Improve tab menu
@@ -129,6 +129,7 @@ alias lsb='/usr/bin/ls --color=auto'
 
 alias dl='cd ~/Downloads/'
 alias dev='cd ~/Projects/'
+alias cdc='cd ~ && clear'
 
 alias cp='cp -iv'
 alias mv='mv -iv'
@@ -625,6 +626,48 @@ cacheclean() {
     echo "Cache cleaning complete!"
 }
 
+cachesize() {
+    echo "Cache usage:\n"
+
+    local total=0
+
+    _show_size() {
+        local name="$1"
+        local cache_dir="$2"  
+        local use_sudo="${3:-false}"
+        local bytes=""
+        local human="0B"
+
+        if [[ "$use_sudo" == "true" || -e "$cache_dir" ]]; then
+            if [[ "$use_sudo" == "true" ]]; then
+                bytes=$(sudo du -sb "$cache_dir" 2>/dev/null)
+            else
+                bytes=$(command du -sb "$cache_dir" 2>/dev/null)
+            fi
+            
+            bytes=${bytes%%[[:space:]]*}
+
+            if [[ -n "$bytes" ]]; then
+                (( total += bytes ))
+                human=$(numfmt --to=iec-i --suffix=B "$bytes")
+            elif [[ "$use_sudo" == "true" ]]; then
+                human="unknown"
+            fi
+        fi
+
+        printf "%-20s %8s\n" "$name:" "$human"
+    }
+
+    _show_size "Pacman cache"  "/var/cache/pacman/pkg"
+    _show_size "Yay cache"     "$HOME/.cache/yay"
+    _show_size "Paru cache"    "$HOME/.cache/paru"
+    _show_size "Flatpak cache" "$HOME/.var/app"
+    _show_size "Journal logs"  "/var/log/journal" "true"
+
+    echo "------------------------------"
+    printf "%-20s %8s\n" "Total:" "$(numfmt --to=iec-i --suffix=B "$total")"
+}
+
 auto_venv() {
     local dir="$PWD"
     local venv=""
@@ -945,11 +988,13 @@ preexec() {
   fi
 }
 
-# Auto-start tmux
+# Auto-start herdr
 if [[ -z "$TMUX" && -z "$ZSH_NO_TMUX" && -z "$_ZSH_TMUX_STARTED" ]]; then
-  typeset -g _ZSH_TMUX_STARTED=1
-  if command -v tmux >/dev/null 2>&1; then
-    tmux attach -t default 2>/dev/null || tmux new -s default
-    exit
+  if [[ $- == *i* ]] && [[ -z "$HERDR" ]]; then
+    typeset -g _ZSH_HERDR_STARTED=1
+
+    if command -v herdr >/dev/null 2>&1; then
+      exec herdr
+    fi
   fi
 fi
