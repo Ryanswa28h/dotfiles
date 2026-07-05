@@ -43,3 +43,9 @@ rofi/.config/rofi/wallust/colors-rofi.rasi
 # waybar
 waybar/.config/waybar/wallust/colors-waybar.css
 
+# herdr
+herdr/.config/herd/herdr-client.sock
+herdr/.config/herd/herdr-client.log
+herdr/.config/herd/herdr-server.log
+herdr/.config/herd/herdr.sock
+herdr/.config/herd/session.json

@@ -176,7 +176,7 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('xdg-open "https://"')) -- default br
 --hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("pkill rofi || true && ags -t 'overview'")) -- desktop overview (if installed)
 hl.bind(mainMod .. " + A", hl.dsp.global("quickshell:overviewToggle")) -- desktop overview (if installed)
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("kitty yazi")) -- file manager
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("nautilus")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))

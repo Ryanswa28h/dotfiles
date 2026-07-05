@@ -1,0 +1,70 @@
+# Skip first-run onboarding
+onboarding = false
+
+
+[terminal]
+default_shell = "/bin/zsh"
+shell_mode = "non_login"
+new_cwd = "follow"
+
+[theme]
+name = "tokyonight"
+
+[ui]
+sidebar_collapsed_mode = "hidden"
+
+# Disable sounds
+[ui.sound]
+enabled = true
+
+[session]
+resume_agents_on_restore = true
+
+scrollback = 1000000
+pane_history = true
+
+[keys]
+
+# Prefix
+prefix = "ctrl+space"
+
+# Tabs
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+
+# Detach
+detach = "prefix+q"
+
+# Workspace picker
+workspace_picker = "prefix+w"
+
+# Goto
+goto = "prefix+g"
+
+# Splits
+split_horizontal = "prefix+minus"
+split_vertical = "prefix+backslash"
+
+# Pane focus
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Indexed jumps
+switch_tab = "prefix+1..9"
+
+# Lazygit
+[[keys.command]]
+key = "prefix+G"
+type = "pane"
+command = "lazygit"
+description = "Lazygit in a temporary shell"
+
+# Floating shell (closest to tmux popup)
+[[keys.command]]
+key = "prefix+t"
+type = "pane"
+command = "/bin/zsh"
+description = "Temporary shell"
