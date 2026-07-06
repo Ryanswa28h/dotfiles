@@ -1,21 +1,29 @@
 # Skip first-run onboarding
 onboarding = false
 
-
 [terminal]
 default_shell = "/bin/zsh"
 shell_mode = "non_login"
 new_cwd = "follow"
 
 [theme]
-name = "tokyonight"
+name = "catppuccin-mocha"
+# name = "nord"
 
 [ui]
+sidebar_width = 20
 sidebar_collapsed_mode = "hidden"
+show_agent_labels_on_pane_borders = true
+prompt_new_tab_name = false
 
-# Disable sounds
+[ui.toast]
+delivery = "herdr"
+
 [ui.sound]
 enabled = true
+
+[experimental]
+kitty_graphics = true
 
 [session]
 resume_agents_on_restore = true

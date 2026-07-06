@@ -44,6 +44,11 @@ After completing a task, identify and run the relevant verification command (tes
 
 If a task has ambiguous requirements or open questions, use the `ask_user_question` tool to resolve them before writing any code. When asking questions, ask them one at a time.
 
+## Don't Use Todos by Default
+
+Don't make todos if not specified by the user. If a task requires a todo, ask the user first.
+If explicitly requested, you may use a todo.
+
 ## Never Read `.env` Files
 
 NEVER under any circumstances read `.env` files or any files containing secrets (`.env.*`, `*-secrets.*`). If your code needs an environment variable, reference it by name via `os.getenv("VAR_NAME")` or `process.env.VAR` — do not read the file. If you need to document what variables are expected, write a `.env.example` file instead. If no `.env.example` exists, scan source files for `os.getenv("VAR")`, `process.env.VAR`, and similar patterns to discover which variables the project requires — never read the `.env` itself.
