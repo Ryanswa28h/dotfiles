@@ -10,7 +10,6 @@ nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 
 # Additional Node Pi Extensions
 
-- `@juicesharp/rpiv-todo`
 - `@termdraw/pi`
 - `@tmustier/pi-code-actions`
 - `pi-vim`

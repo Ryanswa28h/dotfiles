@@ -63,6 +63,10 @@ focus_pane_right = "prefix+l"
 # Indexed jumps
 switch_tab = "prefix+1..9"
 
+# Switch agents
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+
 # Lazygit
 [[keys.command]]
 key = "prefix+G"
