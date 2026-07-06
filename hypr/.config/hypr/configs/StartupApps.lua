@@ -43,6 +43,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
 	hl.exec_cmd("qs") -- quickshell AGS Desktop Overview alternative
 	hl.exec_cmd("nm-applet &")
+	hl.exec_cmd("ydotoold") -- ydotoold (Autoclicker daemon)
 
 	--clipboard manager
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")

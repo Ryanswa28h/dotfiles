@@ -81,6 +81,10 @@ hl.bind(mainMod .. " + CTRL + right", hl.dsp.exec_cmd("hyprctl dispatch movewind
 hl.bind(mainMod .. " + CTRL + up", hl.dsp.exec_cmd("hyprctl dispatch movewindow u"))
 hl.bind(mainMod .. " + CTRL + down", hl.dsp.exec_cmd("hyprctl dispatch movewindow d"))
 
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(scriptsDir .. "/Autoclick.sh toggle"), {
+	description = "Toggle autoclicker (ydotool)",
+})
+
 -- Swap windows
 hl.bind(mainMod .. " + ALT + left", hl.dsp.window.swap({ direction = "left" }))
 hl.bind(mainMod .. " + ALT + right", hl.dsp.window.swap({ direction = "right" }))
@@ -174,7 +178,6 @@ hl.bind(
 ) -- Main Menu (APP Launcher)
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('xdg-open "https://"')) -- default browser
 --hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("pkill rofi || true && ags -t 'overview'")) -- desktop overview (if installed)
-hl.bind(mainMod .. " + A", hl.dsp.global("quickshell:overviewToggle")) -- desktop overview (if installed)
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("nautilus")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
