@@ -989,12 +989,11 @@ preexec() {
 }
 
 # Auto-start herdr
-if [[ -z "$TMUX" && -z "$ZSH_NO_TMUX" && -z "$_ZSH_TMUX_STARTED" ]]; then
-  if [[ $- == *i* ]] && [[ -z "$HERDR" ]]; then
-    typeset -g _ZSH_HERDR_STARTED=1
-
-    if command -v herdr >/dev/null 2>&1; then
-      exec herdr
-    fi
-  fi
+if [[ $- == *i* ]] \
+   && [[ -z "$HERDR_ENV" ]] \
+   && [[ -z "$TMUX" ]] \
+   && [[ -z "$ZSH_NO_TMUX" ]] \
+   && [[ -z "$ZSH_NO_HERDR" ]] \
+   && command -v herdr >/dev/null 2>&1; then
+    exec herdr
 fi
