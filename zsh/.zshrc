@@ -997,3 +997,6 @@ if [[ $- == *i* ]] \
    && command -v herdr >/dev/null 2>&1; then
     exec herdr
 fi
+
+# bun completions
+[ -s "/home/ryan/.bun/_bun" ] && source "/home/ryan/.bun/_bun"
