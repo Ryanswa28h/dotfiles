@@ -12,7 +12,7 @@ auto_switch = false
 
 [ui]
 sidebar_width = 20
-sidebar_collapsed_mode = "hidden"
+sidebar_collapsed_mode = "compact"
 show_agent_labels_on_pane_borders = true
 prompt_new_tab_name = false
 right_click_passthrough_modifier = "ctrl"
@@ -61,10 +61,11 @@ focus_pane_left  = "prefix+h"
 focus_pane_down  = "prefix+j"
 focus_pane_up    = "prefix+k"
 focus_pane_right = "prefix+l"
-last_pane  = "prefix+v"
+last_pane  = "prefix+o"
 
 # Indexed jumps
 switch_tab = "prefix+1..9"
+switch_workspace = "prefix+alt+1..9"
 
 # Switch agents
 next_agent = "prefix+a"

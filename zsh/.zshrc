@@ -222,6 +222,8 @@ alias fixme='rg FIXME'
 alias oc='opencode'
 alias f='fabric'
 
+alias os='openspec'
+
 alias p='pi'
 alias pir='pi -r'
 alias pis='pi --session'
@@ -619,6 +621,8 @@ cacheclean() {
         paru -Sc --noconfirm --norebuild --cleanafter
         rm -rf ~/.cache/paru/*
     }
+
+    rm -rf ~/.var/app/*/cache/*
 
     flatpak uninstall --unused -y
     sudo journalctl --vacuum-size=100M
