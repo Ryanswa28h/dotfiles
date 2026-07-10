@@ -8,12 +8,6 @@ These are the configurations I use for my other apps
 
 nvim: [botak.nvim](https://github.com/Ryanswa28h/botak.nvim)
 
-# Additional Node Pi Extensions
-
-- `@termdraw/pi`
-- `@tmustier/pi-code-actions`
-- `pi-vim`
-
 # Credit
 
 Base Tmux Config: [Henry Misc Dotfiles](https://github.com/hendrikmi/dotfiles)
