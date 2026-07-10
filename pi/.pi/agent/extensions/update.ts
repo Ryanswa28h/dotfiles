@@ -1,8 +1,8 @@
-import type { ExtensionAPI, ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { access, realpath } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
-const PACKAGE_NAME = "@mariozechner/pi-coding-agent";
+const PACKAGE_NAME = "@earendil-works/pi-coding-agent";
 const TRANSIENT_PATTERNS = [
   /eai_again/i,
   /etimedout/i,

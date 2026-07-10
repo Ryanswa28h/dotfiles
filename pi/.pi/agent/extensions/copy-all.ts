@@ -1,6 +1,20 @@
 import { spawn } from "node:child_process";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
+type ClipboardCommand = {
+  command: string;
+  args: string[];
+};
+
+const CLIPBOARD_COMMANDS: ClipboardCommand[] = [
+  { command: "wl-copy", args: [] },
+  { command: "xclip", args: ["-selection", "clipboard"] },
+  { command: "xsel", args: ["--clipboard", "--input"] },
+  { command: "pbcopy", args: [] },
+];
+
+const CLIPBOARD_SETTLE_MS = 250;
+
 function textFromContent(content: unknown) {
   if (typeof content === "string") return content;
   if (!Array.isArray(content)) return "";
@@ -10,58 +24,86 @@ function textFromContent(content: unknown) {
       if (!block || typeof block !== "object") return "";
       if (!("type" in block)) return "";
 
-      if (
-        block.type === "text" &&
-        "text" in block &&
-        typeof block.text === "string"
-      ) {
+      if (block.type === "text" && "text" in block && typeof block.text === "string") {
         return block.text;
       }
 
       if (block.type === "image") return "[image]";
-
       return "";
     })
     .filter(Boolean)
     .join("\n");
 }
 
-function copyToClipboard(text: string) {
+function isMissingCommand(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT";
+}
+
+function runClipboardCommand(spec: ClipboardCommand, text: string) {
   return new Promise<void>((resolve, reject) => {
-    const child = spawn("pbcopy");
-    let stderr = "";
-
-    child.stderr.on("data", (chunk) => {
-      stderr += String(chunk);
+    const child = spawn(spec.command, spec.args, {
+      detached: true,
+      stdio: ["pipe", "ignore", "ignore"],
     });
+    let settled = false;
+    let settleTimer: NodeJS.Timeout | undefined;
 
-    child.on("error", reject);
+    const finish = (error?: Error) => {
+      if (settled) return;
+      settled = true;
+      if (settleTimer) clearTimeout(settleTimer);
+      if (!error) child.unref();
+      if (error) reject(error);
+      else resolve();
+    };
+
+    child.on("error", (error) => finish(error));
     child.on("close", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(stderr.trim() || `pbcopy exited with code ${code}`));
-      }
+      if (settled) return;
+      if (code === 0) finish();
+      else finish(new Error(`${spec.command} exited with code ${code}`));
     });
 
-    child.stdin.end(text);
+    child.stdin?.on("error", (error) => finish(error));
+    child.stdin?.on("finish", () => {
+      settleTimer = setTimeout(() => finish(), CLIPBOARD_SETTLE_MS);
+      settleTimer.unref?.();
+    });
+    child.stdin?.end(text);
   });
+}
+
+async function copyToClipboard(text: string) {
+  const failures: string[] = [];
+
+  for (const spec of CLIPBOARD_COMMANDS) {
+    try {
+      await runClipboardCommand(spec, text);
+      return spec.command;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      failures.push(`${spec.command}: ${isMissingCommand(error) ? "not found" : message}`);
+    }
+  }
+
+  throw new Error(
+    [
+      "No clipboard command worked.",
+      "On Arch Linux install one with: sudo pacman -S wl-clipboard xclip xsel",
+      ...failures.map((failure) => `- ${failure}`),
+    ].join("\n"),
+  );
 }
 
 export default function (pi: ExtensionAPI) {
   pi.registerCommand("copy-all", {
-    description:
-      "Copy all previous user and assistant messages in this thread to the clipboard",
+    description: "Copy all user and assistant messages in this thread to the clipboard",
     handler: async (_args, ctx) => {
-      await ctx.waitForIdle();
-
       const messages = ctx.sessionManager
         .getBranch()
         .filter((entry) => entry.type === "message")
         .map((entry) => entry.message)
-        .filter(
-          (message) => message.role === "user" || message.role === "assistant",
-        );
+        .filter((message) => message.role === "user" || message.role === "assistant");
 
       const text = messages
         .map((message) => {
@@ -76,8 +118,13 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
-      await copyToClipboard(text);
-      ctx.ui.notify(`Copied ${messages.length} messages to clipboard`, "info");
+      try {
+        const command = await copyToClipboard(text);
+        ctx.ui.notify(`Copied ${messages.length} messages to clipboard with ${command}`, "info");
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        ctx.ui.notify(`Clipboard error: ${message}`, "error");
+      }
     },
   });
 }

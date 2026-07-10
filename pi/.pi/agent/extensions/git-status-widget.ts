@@ -1,4 +1,7 @@
-import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type {
+  ExtensionAPI,
+  ExtensionContext,
+} from "@mariozechner/pi-coding-agent";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
@@ -34,49 +37,66 @@ function countUnstagedFiles(statusOutput: string) {
 }
 
 async function getUnstagedCount(cwd: string) {
-  const status = await runGit(["status", "--porcelain", "--untracked-files=normal"], cwd);
+  const status = await runGit(
+    ["status", "--porcelain", "--untracked-files=normal"],
+    cwd,
+  );
   return countUnstagedFiles(status);
 }
 
-async function updateWidget(ctx: ExtensionContext) {
-  if (!ctx.hasUI) return;
+interface Lifecycle {
+  active: boolean;
+}
+
+async function updateWidget(ctx: ExtensionContext, lifecycle: Lifecycle) {
+  if (!lifecycle.active || !ctx.hasUI) return;
+  const cwd = ctx.cwd;
 
   try {
-    await runGit(["rev-parse", "--is-inside-work-tree"], ctx.cwd);
+    await runGit(["rev-parse", "--is-inside-work-tree"], cwd);
     const [branch, unstagedCount] = await Promise.all([
-      getBranch(ctx.cwd),
-      getUnstagedCount(ctx.cwd),
+      getBranch(cwd),
+      getUnstagedCount(cwd),
     ]);
 
+    if (!lifecycle.active) return;
     const fileLabel = unstagedCount === 1 ? "file" : "files";
-    ctx.ui.setWidget(WIDGET_ID, [` ${branch} · ${unstagedCount} unstaged ${fileLabel}`]);
+    ctx.ui.setWidget(WIDGET_ID, [
+      ` ${branch} · ${unstagedCount} unstaged ${fileLabel}`,
+    ]);
   } catch {
-    ctx.ui.setWidget(WIDGET_ID, undefined);
+    if (lifecycle.active) ctx.ui.setWidget(WIDGET_ID, undefined);
   }
 }
 
 export default function (pi: ExtensionAPI) {
   let interval: NodeJS.Timeout | undefined;
+  let lifecycle: Lifecycle = { active: false };
 
   pi.on("session_start", async (_event, ctx) => {
     if (interval) clearInterval(interval);
 
-    await updateWidget(ctx);
+    const nextLifecycle = { active: true };
+    lifecycle = nextLifecycle;
+    await updateWidget(ctx, nextLifecycle);
+    if (!nextLifecycle.active || lifecycle !== nextLifecycle) return;
+
     interval = setInterval(() => {
-      void updateWidget(ctx);
+      void updateWidget(ctx, nextLifecycle);
     }, UPDATE_INTERVAL_MS);
   });
 
   pi.on("input", async (_event, ctx) => {
-    await updateWidget(ctx);
+    await updateWidget(ctx, lifecycle);
     return { action: "continue" };
   });
 
   pi.on("tool_execution_end", async (_event, ctx) => {
-    await updateWidget(ctx);
+    await updateWidget(ctx, lifecycle);
   });
 
   pi.on("session_shutdown", async (_event, ctx) => {
+    lifecycle.active = false;
     if (interval) {
       clearInterval(interval);
       interval = undefined;

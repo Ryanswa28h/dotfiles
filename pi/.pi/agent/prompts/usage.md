@@ -1,6 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-
-const USAGE_PROMPT = String.raw`Create a Pi usage report for all of my Pi sessions over the last 1, 7, 30, and 90 days.
+---
+description: Summarize Pi usage and cost for the last 1, 7, 30, and 90 days
+---
+Create a Pi usage report for all of my Pi sessions over the last 1, 7, 30, and 90 days.
 
 Goal:
 - Produce a clean Markdown table for each window: 1 day, 7 days, 30 days, 90 days.
@@ -54,14 +55,4 @@ Detailed steps:
 Helpful implementation hint:
 - It is fine to write a temporary script in /tmp or use node/python from the shell to parse ~/.pi/agent/sessions/**/*.jsonl.
 - For models.dev pricing, prefer a script that downloads/parses/filter-matches outside agent context and prints only compact JSON or table rows for relevant models. Avoid tool calls that return the complete api.json markdown/content to the agent.
-- Do not modify any session files.`;
-
-export default function (pi: ExtensionAPI) {
-  pi.registerCommand("usage", {
-    description: "Ask the agent to summarize Pi usage and cost for the last 1, 7, 30, and 90 days",
-    handler: async (_args, ctx) => {
-      await ctx.waitForIdle();
-      pi.sendUserMessage(USAGE_PROMPT);
-    },
-  });
-}
+- Do not modify any session files.

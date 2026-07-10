@@ -7,7 +7,7 @@ shell_mode = "non_login"
 new_cwd = "follow"
 
 [theme]
-name = "tokyo-night"
+name = "catppuccin"
 auto_switch = false
 
 [ui]

@@ -1,17 +1,21 @@
-/**
- * /cprompt — Copy the last user prompt (not the assistant response) to clipboard.
- *
- * Inspired by the built-in /copy (which copies the assistant's last response).
- *
- * Usage:
- *   /cprompt    Copy last user message to clipboard
- */
-
 import { spawn } from "node:child_process";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
-/** Extract plain text from a message content field (string or content block array). */
-function textFromContent(content: unknown): string {
+type ClipboardCommand = {
+  command: string;
+  args: string[];
+};
+
+const CLIPBOARD_COMMANDS: ClipboardCommand[] = [
+  { command: "wl-copy", args: [] },
+  { command: "xclip", args: ["-selection", "clipboard"] },
+  { command: "xsel", args: ["--clipboard", "--input"] },
+  { command: "pbcopy", args: [] },
+];
+
+const CLIPBOARD_SETTLE_MS = 250;
+
+function textFromContent(content: unknown) {
   if (typeof content === "string") return content;
   if (!Array.isArray(content)) return "";
 
@@ -19,9 +23,11 @@ function textFromContent(content: unknown): string {
     .map((block) => {
       if (!block || typeof block !== "object") return "";
       if (!("type" in block)) return "";
+
       if (block.type === "text" && "text" in block && typeof block.text === "string") {
         return block.text;
       }
+
       if (block.type === "image") return "[image]";
       return "";
     })
@@ -29,69 +35,100 @@ function textFromContent(content: unknown): string {
     .join("\n");
 }
 
-/** Copy text to clipboard via wl-copy (Wayland), falling back to xclip (X11). */
-function copyToClipboard(text: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const cmd = spawn("wl-copy");
-    let stderr = "";
+function isMissingCommand(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT";
+}
 
-    cmd.stderr.on("data", (chunk: Buffer) => {
-      stderr += String(chunk);
+function runClipboardCommand(spec: ClipboardCommand, text: string) {
+  return new Promise<void>((resolve, reject) => {
+    const child = spawn(spec.command, spec.args, {
+      detached: true,
+      stdio: ["pipe", "ignore", "ignore"],
     });
-    cmd.on("error", () => {
-      // wl-copy not found; try xclip
-      const fallback = spawn("xclip", ["-selection", "clipboard"]);
-      let fbErr = "";
-      fallback.stderr.on("data", (chunk: Buffer) => {
-        fbErr += String(chunk);
-      });
-      fallback.on("error", () =>
-        reject(new Error("No clipboard tool found — install wl-clipboard or xclip")),
-      );
-      fallback.on("close", (code) => {
-        if (code === 0) resolve();
-        else reject(new Error(fbErr.trim() || `xclip exited with code ${code}`));
-      });
-      fallback.stdin.end(text);
+    let settled = false;
+    let settleTimer: NodeJS.Timeout | undefined;
+
+    const finish = (error?: Error) => {
+      if (settled) return;
+      settled = true;
+      if (settleTimer) clearTimeout(settleTimer);
+      if (!error) child.unref();
+      if (error) reject(error);
+      else resolve();
+    };
+
+    child.on("error", (error) => finish(error));
+    child.on("close", (code) => {
+      if (settled) return;
+      if (code === 0) finish();
+      else finish(new Error(`${spec.command} exited with code ${code}`));
     });
-    cmd.on("close", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(stderr.trim() || `wl-copy exited with code ${code}`));
+
+    child.stdin?.on("error", (error) => finish(error));
+    child.stdin?.on("finish", () => {
+      settleTimer = setTimeout(() => finish(), CLIPBOARD_SETTLE_MS);
+      settleTimer.unref?.();
     });
-    cmd.stdin.end(text);
+    child.stdin?.end(text);
   });
+}
+
+async function copyToClipboard(text: string) {
+  const failures: string[] = [];
+
+  for (const spec of CLIPBOARD_COMMANDS) {
+    try {
+      await runClipboardCommand(spec, text);
+      return spec.command;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      failures.push(`${spec.command}: ${isMissingCommand(error) ? "not found" : message}`);
+    }
+  }
+
+  throw new Error(
+    [
+      "No clipboard command worked.",
+      "On Arch Linux install one with: sudo pacman -S wl-clipboard xclip xsel",
+      ...failures.map((failure) => `- ${failure}`),
+    ].join("\n"),
+  );
+}
+
+function isSelfInvocation(text: string) {
+  return /^\s*\/cprompt(?:\s|$)/.test(text);
 }
 
 export default function (pi: ExtensionAPI) {
   pi.registerCommand("cprompt", {
-    description: "Copy the last prompt (user message) to clipboard",
+    description: "Copy the last user prompt to the clipboard",
     handler: async (_args, ctx) => {
-      await ctx.waitForIdle();
-
       const entries = ctx.sessionManager.getBranch();
+      let promptText = "";
 
-      // getBranch() returns oldest first; iterate from the end to find the last user message.
-      let lastUserContent: string | null = null;
-      for (let i = entries.length - 1; i >= 0; i--) {
-        const entry = entries[i];
+      for (let index = entries.length - 1; index >= 0; index -= 1) {
+        const entry = entries[index];
         if (entry.type !== "message") continue;
-        const msg = entry.message;
-        if (msg.role !== "user") continue;
-        lastUserContent = textFromContent(msg.content).trim();
+        if (entry.message.role !== "user") continue;
+
+        const text = textFromContent(entry.message.content).trim();
+        if (!text || isSelfInvocation(text)) continue;
+
+        promptText = text;
         break;
       }
 
-      if (!lastUserContent) {
-        ctx.ui.notify("No user prompt found on the active branch", "error");
+      if (!promptText) {
+        ctx.ui.notify("No user prompt found on the active branch", "warning");
         return;
       }
 
       try {
-        await copyToClipboard(lastUserContent);
-        ctx.ui.notify("Copied last prompt to clipboard", "info");
-      } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        ctx.ui.notify(`Clipboard error: ${msg}`, "error");
+        const command = await copyToClipboard(promptText);
+        ctx.ui.notify(`Copied last prompt to clipboard with ${command}`, "info");
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        ctx.ui.notify(`Clipboard error: ${message}`, "error");
       }
     },
   });

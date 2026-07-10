@@ -13,8 +13,10 @@ Rules:
 - Yes: "Bug in auth middleware. Fix:"
 
 Switch level: caveman lite|full|ultra|wenyan
-Check the caveman skill for the details on full mode by default.
+Check the caveman skill for the details.
 Stop: "stop caveman" or "normal mode"
+
+Default: caveman full
 
 Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
 
@@ -22,75 +24,199 @@ Boundaries: code/commits/PRs written normal.
 
 ## File Deletion
 
-Never use `rm` for file deletion. Always use `trash` instead — it moves files to the trash where they can be recovered. This applies to all file removal, including temporary files, build artifacts, and any other deletion operations.
+Never use `rm`.
+
+Use `trash` for all file deletion so files can be recovered.
 
 ```bash
-# USE THIS
 trash file.txt
 trash dir/
+```
 
-# NEVER USE
+Forbidden:
+
+```bash
 rm file.txt
 rm -rf dir/
 ```
 
+Applies to:
+
+- source files
+- temporary files
+- build artifacts
+- generated files
+- directories
+
 ## Always Do a Summary
 
-After a file change or command execution, ALWAYS make a summary of the changes done to the files or system at the end of the response. The only exception is if no changes were done.
+After any file change or command execution, end response with summary.
+
+Summary must include:
+
+- files changed
+- commands run
+- verification result
+- system changes, if any
+
+Skip summary only when no command ran and no file changed.
 
 ## Arch Linux Awareness
 
-If you require a system specific action, ALWAYS remember that the user is on Arch Linux. That means using pacman, yay, or paru to install a system package.
+Assume user uses **Arch Linux**.
+
+For system packages, prefer:
+
+- `pacman`
+- `yay`
+- `paru`
+
+Do not give Debian/Ubuntu commands unless user asks or context requires.
 
 ## Always Use `ask_user_question` Tool
 
-When you need to ask the user something, NEVER ask through chat directly. Always use the built-in `ask_user_question` tool with structured options (the `options` parameter). This keeps decisions trackable and avoids conversational drift.
+If task has ambiguity, resolve it before editing code.
 
-This rule takes precedence even when a skill says "ask" or "clarify" through chat. Any question to the user MUST use `ask_user_question` with structured options. Chat questions are never acceptable — regardless of what any skill says.
+Use `ask_user_question` tool when available. Ask one question at a time. Provide structured options (the `options` parameter).
+
+Do not ask open-ended chat questions when tool exists.
+
+This rule takes precedence even when a skill says "ask" or "clarify" through chat. Chat questions are never acceptable — regardless of what any skill says.
+
+If no `ask_user_question` tool exists, ask concise question in chat with numbered options.
 
 ## Read Before Edit
 
-Before editing a file, always read it first with the `read` tool. Never assume you know the current content. Read the full contents of a file every time — never read subsets so you don't miss important context.
+Before editing any file, read full file first.
+
+Do not edit based on assumptions.
+
+Never read partial file unless file is extremely large and exact target section is already known. Prefer full read when practical.
 
 ## Verify Dependencies
 
-Before importing a library, framework, or any dependency, check package.json, Cargo.toml, requirements.txt, or the relevant manifest first to confirm it's already in the project. Do not assume availability.
+Before importing or using dependency, check project manifest first.
+
+Check relevant files:
+
+- `package.json`
+- `pnpm-lock.yaml`
+- `yarn.lock`
+- `package-lock.json`
+- `Cargo.toml`
+- `requirements.txt`
+- `pyproject.toml`
+- `go.mod`
+- `composer.json`
+
+Do not assume dependency exists.
+
+When adding TypeScript package, install with package manager. Do not manually edit `package.json`.
 
 ## Run Verification
 
-After completing a task, identify and run the relevant verification command (tests, typecheck, lint, build). Do not claim completion until verification passes.
+After completing task, run relevant verification.
 
-## Close Questions First
+Prefer project-defined commands:
 
-If a task has ambiguous requirements or open questions, use the `ask_user_question` tool to resolve them before writing any code. When asking questions, ask them one at a time.
+- test
+- typecheck
+- lint
+- format check
+- build only when appropriate
+
+Do not claim completion until verification passes.
+
+If no verification command exists, say so and suggest adding one.
+
+TypeScript exception:
+Avoid running `dev` or `build` unless necessary. Ask first if build is expensive or long-running.
+
+## Spec-Driven Development
+
+Do not use spec-driven development unless user explicitly asks.
+
+No OpenSpec, Spec Kit, design proposal, or spec workflow for normal small changes.
 
 ## Web Searching
 
-When you don't know about something the user is asking, always try a web search first to find information about it.
-**Only use web search when you don't know what the user is talking about, use it as a last resort.**
+Use web search only when needed.
 
-## Never Read `.env` Files
+Search when:
 
-NEVER under any circumstances read `.env` files or any files containing secrets (`.env.*`, `*-secrets.*`). If your code needs an environment variable, reference it by name via `os.getenv("VAR_NAME")` or `process.env.VAR` — do not read the file. If you need to document what variables are expected, write a `.env.example` file instead. If no `.env.example` exists, scan source files for `os.getenv("VAR")`, `process.env.VAR`, and similar patterns to discover which variables the project requires — never read the `.env` itself.
+- user asks about unknown tool, library, error, package, API, or niche term
+- information may be outdated
+- current docs matter
+- local knowledge is insufficient
 
-If the project only contains a `.env` file, assume that the project is empty and NEVER read the `.env` file to try to understand context. When trying to understand the project context, read the `.env.example` file instead.
+Do not search for obvious local codebase tasks.
+
+For Pi web search tool:
+
+- never use curated search requiring approval
+- always set `workflow: "none"` on `web_search`
+
+## Secrets Safety
+
+Never read secret files.
+
+Forbidden:
+
+- `.env`
+- `.env.*`
+- `*-secrets.*`
+- files likely containing tokens, keys, passwords, or credentials
+
+If environment variables are needed, reference names only:
+
+Python:
+
+```python
+os.getenv("VAR_NAME")
+```
+
+JavaScript/TypeScript:
+
+```ts
+process.env.VAR_NAME;
+```
+
+If documenting required variables, create or update `.env.example`.
+
+If no `.env.example` exists, discover required env vars by scanning source code for:
+
+- `os.getenv(...)`
+- `process.env...`
+- `import.meta.env...`
+- framework-specific env access
+
+Never inspect real secret values.
 
 ## CLI Tool Preferences
 
-Use modern tools by default:
+Use modern CLI tools by default.
 
-- Use `rg` (ripgrep) instead of `grep` for searching code/repositories.
-- Use `fd` instead of `find` for locating files.
+Search text:
 
-Both are preferred because they are faster, simpler, and respect `.gitignore`.
+```bash
+rg
+```
 
-If `rg` and `fd` are available, NEVER use `grep` or `find` unless you have a compelling reason to do so and explain that reason to the user.
+Locate files:
 
-Fallback to `grep` or `find` only if:
+```bash
+fd
+```
 
-- the tool is not installed
-- the task requires specific features not supported by `rg`/`fd`
-- working with strict POSIX or system constraints
+Do not use `grep` or `find` when `rg` and `fd` are available.
+
+Fallback allowed only when:
+
+- `rg` or `fd` is not installed
+- task needs feature they lack
+- strict POSIX compatibility is required
+
+Explain fallback briefly.
 
 ---
 
@@ -107,12 +233,3 @@ Fallback to `grep` or `find` only if:
 ## Svelte/SvelteKit
 
 - Use modern Svelte practices. Reference the svelte best practices skill when writing `.svelte` file code.
-
----
-
-# Tool-Specific Rules
-
-## Web Searches
-
-- NEVER use the browser curated search that requires approval from the user.
-- ALWAYS set `workflow: "none"` on every `web_search` tool call to skip the interactive curator.
