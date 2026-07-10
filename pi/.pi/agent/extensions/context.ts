@@ -20,7 +20,7 @@ import type {
 	ExtensionCommandContext,
 	ContextUsage,
 	Theme,
-} from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-coding-agent";
 import type { AssistantMessage, ToolResultMessage, UserMessage } from "@mariozechner/pi-ai";
 import { matchesKey, truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 
