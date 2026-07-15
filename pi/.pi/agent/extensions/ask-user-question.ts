@@ -1,3 +1,6 @@
+import { spawn } from "node:child_process";
+import { resolve } from "node:path";
+
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import {
   Editor,
@@ -9,6 +12,8 @@ import {
   wrapTextWithAnsi,
 } from "@mariozechner/pi-tui";
 import { Type } from "typebox";
+
+const SFX_PATH = resolve(__dirname, "../assets/ask-user-question-sfx.mp3");
 
 interface AskOption {
   label: string;
@@ -122,8 +127,8 @@ function createEditorTheme(theme: any): EditorTheme {
   return {
     borderColor: (s) => theme.fg("accent", s),
     selectList: {
-      selectedPrefix: (t) => theme.fg("accent", t),
-      selectedText: (t) => theme.fg("accent", t),
+      selectedPrefix: (t) => theme.fg("text", t),
+      selectedText: (t) => theme.fg("text", t),
       description: (t) => theme.fg("muted", t),
       scrollInfo: (t) => theme.fg("dim", t),
       noMatch: (t) => theme.fg("warning", t),
@@ -672,6 +677,9 @@ export default function askUserQuestion(pi: ExtensionAPI) {
     parameters: AskUserQuestionParams,
 
     async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+      // Play notification sound
+      spawn("paplay", [SFX_PATH], { detached: true, stdio: "ignore" }).unref();
+
       const options = normalizeOptions(params.options);
       const context = params.details?.trim() || undefined;
       const mode: AskUserQuestionMode =
