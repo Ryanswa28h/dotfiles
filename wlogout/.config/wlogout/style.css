@@ -15,8 +15,8 @@ window {
 
 /* ===== Buttons ===== */
 button {
-	margin: 12px;
-	border-radius: 18px;
+	margin: 15px;
+	border-radius: 40px;
 
 	background-color: rgba(0, 0, 0, 0.45);
 	color: @inverse_surface;

@@ -234,6 +234,9 @@ alias pp='pipes.sh'
 alias aqrm='asciiquarium'
 alias wttr='curl wttr.in'
 
+# Fun
+alias pls='sudo'
+
 # Personal Utilities
 alias dotf='dotfiles'
 
