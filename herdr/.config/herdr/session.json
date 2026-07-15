@@ -1,0 +1,447 @@
+{
+  "version": 3,
+  "workspaces": [
+    {
+      "id": "w65",
+      "custom_name": "Jangan bego",
+      "identity_cwd": "/home/ryan",
+      "public_pane_numbers": {
+        "22": 142,
+        "2": 128,
+        "3": 129
+      },
+      "next_public_pane_number": 146,
+      "public_tab_numbers": [
+        38,
+        40,
+        41
+      ],
+      "next_public_tab_number": 44,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 22
+          },
+          "panes": {
+            "22": {
+              "cwd": "/home/ryan"
+            }
+          },
+          "zoomed": false,
+          "focused": 22,
+          "root_pane": 22
+        },
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 2
+          },
+          "panes": {
+            "2": {
+              "cwd": "/home/ryan"
+            }
+          },
+          "zoomed": false,
+          "focused": 2,
+          "root_pane": 2
+        },
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 3
+          },
+          "panes": {
+            "3": {
+              "cwd": "/home/ryan"
+            }
+          },
+          "zoomed": false,
+          "focused": 3,
+          "root_pane": 3
+        }
+      ],
+      "active_tab": 1
+    },
+    {
+      "id": "w66",
+      "custom_name": "OpenCV shi",
+      "identity_cwd": "/home/ryan/Projects/PythonDataScienceAI/ComputerVision/ANPR",
+      "public_pane_numbers": {
+        "6": 3,
+        "7": 4,
+        "4": 1,
+        "5": 2
+      },
+      "next_public_pane_number": 5,
+      "public_tab_numbers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "next_public_tab_number": 5,
+      "tabs": [
+        {
+          "custom_name": "yazi",
+          "layout": {
+            "Pane": 4
+          },
+          "panes": {
+            "4": {
+              "cwd": "/home/ryan/Projects/PythonDataScienceAI/ComputerVision/ANPR"
+            }
+          },
+          "zoomed": false,
+          "focused": 4,
+          "root_pane": 4
+        },
+        {
+          "custom_name": "pi",
+          "layout": {
+            "Pane": 5
+          },
+          "panes": {
+            "5": {
+              "cwd": "/home/ryan/Projects/PythonDataScienceAI/ComputerVision/ANPR"
+            }
+          },
+          "zoomed": false,
+          "focused": 5,
+          "root_pane": 5
+        },
+        {
+          "custom_name": "nvim",
+          "layout": {
+            "Pane": 6
+          },
+          "panes": {
+            "6": {
+              "cwd": "/home/ryan/Projects/PythonDataScienceAI/ComputerVision/ANPR"
+            }
+          },
+          "zoomed": false,
+          "focused": 6,
+          "root_pane": 6
+        },
+        {
+          "custom_name": "term",
+          "layout": {
+            "Pane": 7
+          },
+          "panes": {
+            "7": {
+              "cwd": "/home/ryan/Projects/PythonDataScienceAI/ComputerVision/ANPR"
+            }
+          },
+          "zoomed": false,
+          "focused": 7,
+          "root_pane": 7
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w67",
+      "custom_name": "Dotfiles",
+      "identity_cwd": "/home/ryan/dotfiles",
+      "public_pane_numbers": {
+        "9": 2,
+        "10": 3,
+        "28": 6,
+        "8": 1
+      },
+      "next_public_pane_number": 7,
+      "public_tab_numbers": [
+        1,
+        2,
+        3
+      ],
+      "next_public_tab_number": 4,
+      "tabs": [
+        {
+          "custom_name": "pi",
+          "layout": {
+            "Split": {
+              "direction": "Horizontal",
+              "ratio": 0.5,
+              "first": {
+                "Pane": 8
+              },
+              "second": {
+                "Pane": 28
+              }
+            }
+          },
+          "panes": {
+            "8": {
+              "cwd": "/home/ryan/dotfiles",
+              "agent_session": {
+                "source": "herdr:pi",
+                "agent": "pi",
+                "kind": "path",
+                "value": "/home/ryan/.pi/agent/sessions/--home-ryan-dotfiles--/2026-07-15T08-25-05-916Z_019f64e1-2a7c-7c8f-806a-f9a65ba70eed.jsonl"
+              }
+            },
+            "28": {
+              "cwd": "/home/ryan/dotfiles"
+            }
+          },
+          "zoomed": false,
+          "focused": 28,
+          "root_pane": 8
+        },
+        {
+          "custom_name": "nvim/yazi",
+          "layout": {
+            "Pane": 9
+          },
+          "panes": {
+            "9": {
+              "cwd": "/home/ryan/dotfiles"
+            }
+          },
+          "zoomed": false,
+          "focused": 9,
+          "root_pane": 9
+        },
+        {
+          "custom_name": "term",
+          "layout": {
+            "Pane": 10
+          },
+          "panes": {
+            "10": {
+              "cwd": "/home/ryan/dotfiles"
+            }
+          },
+          "zoomed": false,
+          "focused": 10,
+          "root_pane": 10
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w69",
+      "custom_name": "Peak",
+      "identity_cwd": "/home/ryan/Projects/Python/Peak",
+      "public_pane_numbers": {
+        "11": 3,
+        "14": 13,
+        "13": 7,
+        "12": 5
+      },
+      "next_public_pane_number": 39,
+      "public_tab_numbers": [
+        3,
+        5,
+        6,
+        8
+      ],
+      "next_public_tab_number": 10,
+      "tabs": [
+        {
+          "custom_name": "yazi/nvim",
+          "layout": {
+            "Pane": 11
+          },
+          "panes": {
+            "11": {
+              "cwd": "/home/ryan/Projects/Python/Peak"
+            }
+          },
+          "zoomed": false,
+          "focused": 11,
+          "root_pane": 11
+        },
+        {
+          "custom_name": "pi",
+          "layout": {
+            "Pane": 12
+          },
+          "panes": {
+            "12": {
+              "cwd": "/home/ryan/Projects/Python/Peak"
+            }
+          },
+          "zoomed": false,
+          "focused": 12,
+          "root_pane": 12
+        },
+        {
+          "custom_name": "term",
+          "layout": {
+            "Pane": 13
+          },
+          "panes": {
+            "13": {
+              "cwd": "/home/ryan/Projects/Python/Peak"
+            }
+          },
+          "zoomed": false,
+          "focused": 13,
+          "root_pane": 13
+        },
+        {
+          "custom_name": "any",
+          "layout": {
+            "Pane": 14
+          },
+          "panes": {
+            "14": {
+              "cwd": "/tmp"
+            }
+          },
+          "zoomed": false,
+          "focused": 14,
+          "root_pane": 14
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w6B",
+      "custom_name": "Learning",
+      "identity_cwd": "/home/ryan/Projects/Websites/learning",
+      "public_pane_numbers": {
+        "15": 1,
+        "16": 3
+      },
+      "next_public_pane_number": 6,
+      "public_tab_numbers": [
+        1,
+        2
+      ],
+      "next_public_tab_number": 3,
+      "tabs": [
+        {
+          "custom_name": "nvim",
+          "layout": {
+            "Pane": 15
+          },
+          "panes": {
+            "15": {
+              "cwd": "/home/ryan/Projects/Websites/learning"
+            }
+          },
+          "zoomed": false,
+          "focused": 15,
+          "root_pane": 15
+        },
+        {
+          "custom_name": "server",
+          "layout": {
+            "Pane": 16
+          },
+          "panes": {
+            "16": {
+              "cwd": "/home/ryan/Projects/Websites/learning"
+            }
+          },
+          "zoomed": false,
+          "focused": 16,
+          "root_pane": 16
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w6C",
+      "custom_name": "Nvim Config",
+      "identity_cwd": "/home/ryan/repos/nvim/.config/nvim",
+      "public_pane_numbers": {
+        "17": 1
+      },
+      "next_public_pane_number": 6,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 17
+          },
+          "panes": {
+            "17": {
+              "cwd": "/home/ryan/repos/nvim/.config/nvim"
+            }
+          },
+          "zoomed": false,
+          "focused": 17,
+          "root_pane": 17
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w6D",
+      "custom_name": "Custom Shell",
+      "identity_cwd": "/home/ryan/codecrafters-shell-python",
+      "public_pane_numbers": {
+        "19": 2,
+        "18": 1,
+        "20": 4
+      },
+      "next_public_pane_number": 13,
+      "public_tab_numbers": [
+        1,
+        2,
+        3
+      ],
+      "next_public_tab_number": 4,
+      "tabs": [
+        {
+          "custom_name": "nvim",
+          "layout": {
+            "Pane": 18
+          },
+          "panes": {
+            "18": {
+              "cwd": "/home/ryan/codecrafters-shell-python"
+            }
+          },
+          "zoomed": false,
+          "focused": 18,
+          "root_pane": 18
+        },
+        {
+          "custom_name": "term",
+          "layout": {
+            "Pane": 19
+          },
+          "panes": {
+            "19": {
+              "cwd": "/home/ryan/codecrafters-shell-python"
+            }
+          },
+          "zoomed": false,
+          "focused": 19,
+          "root_pane": 19
+        },
+        {
+          "custom_name": "test",
+          "layout": {
+            "Pane": 20
+          },
+          "panes": {
+            "20": {
+              "cwd": "/home/ryan/codecrafters-shell-python"
+            }
+          },
+          "zoomed": false,
+          "focused": 20,
+          "root_pane": 20
+        }
+      ],
+      "active_tab": 0
+    }
+  ],
+  "active": 2,
+  "selected": 2,
+  "sidebar_width": 18,
+  "sidebar_section_split": 0.5,
+  "collapsed_space_keys": []
+}
