@@ -2,6 +2,7 @@ import type {
   ExtensionAPI,
   ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
@@ -48,6 +49,27 @@ interface Lifecycle {
   active: boolean;
 }
 
+function formatStatus(
+  branch: string,
+  unstagedCount: number,
+  theme: {
+    fg: (color: string, text: string) => string;
+  },
+) {
+  const branchPart = theme.fg("success", ` ${branch}`);
+  const sep = theme.fg("muted", " · ");
+
+  let countPart: string;
+  const fileLabel = unstagedCount === 1 ? "file" : "files";
+  if (unstagedCount > 0) {
+    countPart = theme.fg("accent", `${unstagedCount} unstaged ${fileLabel}`);
+  } else {
+    countPart = theme.fg("dim", "clean");
+  }
+
+  return `${branchPart}${sep}${countPart}`;
+}
+
 async function updateWidget(ctx: ExtensionContext, lifecycle: Lifecycle) {
   if (!lifecycle.active || !ctx.hasUI) return;
   const cwd = ctx.cwd;
@@ -60,10 +82,10 @@ async function updateWidget(ctx: ExtensionContext, lifecycle: Lifecycle) {
     ]);
 
     if (!lifecycle.active) return;
-    const fileLabel = unstagedCount === 1 ? "file" : "files";
-    ctx.ui.setWidget(WIDGET_ID, [
-      ` ${branch} · ${unstagedCount} unstaged ${fileLabel}`,
-    ]);
+    ctx.ui.setWidget(WIDGET_ID, (_tui, theme) => {
+      const line = formatStatus(branch, unstagedCount, theme);
+      return new Text(line, 1, 0);
+    });
   } catch {
     if (lifecycle.active) ctx.ui.setWidget(WIDGET_ID, undefined);
   }

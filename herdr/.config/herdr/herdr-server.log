@@ -12895,3 +12895,64 @@
 2026-07-15T08:40:45.213873Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
 2026-07-15T08:41:11.376123Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=29 rows=42 cols=77 scrollback_limit_bytes=10485760
 2026-07-15T08:41:11.379331Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=29 pid=192425
+2026-07-15T08:41:47.118115Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=29 status="ExitStatus { code: 0, signal: None }"
+2026-07-15T08:41:47.119644Z  INFO herdr::pane: pane session terminated pane=29 pid=192425 signal=Hangup
+2026-07-15T08:41:52.143085Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:41:59.650595Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=28 status="ExitStatus { code: 1, signal: None }"
+2026-07-15T08:41:59.654401Z  INFO herdr::pane: pane session terminated pane=28 pid=189730 signal=Hangup
+2026-07-15T08:41:59.654873Z  WARN herdr::app::actions: PaneDied for unknown pane pane=28
+2026-07-15T08:42:03.179875Z  INFO herdr::logging: api request received event="api.request.start" subsystem="api" outcome="started" request_id="herdr:pi:release:1784104923078:b2ux6qum5z" method="pane.release_agent" changes_ui=true
+2026-07-15T08:42:03.180700Z  INFO herdr::logging: api request completed event="api.request.complete" subsystem="api" outcome="ok" request_id="herdr:pi:release:1784104923078:b2ux6qum5z" method="pane.release_agent"
+2026-07-15T08:42:08.182946Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:42:09.336407Z  INFO herdr::pane: agent changed pane=8 previous_agent=None agent=Some(Pi) process=pi pgid=Some(198083)
+2026-07-15T08:42:09.455749Z  INFO herdr::pane: agent changed pane=8 previous_agent=None agent=Some(Pi) process=pi pgid=Some(198083)
+2026-07-15T08:42:14.458311Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:42:51.502212Z  INFO herdr::logging: api request received event="api.request.start" subsystem="api" outcome="started" request_id="herdr:pi:release:1784104971400:2beugm65wo" method="pane.release_agent" changes_ui=true
+2026-07-15T08:42:51.503028Z  INFO herdr::logging: api request completed event="api.request.complete" subsystem="api" outcome="ok" request_id="herdr:pi:release:1784104971400:2beugm65wo" method="pane.release_agent"
+2026-07-15T08:42:55.106277Z  INFO herdr::pane: agent changed pane=8 previous_agent=None agent=Some(Pi) process=pi pgid=Some(201748)
+2026-07-15T08:42:56.503806Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:43:01.150658Z  INFO herdr::pane: agent changed pane=8 previous_agent=Some(Pi) agent=None pgid=Some(2872)
+2026-07-15T08:43:07.190593Z  INFO herdr::pane: agent changed pane=8 previous_agent=None agent=Some(Pi) process=pi pgid=Some(202729)
+2026-07-15T08:43:07.297524Z  INFO herdr::pane: agent changed pane=8 previous_agent=None agent=Some(Pi) process=pi pgid=Some(202729)
+2026-07-15T08:43:08.375942Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=30 rows=42 cols=154 scrollback_limit_bytes=10485760
+2026-07-15T08:43:08.380449Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=30 pid=202929
+2026-07-15T08:43:08.380810Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:43:13.400485Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:43:21.132811Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:43:26.143934Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:43:39.361475Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:43:44.366950Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:43:47.152536Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:43:52.165264Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:44:02.941705Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:44:05.068358Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=30 status="ExitStatus { code: 1, signal: None }"
+2026-07-15T08:44:05.093769Z  INFO herdr::pane: pane session terminated pane=30 pid=202929 signal=Hangup
+2026-07-15T08:44:05.094075Z  WARN herdr::app::actions: PaneDied for unknown pane pane=30
+2026-07-15T08:44:05.875909Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=31 rows=42 cols=154 scrollback_limit_bytes=10485760
+2026-07-15T08:44:05.880635Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=31 pid=207771
+2026-07-15T08:44:07.121746Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=31 status="ExitStatus { code: 0, signal: None }"
+2026-07-15T08:44:07.121880Z  INFO herdr::pane: pane session terminated pane=31 pid=207771 signal=Hangup
+2026-07-15T08:44:12.126215Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:50:40.819436Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T08:50:41.767033Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:50:46.770770Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:50:54.418671Z  INFO herdr::app::actions: copied selection to clipboard
+2026-07-15T08:54:08.582749Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T08:54:13.600050Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:55:03.869263Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:55:08.879992Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T08:55:08.914481Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T08:55:09.578280Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:55:10.208549Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T08:55:12.565368Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T08:55:17.580497Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T09:01:56.291249Z  INFO herdr::logging: checking for updates event="update.check.start" subsystem="update" outcome="started"
+2026-07-15T09:02:02.972747Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="maki"
+2026-07-15T09:02:58.456373Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T09:03:03.473067Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T09:03:28.893724Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T09:03:33.907125Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T09:05:19.851098Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t2"
+2026-07-15T09:05:24.878750Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7
+2026-07-15T09:06:06.837464Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w67" tab_id="w67:t1"
+2026-07-15T09:06:11.851849Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/ryan/.config/herdr/session.json workspaces=7

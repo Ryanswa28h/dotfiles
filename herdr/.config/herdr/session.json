@@ -6,9 +6,9 @@
       "custom_name": "Jangan bego",
       "identity_cwd": "/home/ryan",
       "public_pane_numbers": {
-        "22": 142,
+        "3": 129,
         "2": 128,
-        "3": 129
+        "22": 142
       },
       "next_public_pane_number": 146,
       "public_tab_numbers": [
@@ -70,8 +70,8 @@
       "public_pane_numbers": {
         "6": 3,
         "7": 4,
-        "4": 1,
-        "5": 2
+        "5": 2,
+        "4": 1
       },
       "next_public_pane_number": 5,
       "public_tab_numbers": [
@@ -146,12 +146,11 @@
       "custom_name": "Dotfiles",
       "identity_cwd": "/home/ryan/dotfiles",
       "public_pane_numbers": {
-        "9": 2,
         "10": 3,
-        "28": 6,
-        "8": 1
+        "8": 1,
+        "9": 2
       },
-      "next_public_pane_number": 7,
+      "next_public_pane_number": 10,
       "public_tab_numbers": [
         1,
         2,
@@ -162,16 +161,7 @@
         {
           "custom_name": "pi",
           "layout": {
-            "Split": {
-              "direction": "Horizontal",
-              "ratio": 0.5,
-              "first": {
-                "Pane": 8
-              },
-              "second": {
-                "Pane": 28
-              }
-            }
+            "Pane": 8
           },
           "panes": {
             "8": {
@@ -180,15 +170,12 @@
                 "source": "herdr:pi",
                 "agent": "pi",
                 "kind": "path",
-                "value": "/home/ryan/.pi/agent/sessions/--home-ryan-dotfiles--/2026-07-15T08-25-05-916Z_019f64e1-2a7c-7c8f-806a-f9a65ba70eed.jsonl"
+                "value": "/home/ryan/.pi/agent/sessions/--home-ryan-dotfiles--/2026-07-15T08-43-07-006Z_019f64f1-a97e-7172-b9cf-6737b6da709f.jsonl"
               }
-            },
-            "28": {
-              "cwd": "/home/ryan/dotfiles"
             }
           },
           "zoomed": false,
-          "focused": 28,
+          "focused": 8,
           "root_pane": 8
         },
         {
@@ -227,9 +214,9 @@
       "custom_name": "Peak",
       "identity_cwd": "/home/ryan/Projects/Python/Peak",
       "public_pane_numbers": {
-        "11": 3,
         "14": 13,
         "13": 7,
+        "11": 3,
         "12": 5
       },
       "next_public_pane_number": 39,
@@ -305,8 +292,8 @@
       "custom_name": "Learning",
       "identity_cwd": "/home/ryan/Projects/Websites/learning",
       "public_pane_numbers": {
-        "15": 1,
-        "16": 3
+        "16": 3,
+        "15": 1
       },
       "next_public_pane_number": 6,
       "public_tab_numbers": [
@@ -381,8 +368,8 @@
       "custom_name": "Custom Shell",
       "identity_cwd": "/home/ryan/codecrafters-shell-python",
       "public_pane_numbers": {
-        "19": 2,
         "18": 1,
+        "19": 2,
         "20": 4
       },
       "next_public_pane_number": 13,
