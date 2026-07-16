@@ -2,6 +2,17 @@
 
 These dotfiles contains some altered configuration from other open-source git repositories.
 
+# My Current Workflow
+
+| Role                 | Tool     |
+| -------------------- | -------- |
+| DE/WM                | Hyprland |
+| Terminal Emulator    | Kitty    |
+| Terminal Multiplexer | Herdr    |
+| File Manager         | Yazi     |
+| Text Editor          | Neovim   |
+| AI Agent             | Pi       |
+
 # Other Configurations
 
 These are the configurations I use for my other apps

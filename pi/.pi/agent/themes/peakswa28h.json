@@ -27,7 +27,7 @@
     "border": "borderMid",
     "borderAccent": "accent",
     "borderMuted": "borderDim",
-    "success": "green",
+    "success": "#4dff29",
     "error": "red",
     "warning": "orange",
     "muted": "muted",

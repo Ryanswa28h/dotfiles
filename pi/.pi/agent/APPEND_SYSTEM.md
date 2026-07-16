@@ -75,7 +75,8 @@ Do not give Debian/Ubuntu commands unless user asks or context requires.
 
 ## Always Use `ask_user_question` Tool
 
-If task has ambiguity, resolve it before editing code.
+If material ambiguity could change implementation, ask before editing.
+Do not ask about details that can be safely inferred from project conventions or existing code.
 
 Use `ask_user_question` tool when available. Ask one question at a time. Provide structured options (the `options` parameter).
 
@@ -91,7 +92,8 @@ Before editing any file, read full file first.
 
 Do not edit based on assumptions.
 
-Never read partial file unless file is extremely large and exact target section is already known. Prefer full read when practical.
+Read enough surrounding code to understand file structure and affected behavior.
+Read full file when reasonably sized or when changes may affect multiple sections.
 
 ## Verify Dependencies
 
@@ -130,13 +132,7 @@ Do not claim completion until verification passes.
 If no verification command exists, say so and suggest adding one.
 
 TypeScript exception:
-Avoid running `dev` or `build` unless necessary. Ask first if build is expensive or long-running.
-
-## Spec-Driven Development
-
-Do not use spec-driven development unless user explicitly asks.
-
-No OpenSpec, Spec Kit, design proposal, or spec workflow for normal small changes.
+Avoid starting persistent development servers. Run builds only when required for verification or explicitly requested.
 
 ## Web Searching
 
@@ -229,7 +225,3 @@ Explain fallback briefly.
 - Avoid explicit return types unless absolutely needed.
 - `as any` should be an absolute last resort. Always use real type safety. Lean on type inference instead of manually writing new types over and over again.
 - Avoid running `dev` or `build` commands. If you really need to, ask first.
-
-## Svelte/SvelteKit
-
-- Use modern Svelte practices. Reference the svelte best practices skill when writing `.svelte` file code.
