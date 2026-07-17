@@ -141,6 +141,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
+alias b='cd -'
+
 # File Searching
 alias rg='rg --hidden'
 
