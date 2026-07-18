@@ -165,7 +165,7 @@ use this when you want the same `done` / `idle` distinction the UI shows.
 send text without pressing Enter:
 
 ```bash
-herdr pane send-text 1-1 "hello from claude"
+herdr pane send-text 1-1 "hello from pi"
 ```
 
 press Enter or other keys:
@@ -273,7 +273,7 @@ herdr pane read 1-3 --source recent-unwrapped --lines 40
 
 ```bash
 herdr pane split 1-2 --direction right --no-focus
-herdr pane run 1-3 "claude"
+herdr pane run 1-3 "pi"
 herdr wait output 1-3 --match ">" --timeout 15000
 herdr pane run 1-3 "review the test coverage in src/api/"
 ```

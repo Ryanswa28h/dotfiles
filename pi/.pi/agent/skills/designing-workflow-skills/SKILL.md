@@ -21,7 +21,7 @@ Build workflow-based skills that execute reliably by following structural patter
 <principle name="description-is-the-trigger">
 **The `description` field is the only thing that controls when a skill activates.**
 
-Claude decides whether to load a skill based solely on its frontmatter `description`. The body of SKILL.md — including "When to Use" and "When NOT to Use" sections — is only read AFTER the skill is already active. Put your trigger keywords, use cases, and exclusions in the description. A bad description means wrong activations or missed activations regardless of what the body says.
+Pi decides whether to load a skill based solely on its frontmatter `description`. The body of SKILL.md — including "When to Use" and "When NOT to Use" sections — is only read AFTER the skill is already active. Put your trigger keywords, use cases, and exclusions in the description. A bad description means wrong activations or missed activations regardless of what the body says.
 
 "When to Use" and "When NOT to Use" sections still serve a purpose: they scope the LLM's behavior once active. "When NOT to Use" should name specific alternatives: "use Semgrep for simple pattern matching" not "not for simple tasks."
 </principle>
@@ -123,11 +123,11 @@ Every workflow skill needs this skeleton, regardless of pattern:
 ```markdown
 ---
 name: kebab-case-name
-description: "Third-person description with trigger keywords — this is how Claude decides to activate the skill"
+description: "Third-person description with trigger keywords — this is how Pi decides to activate the skill"
 allowed-tools: Tool1 Tool2 Tool3  # space-delimited list of tool names
 # Optional fields — see tool-assignment-guide.md for full reference:
-# disable-model-invocation: true    # Only user can invoke (not Claude)
-# user-invocable: false             # Only Claude can invoke (hidden from / menu)
+# disable-model-invocation: true    # Only user can invoke (not Pi)
+# user-invocable: false             # Only Pi can invoke (hidden from / menu)
 # context: fork                     # Run in isolated subagent context
 # agent: Explore                    # Subagent type (requires context: fork)
 # model: [model-name]               # Switch model when skill is active
@@ -158,7 +158,7 @@ allowed-tools: Tool1 Tool2 Tool3  # space-delimited list of tool names
 [Checklist for output validation]
 ```
 
-Skills support three types of string substitutions: dollar-prefixed variables for arguments and session ID, and exclamation-backtick syntax for shell preprocessing. The skill loader processes these before Claude sees the file — even inside code fences — so never use the raw syntax in documentation text. See [tool-assignment-guide.md](references/tool-assignment-guide.md) for the full variable reference and usage guidance.
+Skills support three types of string substitutions: dollar-prefixed variables for arguments and session ID, and exclamation-backtick syntax for shell preprocessing. The skill loader processes these before Pi sees the file — even inside code fences — so never use the raw syntax in documentation text. See [tool-assignment-guide.md](references/tool-assignment-guide.md) for the full variable reference and usage guidance.
 
 ## Anti-Pattern Quick Reference
 

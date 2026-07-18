@@ -44,7 +44,7 @@ These block skill loading or cause runtime failures:
 
 - Missing required frontmatter fields (name, description) — skill cannot be indexed or triggered
 - Invalid YAML frontmatter syntax — Parsing fails, skill won't load
-- Referenced files that don't exist — Runtime errors when Claude follows links
+- Referenced files that don't exist — Runtime errors when Pi follows links
 - Broken file paths — Same as above, leads to tool failures
 
 ### Major Issues (MUST fix)
