@@ -557,7 +557,6 @@ gr() {
 
 venv() {
     python -m venv .venv
-    source .venv/bin/activate
 }
 
 mkvenv-ipynb() {
@@ -573,7 +572,6 @@ mkvenv-ipynb() {
     python -m venv "$venv_name" || return 1
 
     echo "Activating venv"
-    source "$venv_name/bin/activate" || return 1
 
     echo "Upgrading pip tooling"
     pip install -U pip setuptools wheel
@@ -997,6 +995,20 @@ preexec() {
   fi
 }
 
+# Conda setup
+__conda_setup="$('/home/ryan/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/ryan/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/ryan/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/ryan/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+
 # Auto-start herdr
 if [[ $- == *i* ]] \
    && [[ -z "$HERDR_ENV" ]] \
@@ -1009,3 +1021,4 @@ fi
 
 # bun completions
 [ -s "/home/ryan/.bun/_bun" ] && source "/home/ryan/.bun/_bun"
+

@@ -4,8 +4,8 @@ $git_branch\
 $git_status\
 $git_metrics\
 $cmd_duration\
-$time\
 $jobs\
+$conda\
 $python\
 $lua\
 $nodejs\
@@ -17,9 +17,11 @@ $package\
 $aws\
 $docker_context\
 $status\
-$battery\
 $line_break\
 $character"""
+
+# $time\
+# $battery\
 
 add_newline = true
 palette = 'onedark'
@@ -64,6 +66,12 @@ format = 'with [$symbol$percentage]($style)'
 [[battery.display]]
 threshold = 99
 style = 'green'
+
+[conda]
+symbol = "󱔎 "
+style = "fg:green"
+format = "via [$symbol$environment ]($style)"
+ignore_base = true
 
 [status]
 disabled = false
