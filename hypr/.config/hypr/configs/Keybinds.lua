@@ -165,8 +165,8 @@ hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true }) -- NOTE: mouse:272 = left click
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true }) -- NOTE: mouse:273 = right click
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg swapwithmaster"))
-hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg focusmaster"))
+-- hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg swapwithmaster"))
+-- hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg focusmaster"))
 
 -- common shortcuts
 --hl.bind(mainMod .. " + " .. mainMod .. "_L", hl.dsp.exec_cmd("pkill rofi || rofi -show drun -modi drun,filebrowser,run,window")) -- Super Key to Launch rofi menu
@@ -212,14 +212,14 @@ hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd(scriptsDir .. "/Dropterm
 
 -- Desktop zooming or magnifier
 hl.bind(
-	"CTRL + SUPER + mouse_down",
+	"CTRL + SUPER + mouse_up",
 	hl.dsp.exec_cmd([[
   factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 2}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
 ]])
 )
 hl.bind(
-	"CTRL + SUPER + mouse_up",
+	"CTRL + SUPER + mouse_down",
 	hl.dsp.exec_cmd([[
   factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 2}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
@@ -274,8 +274,10 @@ hl.bind(mainMod .. " + SHIFT + period", hl.dsp.exec_cmd("hyprctl dispatch layout
 hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg movewindowto l"))
 -- SHIFT + up/down kept as resize (base keybinds); window move on these keys removed
 
-hl.bind(mainMod .. " + J", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh next"))
-hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh prev"))
+-- hl.bind(mainMod .. " + J", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh next"))
+-- hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(scriptsDir .. "/LayoutCycle.sh prev"))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
 
 -- Workspace switch: mainMod + , (numeric prev) / . (numeric next), creates empty workspaces
 hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.focus({ workspace = \"-1\" })'"))
