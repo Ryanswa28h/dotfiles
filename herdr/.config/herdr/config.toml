@@ -15,6 +15,7 @@ sidebar_width = 20
 sidebar_collapsed_mode = "compact"
 show_agent_labels_on_pane_borders = true
 prompt_new_tab_name = false
+prompt_new_workspace_name = true
 right_click_passthrough_modifier = "ctrl"
 
 [ui.sidebar.agents]
@@ -46,7 +47,7 @@ prefix = "ctrl+space"
 
 # Tabs
 new_tab = "prefix+c"
-next_tab = "prefix+n"
+next_tab = ["prefix+space", "prefix+n"]
 previous_tab = "prefix+p"
 
 # Detach
