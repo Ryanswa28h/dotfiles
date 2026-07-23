@@ -284,7 +284,7 @@ alias pis='pi --session'
 alias cmx='cmatrix'
 alias pp='pipes.sh'
 alias aqrm='asciiquarium'
-alias wttr='curl wttr.in'
+alias wttr='curl https://wttr.in'
 
 # Fun
 alias pls='sudo'
@@ -494,7 +494,7 @@ bindkey -s '^Xjf' 'journalctl -f'
 bindkey -s '^Xju' 'journalctl -u  -f\C-b\C-b\C-b'
 
 # Network 
-bindkey -s '^Xni' 'curl ifconfig.me'
+bindkey -s '^Xni' 'curl --fail --silent --show-error --max-time 10 https://ifconfig.me'
 bindkey -s '^Xnc' 'curl -I '
 bindkey -s '^Xnp' 'ping google.com'
 
@@ -763,43 +763,36 @@ cachesize() {
 }
 
 typeset -g AUTO_VENV=""
+typeset -ga AUTO_VENV_OLD_PATH
 
 auto_venv() {
     local dir="$PWD"
     local venv=""
 
     while [[ "$dir" != "/" ]]; do
-        if [[ -f "$dir/.venv/bin/activate" ]]; then
+        if [[ -x "$dir/.venv/bin/python" ]]; then
             venv="$dir/.venv"
             break
         fi
-
         dir=${dir:h}
     done
 
-    if [[ -n "$venv" ]]; then
-        [[ "$VIRTUAL_ENV" == "$venv" ]] && return
+    [[ "$venv" == "$AUTO_VENV" ]] && return
 
-        if [[ -n "$AUTO_VENV" &&
-              "$VIRTUAL_ENV" == "$AUTO_VENV" ]] &&
-           (( $+functions[deactivate] )); then
-            deactivate
-        fi
-
-        if source "$venv/bin/activate"; then
-            AUTO_VENV="$venv"
-            print "Activated $venv"
-        else
-            print -u2 "Failed to activate $venv"
-            return 1
-        fi
-    elif [[ -n "$AUTO_VENV" &&
-            "$VIRTUAL_ENV" == "$AUTO_VENV" ]]; then
-        if (( $+functions[deactivate] )); then
-            deactivate
-        fi
-
+    # Restore PATH from before the previous automatic environment.
+    if [[ -n "$AUTO_VENV" ]]; then
+        path=("${AUTO_VENV_OLD_PATH[@]}")
+        unset VIRTUAL_ENV
         AUTO_VENV=""
+    fi
+
+    if [[ -n "$venv" ]]; then
+        AUTO_VENV_OLD_PATH=("${path[@]}")
+        path=("$venv/bin" "${path[@]}")
+        export VIRTUAL_ENV="$venv"
+        AUTO_VENV="$venv"
+        print "Activated $venv"
+    else
         print "Deactivated automatic virtual environment"
     fi
 }
