@@ -21,14 +21,22 @@ autoload -Uz _zinit
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 
-# Standard OMZ Plugins
+# Standard OMZ plugin needed immediately
 zinit snippet OMZ::plugins/sudo
+
+# Non-critical OMZ plugins: load after the first prompt
+zinit ice wait"1" lucid
 zinit snippet OMZ::plugins/thefuck
+
+zinit ice wait"1" lucid
 zinit snippet OMZ::plugins/extract
+
+zinit ice wait"1" lucid
 zinit snippet OMZ::plugins/colored-man-pages
+
+zinit ice wait"1" lucid
 zinit snippet OMZ::plugins/archlinux
 
-# Fast community plugins (Syntax highlighting & Suggestions)
 zinit ice lucid
 zinit light jeffreytse/zsh-vi-mode
 
@@ -41,8 +49,21 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait"0" lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
+[[ -d "$HOME/.bun" ]] && fpath=("$HOME/.bun" $fpath)
+
 autoload -Uz compinit
-compinit
+
+_zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+
+# Perform full security checks/cache refresh once per day.
+# Reuse the existing dump on normal shell startups.
+if [[ ! -e "$_zcompdump" || -n "$_zcompdump"(#qN.mh+24) ]]; then
+    compinit -d "$_zcompdump"
+else
+    compinit -C -d "$_zcompdump"
+fi
+
+unset _zcompdump
 
 zinit light Aloxaf/fzf-tab
 zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
@@ -102,11 +123,15 @@ zstyle ':completion:*' verbose yes
 # ===============================
 
 # Zoxide
-eval "$(zoxide init --cmd cd zsh)"
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init --cmd cd zsh)"
+fi
 
-# Starship 
+# Starship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-(( ! ${+functions[starship_precmd]} )) && eval "$(starship init zsh)"
+if (( $+commands[starship] )) && (( ! ${+functions[starship_precmd]} )); then
+    eval "$(starship init zsh)"
+fi
 
 # ===============================
 # Aliases
@@ -685,7 +710,7 @@ auto_venv() {
             venv="$dir/.venv"
             break
         fi
-        dir=$(dirname "$dir")
+        dir=${dir:h}
     done
 
     if [[ -n "$venv" ]]; then
@@ -971,8 +996,21 @@ path=(
     $path
 )
 
-[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] &&
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Static Linuxbrew environment avoids spawning `brew shellenv` every shell.
+if [[ -d /home/linuxbrew/.linuxbrew ]]; then
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
+    export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
+
+    path=(
+        "$HOMEBREW_PREFIX/bin"
+        "$HOMEBREW_PREFIX/sbin"
+        $path
+    )
+
+    manpath=("$HOMEBREW_PREFIX/share/man" $manpath)
+    infopath=("$HOMEBREW_PREFIX/share/info" $infopath)
+fi
 
 typeset -U path
 path=($^path(N-/))
@@ -995,18 +1033,22 @@ preexec() {
   fi
 }
 
-# Conda setup
-__conda_setup="$('/home/ryan/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/ryan/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/home/ryan/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/ryan/miniforge3/bin:$PATH"
+# Conda
+path=("$HOME/miniforge3/bin" $path)
+
+conda() {
+    unfunction conda
+
+    local conda_sh="$HOME/miniforge3/etc/profile.d/conda.sh"
+
+    if [[ ! -f "$conda_sh" ]]; then
+        print -u2 "Conda initialization file not found: $conda_sh"
+        return 1
     fi
-fi
-unset __conda_setup
+
+    source "$conda_sh" || return
+    conda "$@"
+}
 
 
 # Auto-start herdr
@@ -1018,7 +1060,3 @@ if [[ $- == *i* ]] \
    && command -v herdr >/dev/null 2>&1; then
     exec herdr
 fi
-
-# bun completions
-[ -s "/home/ryan/.bun/_bun" ] && source "/home/ryan/.bun/_bun"
-
