@@ -14,6 +14,15 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # ===============================
+# Shell options needed early
+# (EXTENDED_GLOB must be set before the compinit cache-check below,
+#  which relies on the (#q...) glob-qualifier syntax)
+# ===============================
+setopt EXTENDED_GLOB
+setopt NULL_GLOB
+setopt NUMERIC_GLOB_SORT
+
+# ===============================
 # Theme & Core Plugins
 # ===============================
 
@@ -101,12 +110,28 @@ export HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
+setopt APPEND_HISTORY
 setopt SHARE_HISTORY
-setopt APPENDHISTORY
-setopt EXTENDED_GLOB
-setopt NULL_GLOB
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_SPACE
+setopt EXTENDED_HISTORY
+
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+
+setopt INTERACTIVE_COMMENTS
+setopt COMPLETE_IN_WORD
+setopt NO_BEEP
+
+setopt LONG_LIST_JOBS
+setopt NOTIFY
+
+setopt PIPE_FAIL
 
 # ===============================
 # Improve tab menu
@@ -230,7 +255,7 @@ alias bt='btop'
 alias ht='htop'
 
 alias ports='ss -tulpen'
-alias myip='curl ifconfig.me'
+alias myip='curl --fail --silent --show-error --max-time 10 https://ifconfig.me'
 
 alias ping5='ping -c 5'
 alias pingg='ping -c 5 google.com'
@@ -501,8 +526,12 @@ zle -N clear-keep-buffer
 bindkey '^Xl' clear-keep-buffer
 
 copy-command() {
-    echo -n $BUFFER | wl-copy
-    zle -M "Copied to clipboard"
+    if print -rn -- "$BUFFER" | command wl-copy; then
+        zle -M "Copied to clipboard"
+    else
+        zle -M "Clipboard copy failed"
+        return 1
+    fi
 }
 zle -N copy-command
 bindkey '^Xc' copy-command
@@ -543,7 +572,12 @@ dotfiles() {
 }
 
 mkcd() {
-    mkdir -p "$1" && cd "$1"
+    if (( $# != 1 )) || [[ -z "$1" ]]; then
+        print -u2 "Usage: mkcd <directory>"
+        return 2
+    fi
+
+    command mkdir -p -- "$1" && builtin cd -- "$1"
 }
 
 cdf() {
@@ -581,33 +615,33 @@ gr() {
 # Python
 
 venv() {
-    python -m venv .venv
-}
-
-mkvenv-ipynb() {
-    local venv_name=${1:-venv}
-    local kernel_name=${2:-$(basename "$PWD")}
-
-    if [[ -d "$venv_name" ]]; then
-        echo "Error: venv '$venv_name' already exists"
+    if [[ -e .venv ]]; then
+        print -u2 ".venv already exists"
         return 1
     fi
 
-    echo "Creating venv: $venv_name"
-    python -m venv "$venv_name" || return 1
+    command python3 -m venv -- .venv
+}
 
-    echo "Activating venv"
+mkvenv-ipynb() {
+    local venv_name=${1:-.venv}
+    local kernel_name=${2:-${PWD:t}}
+    local python="$venv_name/bin/python"
 
-    echo "Upgrading pip tooling"
-    pip install -U pip setuptools wheel
+    if [[ -e "$venv_name" ]]; then
+        print -u2 "Destination already exists: $venv_name"
+        return 1
+    fi
 
-    echo "Installing ipykernel"
-    pip install ipykernel
+    command python3 -m venv -- "$venv_name" || return 1
 
-    echo "Registering Jupyter kernel: Python ($kernel_name)"
-    python -m ipykernel install --user \
+    "$python" -m pip install --upgrade pip setuptools wheel || return 1
+    "$python" -m pip install ipykernel || return 1
+    "$python" -m ipykernel install --user \
         --name "$kernel_name" \
-        --display-name "Python ($kernel_name)"
+        --display-name "Python ($kernel_name)" || return 1
+
+    print "Created $venv_name and registered Python ($kernel_name)"
 }
 
 # Search
@@ -616,46 +650,74 @@ rgvim() {
     local query="$*"
     local choice
 
-    choice=$(rg -il "$query" | \
-        fzf -0 -1 --ansi \
-        --preview "rg --context 3 --color always '$query' {}")
+    if [[ -z "$query" ]]; then
+        print -u2 "Usage: rgvim <search text>"
+        return 2
+    fi
 
-    [[ -n "$choice" ]] && nvim "+/${query:l}" "$choice"
+    choice=$(
+        RG_QUERY="$query" \
+        command rg -il -- "$query" |
+        command fzf -0 -1 --ansi \
+            --preview 'rg --context 3 --color=always -- "$RG_QUERY" {}'
+    ) || return
+
+    [[ -n "$choice" ]] || return
+    command nvim -- "$choice"
 }
 
 # System Utilities
 
 emptytrash() {
-    read "?Empty trash? (y/N) " ans
-    [[ $ans == y ]] && gio trash --empty
+    read -q "REPLY?Empty trash? [y/N] "
+    print
+
+    [[ "$REPLY" == [Yy] ]] || return 0
+    command gio trash --empty
 }
 
 cacheclean() {
-    echo "Safely cleaning package caches..."
+    print "This will clean package and application caches."
+    read -q "REPLY?Continue? [y/N] "
+    print
 
-    sudo find /var/cache/pacman/pkg -type f -name "*.part" -delete
-    sudo find /var/cache/pacman/pkg -maxdepth 1 -type d \
-        -name "download-*" -exec rm -rf {} +
+    [[ "$REPLY" == [Yy] ]] || return 0
 
-    sudo paccache -rk0
-    sudo pacman -Scc --noconfirm
+    if ! (( $+commands[paccache] )); then
+        print -u2 "paccache is unavailable; install pacman-contrib"
+        return 1
+    fi
 
-    command -v yay >/dev/null && {
-        yay -Sc --noconfirm --norebuild --cleanafter
-        rm -rf ~/.cache/yay/*
+    command sudo paccache -rk2 || {
+        print -u2 "Failed to clean pacman cache"
+        return 1
     }
 
-    command -v paru >/dev/null && {
-        paru -Sc --noconfirm --norebuild --cleanafter
-        rm -rf ~/.cache/paru/*
+    if (( $+commands[paru] )); then
+        command paru -Sc || {
+            print -u2 "Paru cache cleanup failed"
+            return 1
+        }
+    elif (( $+commands[yay] )); then
+        command yay -Sc || {
+            print -u2 "Yay cache cleanup failed"
+            return 1
+        }
+    fi
+
+    if (( $+commands[flatpak] )); then
+        command flatpak uninstall --unused || {
+            print -u2 "Flatpak cleanup failed"
+            return 1
+        }
+    fi
+
+    command sudo journalctl --vacuum-size=100M || {
+        print -u2 "Journal cleanup failed"
+        return 1
     }
 
-    rm -rf ~/.var/app/*/cache/*
-
-    flatpak uninstall --unused -y
-    sudo journalctl --vacuum-size=100M
-
-    echo "Cache cleaning complete!"
+    print "Cache cleanup completed"
 }
 
 cachesize() {
@@ -700,53 +762,49 @@ cachesize() {
     printf "%-20s %8s\n" "Total:" "$(numfmt --to=iec-i --suffix=B "$total")"
 }
 
+typeset -g AUTO_VENV=""
+
 auto_venv() {
     local dir="$PWD"
     local venv=""
 
-    # Search current directory and parents for .venv
     while [[ "$dir" != "/" ]]; do
         if [[ -f "$dir/.venv/bin/activate" ]]; then
             venv="$dir/.venv"
             break
         fi
+
         dir=${dir:h}
     done
 
     if [[ -n "$venv" ]]; then
-        if [[ "$VIRTUAL_ENV" == "$venv" ]]; then
-            return
-        fi
+        [[ "$VIRTUAL_ENV" == "$venv" ]] && return
 
-        if [[ -n "$VIRTUAL_ENV" ]]; then
+        if [[ -n "$AUTO_VENV" &&
+              "$VIRTUAL_ENV" == "$AUTO_VENV" ]] &&
+           (( $+functions[deactivate] )); then
             deactivate
         fi
 
-        echo "Activating $venv"
-        source "$venv/bin/activate"
-
-    else
-        if [[ -n "$VIRTUAL_ENV" ]]; then
-            echo "Deactivating $VIRTUAL_ENV"
+        if source "$venv/bin/activate"; then
+            AUTO_VENV="$venv"
+            print "Activated $venv"
+        else
+            print -u2 "Failed to activate $venv"
+            return 1
+        fi
+    elif [[ -n "$AUTO_VENV" &&
+            "$VIRTUAL_ENV" == "$AUTO_VENV" ]]; then
+        if (( $+functions[deactivate] )); then
             deactivate
         fi
+
+        AUTO_VENV=""
+        print "Deactivated automatic virtual environment"
     fi
 }
-
 add-zsh-hook chpwd auto_venv
 auto_venv
-
-sudo() {
-    for i in "$@"; do
-        [[ "$i" == "nvim" ]] && {
-            echo "Use sudoedit instead"
-            command sudoedit "${@[(r)nvim]+1}"
-            return
-        }
-    done
-
-    command sudo "$@"
-}
 
 # Encryption
 
@@ -759,231 +817,6 @@ gread() {
 tlt() { toilet -f smblock "$*" -F border | lolcat; }
 tltrpt() { for i in {1..50}; do tlt "$@"; done }
 quote() { fortune | cowsay -f tux | lolcat }
-
-function bp() {
-    local CONFIG_DIR="$HOME/.config/bp"
-    local CONFIG_FILE="$CONFIG_DIR/config"
-
-    command mkdir -p "$CONFIG_DIR"
-
-    # -------------------------
-    # Load config or fallback
-    # -------------------------
-    if [[ -f "$CONFIG_FILE" ]]; then
-        command source "$CONFIG_FILE"
-    fi
-
-    if [[ -z "$MASTER_DIR" ]]; then
-        MASTER_DIR="$HOME/backups"
-    fi
-
-    # -------------------------
-    # Helpers
-    # -------------------------
-    _save_config() {
-        command mkdir -p "$CONFIG_DIR"
-        command cat > "$CONFIG_FILE" <<EOF
-MASTER_DIR="$MASTER_DIR"
-EOF
-    }
-
-    _hash_target() {
-        local target="$1"
-        if [[ -f "$target" ]]; then
-            command sha256sum "$target" | command awk '{print $1}'
-        elif [[ -d "$target" ]]; then
-            command find "$target" -type f -exec sha256sum {} + 2>/dev/null \
-                | command sort | command sha256sum | command awk '{print $1}'
-        fi
-    }
-
-    # -------------------------
-    # Command parsing
-    # -------------------------
-    local cmd="$1"
-    shift || true
-
-    case "$cmd" in
-        init)
-            echo "📦 bp init"
-            read -r "MASTER_DIR?Enter master backup directory: "
-            command mkdir -p "$MASTER_DIR" || return 1
-            _save_config
-            echo "✔ Backup directory set to:"
-            echo "  $MASTER_DIR"
-            ;;
-
-        add)
-            local group="$1"
-            shift
-
-            [[ -z "$group" || "$#" -eq 0 ]] && {
-                echo "Usage: bp add <group> <path> [path...]"
-                return 1
-            }
-
-            for target in "$@"; do
-                [[ ! -e "$target" ]] && {
-                    echo "❌ Skipping (not found): $target"
-                    continue
-                }
-
-                local name="$(command basename "$target")"
-                local dest="$MASTER_DIR/$group/$name"
-
-                command mkdir -p "$dest"
-                echo "$target" > "$dest/.source"
-
-                echo "✔ Added '$target' → group '$group'"
-            done
-            ;;
-
-        remove)
-            local group="$1"
-            shift
-
-            [[ -z "$group" || "$#" -eq 0 ]] && {
-                echo "Usage: bp remove <group> <target> [target...]"
-                return 1
-            }
-
-            for name in "$@"; do
-                command rm -rf "$MASTER_DIR/$group/$name"
-                echo "✖ Removed '$name' from '$group'"
-            done
-            ;;
-
-        backup)
-            local group=""
-            local all=false
-            local targets=()
-
-            while [[ "$#" -gt 0 ]]; do
-                case "$1" in
-                    --all) all=true ;;
-                    *)
-                        [[ -z "$group" ]] && group="$1" || targets+=("$1")
-                        ;;
-                esac
-                shift
-            done
-
-            if $all && [[ -z "$group" ]]; then
-                for g in "$MASTER_DIR"/*; do
-                    [[ -d "$g" ]] || continue
-                    local gname="$(command basename "$g")"
-                    echo "🔁 Backing up group: $gname"
-                    bp backup "$gname" --all
-                done
-                return 0
-            fi
-
-            [[ -z "$group" ]] && {
-                echo "Usage:"
-                echo "  bp backup <group> <target> [target...]"
-                echo "  bp backup <group> --all"
-                echo "  bp backup --all"
-                return 1
-            }
-
-            local group_dir="$MASTER_DIR/$group"
-            [[ ! -d "$group_dir" ]] && {
-                echo "❌ No such group: $group"
-                return 1
-            }
-
-            if $all; then
-                targets=()
-                while IFS= read -r d; do
-                    [[ -f "$d/.source" ]] || continue
-                    targets+=("$(command basename "$d")")
-                done < <(command find "$group_dir" -mindepth 1 -maxdepth 1 -type d)
-            fi
-
-            for name in "${targets[@]}"; do
-                local base="$group_dir/$name"
-                local source_file="$base/.source"
-
-                [[ ! -f "$source_file" ]] && {
-                    echo "❌ No source registered for '$name'"
-                    continue
-                }
-
-                local source="$(command cat "$source_file")"
-                [[ ! -e "$source" ]] && {
-                    echo "❌ Source missing: $source"
-                    continue
-                }
-
-                local current_hash="$(_hash_target "$source")"
-                local last_hash_file="$base/.last_hash"
-
-                if [[ -f "$last_hash_file" ]] \
-                   && [[ "$(command cat "$last_hash_file")" == "$current_hash" ]]; then
-                    echo "⏭  No changes → skipping '$name'"
-                    continue
-                fi
-
-                local ts="$(command date +"%Y-%m-%d_%H-%M-%S")"
-                local dest="$base/${name}_$ts"
-
-                command mkdir -p "$dest"
-
-                if [[ -d "$source" ]]; then
-                    command cp -a "$source/." "$dest/"
-                else
-                    command cp -a "$source" "$dest/"
-                fi
-
-                echo "$current_hash" > "$last_hash_file"
-
-                echo "📦 Backup created:"
-                echo "  $dest"
-            done
-            ;;
-
-        list)
-            command tree -a -L 3 "$MASTER_DIR"
-            ;;
-
-        *)
-            command cat <<EOF
-bp — personal backup utility
-
-SETUP:
-  bp init
-    → set or change backup master directory
-
-ADDING TARGETS:
-  bp add terminal ~/.zshrc
-  bp add terminal ~/.config/starship ~/.config/hypr
-  bp add configs ~/.config/nvim ~/.config/kitty
-
-REMOVING TARGETS:
-  bp remove terminal zshrc
-  bp remove configs nvim kitty
-
-BACKUPS:
-  bp backup terminal zshrc
-  bp backup terminal starship hypr
-  bp backup terminal --all
-  bp backup configs --all
-
-LISTING:
-  bp list
-
-NOTES:
-- Files & directories handled automatically
-- Backups are skipped if unchanged
-- Layout:
-  MASTER/group/target/target_TIMESTAMP
-
-Config file:
-  ~/.config/bp/config
-EOF
-            ;;
-    esac
-}
 
 # ===============================
 # PATH
@@ -1024,14 +857,6 @@ export PATH
 # if [ -n "$TMUX" ]; then
 #     fastfetch
 # fi
-
-# Block --no-preserve-root
-preexec() {
-  if [[ "$1" == *"--no-preserve-root"* ]]; then
-    print -P "%F{red}BLOCKED dangerous flag: --no-preserve-root%f"
-    kill -INT $$
-  fi
-}
 
 # Conda
 path=("$HOME/miniforge3/bin" $path)
