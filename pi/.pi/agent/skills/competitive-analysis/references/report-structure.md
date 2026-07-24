@@ -1,11 +1,10 @@
 ---
 name: competitive-report-structure
 description: >-
-  Use after benchmark-methodology has produced scored competitor profile cards.
-  Assembles findings into a decision-grade report: landscape map, competitor
-  profiles, benchmarking matrix, white-space analysis, strategic recommendations,
-  and team alignment trigger questions. Final step in the three-skill competitive
-  pipeline.
+  Phase 3 reference for competitive-analysis skill. Assembles scored competitor
+  profile cards into a decision-grade report: landscape map, competitor profiles,
+  benchmarking matrix, white-space analysis, strategic recommendations, and team
+  alignment trigger questions. Called from competitive-analysis as the final phase.
 ---
 
 # Competitive Report Structure
@@ -157,6 +156,6 @@ End with questions that force decisions, not admiration of the analysis:
 
 ## Related Skills
 
-- `benchmark-methodology` — the prerequisite; produces the scored competitor profile cards this skill assembles.
-- `competitive-platform-analysis` — provides the tier structure (Direct / Adjacent / Aspirational) used in Section 3.
+- `benchmark-methodology` (in references/benchmark-methodology.md) — the prerequisite; produces the scored competitor profile cards this skill assembles.
+- `platform-analysis` (in references/platform-analysis.md) — provides the tier structure (Direct / Adjacent / Aspirational) used in Section 3.
 - `brand-discovery` — use to establish the client's positioning brief if it hasn't been defined.

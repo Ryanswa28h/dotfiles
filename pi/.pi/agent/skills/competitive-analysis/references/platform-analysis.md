@@ -1,11 +1,11 @@
 ---
 name: competitive-platform-analysis
 description: >-
-  Use when scoping a competitive landscape — identifying, categorising, and
-  score-filtering a competitor set before any benchmarking begins. Decides who
-  counts as a competitor, which tier they belong to, and which sources to mine.
-  First step in the three-skill competitive pipeline; precedes
-  benchmark-methodology.
+  Phase 1 reference for competitive-analysis skill. Use when scoping a
+  competitive landscape — identifying, categorising, and score-filtering a
+  competitor set before any benchmarking begins. Decides who counts as a
+  competitor, which tier they belong to, and which sources to mine.
+  Called from competitive-analysis as the first phase.
 ---
 
 # Competitive Platform Analysis
@@ -164,7 +164,7 @@ Rules of thumb (apply per the client's scoping consequence in the positioning br
 
 A scoped, tiered competitor set (typically 10–18 candidates → 8–12 profiled),
 each tagged with its axis positions, tier, and source links, ready to hand to
-`benchmark-methodology`.
+Phase 2 (benchmark-methodology).
 
 ## Anti-Patterns
 
@@ -211,4 +211,4 @@ un-hireable" cautionary case to learn from.
 ## Related Skills
 
 - `brand-discovery` — use first to establish the positioning brief and strategic tension that scopes the competitor set.
-- `benchmark-methodology` — the next step; takes the tiered set and scores each competitor across nine dimensions.
+- `benchmark-methodology` (in references/benchmark-methodology.md) — the next step; takes the tiered set and scores each competitor across nine dimensions.

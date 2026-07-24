@@ -1,11 +1,11 @@
 ---
 name: benchmark-methodology
 description: >-
-  Use after competitive-platform-analysis has produced a tiered competitor set.
-  Scores each competitor across nine weighted dimensions (positioning, voice,
-  visual craft, offer packaging, evidence, enterprise-readiness, thought
-  leadership, pricing, client's strategic tension) with explicit 1–5 rubrics
-  and a tension-plot. Precedes competitive-report-structure.
+  Phase 2 reference for competitive-analysis skill. Scores each competitor
+  across nine weighted dimensions (positioning, voice, visual craft, offer
+  packaging, evidence, enterprise-readiness, thought leadership, pricing,
+  client's strategic tension) with explicit 1–5 rubrics and a tension-plot.
+  Called from competitive-analysis as the second phase.
 license: MIT
 ---
 
@@ -175,7 +175,7 @@ from:
 - **Threat to [client]:** <…>
 ```
 
-Hand the completed cards plus the tension plot to `competitive-report-structure`.
+Hand the completed cards plus the tension plot to Phase 3 (report-structure).
 
 ## Anti-Patterns
 
@@ -187,5 +187,5 @@ Hand the completed cards plus the tension plot to `competitive-report-structure`
 
 ## Related Skills
 
-- `competitive-platform-analysis` — the prerequisite; produces the tiered competitor set this skill scores.
-- `competitive-report-structure` — the next step; assembles the scored profile cards into a client-deliverable report.
+- `platform-analysis` (in references/platform-analysis.md) — the prerequisite; produces the tiered competitor set this skill scores.
+- `report-structure` (in references/report-structure.md) — the next step; assembles the scored profile cards into a client-deliverable report.
