@@ -1,4 +1,42 @@
 # ===============================
+# PATH
+# ===============================
+
+typeset -U path PATH
+typeset -U manpath MANPATH
+typeset -U infopath INFOPATH
+
+# PATH
+path=(
+    /usr/local/bin
+    /usr/bin
+    "$HOME/.local/bin"
+    "$HOME/.config/emacs/bin"
+    "$HOME/.npm-global/bin"
+    $path
+)
+
+# Static Linuxbrew environment.
+if [[ -d /home/linuxbrew/.linuxbrew ]]; then
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
+    export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
+
+    path+=(
+        "$HOMEBREW_PREFIX/bin"
+        "$HOMEBREW_PREFIX/sbin"
+    )
+
+    manpath+=("$HOMEBREW_PREFIX/share/man")
+    infopath+=("$HOMEBREW_PREFIX/share/info")
+fi
+
+# Remove nonexistent directories.
+path=($^path(N-/))
+
+export PATH
+
+# ===============================
 # Zinit Installer
 # ===============================
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -288,6 +326,7 @@ alias wttr='curl https://wttr.in'
 
 # Fun
 alias pls='sudo'
+alias afk='clear && sleep 7200'
 
 # Personal Utilities
 alias dotf='dotfiles'
@@ -812,38 +851,6 @@ tltrpt() { for i in {1..50}; do tlt "$@"; done }
 quote() { fortune | cowsay -f tux | lolcat }
 
 # ===============================
-# PATH
-# ===============================
-path=(
-    $HOME/.local/bin
-    $HOME/.config/emacs/bin
-    $HOME/.opencode/bin
-    $HOME/.npm-global/bin
-    $path
-)
-
-# Static Linuxbrew environment avoids spawning `brew shellenv` every shell.
-if [[ -d /home/linuxbrew/.linuxbrew ]]; then
-    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-    export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
-    export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
-
-    path=(
-        "$HOMEBREW_PREFIX/bin"
-        "$HOMEBREW_PREFIX/sbin"
-        $path
-    )
-
-    manpath=("$HOMEBREW_PREFIX/share/man" $manpath)
-    infopath=("$HOMEBREW_PREFIX/share/info" $infopath)
-fi
-
-typeset -U path
-path=($^path(N-/))
-
-export PATH
-
-# ===============================
 # Startup info
 # ===============================
 # Run fastfetch only when starting a tmux pane/session
@@ -852,8 +859,6 @@ export PATH
 # fi
 
 # Conda
-path=("$HOME/miniforge3/bin" $path)
-
 conda() {
     unfunction conda
 
