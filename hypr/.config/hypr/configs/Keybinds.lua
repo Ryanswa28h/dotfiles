@@ -103,13 +103,18 @@ hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.focus({ workspace = "m-1" }))
 
 -- Special workspaces
 hl.bind(mainMod .. " + SHIFT + U", hl.dsp.window.move({ workspace = "special:one" }))
+hl.bind(mainMod .. " + ALT + U", hl.dsp.window.move({ workspace = "e+0" }))
 hl.bind(mainMod .. " + U", hl.dsp.workspace.toggle_special("one"))
 
 hl.bind(mainMod .. " + SHIFT + I", hl.dsp.window.move({ workspace = "special:two" }))
+hl.bind(mainMod .. " + ALT + I", hl.dsp.window.move({ workspace = "e+0" }))
 hl.bind(mainMod .. " + I", hl.dsp.workspace.toggle_special("two"))
 
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.window.move({ workspace = "special:three" }))
+hl.bind(mainMod .. " + ALT + O", hl.dsp.window.move({ workspace = "e+0" }))
 hl.bind(mainMod .. " + O", hl.dsp.workspace.toggle_special("three"))
+
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.move({ workspace = "e+0" }))
 
 -- The following mappings use the key codes to better support various keyboard layouts
 -- 1 is code:10, 2 is code 11, etc

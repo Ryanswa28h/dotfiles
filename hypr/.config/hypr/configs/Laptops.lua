@@ -7,7 +7,7 @@ local scriptsDir = home .. "/.config/hypr/scripts"
 local configsDir = home .. "/.config/hypr/configs"
 
 -- for disabling Touchpad. hyprctl devices to get device name.
-local Touchpad_Device = "asue1209:00-04f3:319f-touchpad"
+local Touchpad_Device = "asup1303:00-093a:3003-touchpad"
 
 hl.bind("XF86KbdBrightnessDown", hl.dsp.exec_cmd(scriptsDir .. "/BrightnessKbd.sh --dec"), { repeating = true, locked = true }) -- decrease keyboard brightness
 hl.bind("XF86KbdBrightnessUp", hl.dsp.exec_cmd(scriptsDir .. "/BrightnessKbd.sh --inc"), { repeating = true, locked = true }) -- increase keyboard brightness
