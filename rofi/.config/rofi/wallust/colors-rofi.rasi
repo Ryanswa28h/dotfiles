@@ -2,48 +2,48 @@
  /* wallust template - colors-rofi */
 
 * {
-active-background: #567AA1;
-active-foreground: #EBEFF5;
-normal-background: #131517;
-normal-foreground: #EBEFF5;
-urgent-background: #567AA1;
-urgent-foreground: #EBEFF5;
+active-background: #215A7B;
+active-foreground: #C5EAF3;
+normal-background: #1A1B23;
+normal-foreground: #C5EAF3;
+urgent-background: #3D8FAC;
+urgent-foreground: #C5EAF3;
 
-alternate-active-background: #567AA1;
-alternate-active-foreground: #EBEFF5;
-alternate-normal-background: #131517;
-alternate-normal-foreground: #EBEFF5;
-alternate-urgent-background: #131517;
-alternate-urgent-foreground: #EBEFF5;
+alternate-active-background: #06254B;
+alternate-active-foreground: #C5EAF3;
+alternate-normal-background: #1A1B23;
+alternate-normal-foreground: #C5EAF3;
+alternate-urgent-background: #1A1B23;
+alternate-urgent-foreground: #C5EAF3;
 
-selected-active-background: #567AA1;
-selected-active-foreground: #EBEFF5;
-selected-normal-background: #567AA1;
-selected-normal-foreground: #EBEFF5;
-selected-urgent-background: #567AA1;
-selected-urgent-foreground: #EBEFF5;
+selected-active-background: #3D8FAC;
+selected-active-foreground: #C5EAF3;
+selected-normal-background: #3D8FAC;
+selected-normal-foreground: #C5EAF3;
+selected-urgent-background: #215A7B;
+selected-urgent-foreground: #C5EAF3;
 
-background-color: #131517;
+background-color: #1A1B23;
 background: rgba(0,0,0,0.7);
-foreground: #EBEFF5;
-border-color: #567AA1;
+foreground: #C5EAF3;
+border-color: #215A7B;
 
-color0: #3A3C3F;
-color1: #071018;
-color2: #192940;
-color3: #405C79;
-color4: #405C79;
-color5: #405C79;
-color6: #949EA9;
-color7: #DAE0E8;
-color8: #989DA2;
-color9: #091620;
-color10: #213656;
-color11: #567AA1;
-color12: #567AA1;
-color13: #567AA1;
-color14: #C5D2E1;
-color15: #DAE0E8;
+color0: #40424A;
+color1: #001331;
+color2: #001331;
+color3: #041B38;
+color4: #19435D;
+color5: #2D6B81;
+color6: #4293A6;
+color7: #A3D9E6;
+color8: #7298A1;
+color9: #001A41;
+color10: #001A41;
+color11: #06254B;
+color12: #215A7B;
+color13: #3D8FAC;
+color14: #58C4DD;
+color15: #A3D9E6;
 
 
 }

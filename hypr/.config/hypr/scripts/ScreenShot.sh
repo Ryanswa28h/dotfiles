@@ -128,10 +128,10 @@ shotactive() {
 }
 
 shotswappy() {
-    tmpfile=$(mktemp)
+    tmpfile="${dir}/${file}"
     grim -g "$(slurp)" - >"$tmpfile"
 
-    # Copy without saving
+    # Copy and save
     if [[ -s "$tmpfile" ]]; then
         wl-copy <"$tmpfile"
         notify_view "swappy"

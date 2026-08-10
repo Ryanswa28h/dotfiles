@@ -203,7 +203,8 @@ hl.bind(mainMod .. " + CTRL + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/SemiGa
 hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/ChangeLayout.sh")) -- Toggle Master or Dwindle Layout
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(scriptsDir .. "/ClipManager.sh")) -- Clipboard Manager
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(scriptsDir .. "/SearXNGToggle.sh")) -- SearXNG
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNToggle.sh")) -- ProtonVPN
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNToggle.sh")) -- ProtonVPN Toggle
+hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNStatus.sh")) -- ProtonVPN Status
 hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd(scriptsDir .. "/RofiThemeSelector.sh")) -- Rofi Menu Theme Selector
 hl.bind(
 	mainMod .. " + CTRL + SHIFT + R",
