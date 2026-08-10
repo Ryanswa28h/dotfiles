@@ -317,6 +317,7 @@ alias os='openspec'
 alias p='pi'
 alias pir='pi -r'
 alias pis='pi --session'
+alias pisc='pi --continue'
 
 # Terminal Toys
 alias cmx='cmatrix'
@@ -848,6 +849,7 @@ gread() {
 
 tlt() { toilet -f smblock "$*" -F border | lolcat; }
 tltrpt() { for i in {1..50}; do tlt "$@"; done }
+fetching() { for i in {1..100}; do fetch; done }
 quote() { fortune | cowsay -f tux | lolcat }
 
 # ===============================
