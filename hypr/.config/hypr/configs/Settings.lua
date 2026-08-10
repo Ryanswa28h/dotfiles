@@ -44,6 +44,7 @@ hl.config({
 			disable_while_typing = true,
 			natural_scroll = true,
 			clickfinger_behavior = false,
+			scroll_factor = 0.3,
 			middle_button_emulation = false,
 			tap_to_click = true,
 			drag_lock = false,

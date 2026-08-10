@@ -67,6 +67,7 @@ window#waybar {
 #memory,
 #power-profiles-daemon,
 #custom-notification,
+#custom-protonvpn,
 #tray,
 #volume {
   border-radius: 8px;
@@ -89,6 +90,14 @@ window#waybar {
 #tray:hover,
 #clock:hover {
   background: @dark-7;
+}
+
+#custom-protonvpn.connected {
+  color: #a6e3a1;
+}
+
+#custom-protonvpn.disconnected {
+  color: #f38ba8;
 }
 
 #volume:hover {

@@ -186,7 +186,6 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('xdg-open "https://"')) -- default br
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("nautilus")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
 hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
@@ -202,7 +201,9 @@ hl.bind(mainMod .. " + ALT + O", hl.dsp.exec_cmd(scriptsDir .. "/ChangeBlur.sh")
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/GameMode.sh")) -- Toggle animations ON/OFF
 hl.bind(mainMod .. " + CTRL + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/SemiGameMode.sh")) -- Toggle animations ON/OFF (with blur on)
 hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/ChangeLayout.sh")) -- Toggle Master or Dwindle Layout
-hl.bind(mainMod .. " + ALT + V", hl.dsp.exec_cmd(scriptsDir .. "/ClipManager.sh")) -- Clipboard Manager
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(scriptsDir .. "/ClipManager.sh")) -- Clipboard Manager
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(scriptsDir .. "/SearXNGToggle.sh")) -- SearXNG
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNToggle.sh")) -- ProtonVPN
 hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd(scriptsDir .. "/RofiThemeSelector.sh")) -- Rofi Menu Theme Selector
 hl.bind(
 	mainMod .. " + CTRL + SHIFT + R",
