@@ -155,7 +155,7 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
-setopt EXTENDED_HISTORY
+# setopt EXTENDED_HISTORY
 
 setopt AUTO_CD
 setopt AUTO_PUSHD
@@ -282,6 +282,7 @@ alias ta='tmux attach'
 alias tls='tmux ls'
 alias tk='tmux kill-server'
 alias ts='tmux new -As default'
+alias wt='workmux'
 
 # Monitoring & System
 alias ff='fastfetch'
@@ -877,11 +878,21 @@ conda() {
 
 
 # Auto-start herdr
+# if [[ $- == *i* ]] \
+#    && [[ -z "$HERDR_ENV" ]] \
+#    && [[ -z "$TMUX" ]] \
+#    && [[ -z "$ZSH_NO_TMUX" ]] \
+#    && [[ -z "$ZSH_NO_HERDR" ]] \
+#    && command -v herdr >/dev/null 2>&1; then
+#     exec herdr
+# fi
+
+# Auto-start tmux
 if [[ $- == *i* ]] \
    && [[ -z "$HERDR_ENV" ]] \
    && [[ -z "$TMUX" ]] \
    && [[ -z "$ZSH_NO_TMUX" ]] \
    && [[ -z "$ZSH_NO_HERDR" ]] \
-   && command -v herdr >/dev/null 2>&1; then
-    exec herdr
+   && command -v tmux >/dev/null 2>&1; then
+    exec tmux new-session -A -s default
 fi
