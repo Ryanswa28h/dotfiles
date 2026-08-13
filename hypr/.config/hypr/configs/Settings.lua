@@ -121,7 +121,7 @@ hl.gesture({
 	fingers = 3,
 	direction = "up",
 	action = function()
-		hl.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window")
+		hl.exec_cmd("noctalia msg panel-toggle launcher")
 	end,
 })
 hl.gesture({

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Scripts for refreshing ags, waybar, rofi, swaync, wallust
+# Scripts for refreshing Noctalia, ags, rofi, and wallust
 
 SCRIPTSDIR=$HOME/.config/hypr/scripts
 
@@ -13,15 +13,12 @@ file_exists() {
 }
 
 # Kill already running processes
-_ps=(waybar rofi swaync ags)
+_ps=(rofi ags)
 for _prs in "${_ps[@]}"; do
     if pidof "${_prs}" >/dev/null; then
         pkill "${_prs}"
     fi
 done
-
-# added since wallust sometimes not applying
-killall -SIGUSR2 waybar 
 
 # quit ags & relaunch ags
 #ags -q && ags &
@@ -30,19 +27,12 @@ killall -SIGUSR2 waybar
 pkill qs && qs &
 
 # some process to kill
-for pid in $(pidof waybar rofi swaync ags swaybg); do
+for pid in $(pidof rofi ags swaybg); do
     kill -SIGUSR1 "$pid"
 done
 
-#Restart waybar
-sleep 1
-waybar &
-
-# relaunch swaync
-sleep 0.5
-swaync > /dev/null 2>&1 &
-# reload swaync
-swaync-client --reload-config
+# Reload Noctalia after shell-related refresh work.
+noctalia msg config-reload
 
 sleep 1
 

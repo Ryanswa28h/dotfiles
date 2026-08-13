@@ -5,30 +5,31 @@ local scriptsDir = home .. "/.config/hypr/scripts"
 hl.bind("CTRL + SHIFT + ALT + Delete", hl.dsp.exec_cmd("hyprctl dispatch exit 0")) -- exit Hyprland
 hl.bind(mainMod .. " + Q", hl.dsp.window.close()) -- close active (not kill)
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd(scriptsDir .. "/KillActiveProcess.sh")) -- Kill active process
-hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/LockScreen.sh")) -- screen lock
-hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd(scriptsDir .. "/Wlogout.sh")) -- power menu
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw")) -- swayNC notification panel
+hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd("noctalia msg session lock")) -- screen lock
+hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("noctalia msg panel-toggle session")) -- power menu
+hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd("noctalia msg panel-toggle session")) -- power menu
+hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd("noctalia msg panel-toggle session")) -- power menu
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications")) -- Noctalia notification panel
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scriptsDir .. "/Quick_Settings.sh")) -- Settings Menu
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
+-- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("kitty yazi"))
 
 -- Master Layout
 hl.bind(mainMod .. " + CTRL + D", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg removemaster"))
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg addmaster"))
+hl.bind(mainMod .. " + CTRL + I", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg addmaster"))
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("cyclenext"))
 -- hl.bind(mainMod .. " + K", hl.dsp.layout("cycleprev"))
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
 -- hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
 -- hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
-hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg swapwithmaster"))
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg swapwithmaster"))
 
 -- Dwindle Layout
 -- hl.bind(mainMod .. " + SHIFT + I", hl.dsp.layout("togglesplit")) -- only works on dwindle layout
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo()) -- dwindle
 
--- Works on either layout (Master or Dwindle)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch splitratio 0.3"))
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center system"))
 
 -- group
 -- hl.bind(mainMod .. " + G", hl.dsp.group.toggle()) -- toggle group
@@ -43,21 +44,28 @@ hl.bind("ALT + tab", function()
 end)
 
 -- Special Keys / Hot Keys
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --inc"), { locked = true, repeating = true }) -- volume up
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --dec"), { locked = true, repeating = true }) -- volume down
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --toggle-mic"), { locked = true }) -- mic mute
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --toggle"), { locked = true }) -- mute
-hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend"), { locked = true }) -- sleep button
-hl.bind("XF86Rfkill", hl.dsp.exec_cmd(scriptsDir .. "/AirplaneMode.sh"), { locked = true }) -- Airplane mode
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("noctalia msg volume-up 5 && " .. scriptsDir .. "/Sounds.sh --volume"),
+	{ locked = true, repeating = true }
+) -- volume up
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("noctalia msg volume-down 5 && " .. scriptsDir .. "/Sounds.sh --volume"),
+	{ locked = true, repeating = true }
+) -- volume down
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("noctalia msg mic-mute"), { locked = true }) -- mic mute
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"), { locked = true }) -- mute
+hl.bind("XF86Sleep", hl.dsp.exec_cmd("noctalia msg session suspend"), { locked = true }) -- sleep button
+hl.bind("XF86Rfkill", hl.dsp.exec_cmd("noctalia msg wifi-toggle"), { locked = true }) -- Airplane mode
 
 -- media controls using keyboards
 -- Note: there is no single XF86AudioPlayPause keysym; the keycode maps to XF86AudioPlay
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --nxt"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --prv"), { locked = true })
-hl.bind("XF86AudioStop", hl.dsp.exec_cmd(scriptsDir .. "/MediaCtrl.sh --stop"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia msg media toggle"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("noctalia msg media next"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("noctalia msg media previous"), { locked = true })
+hl.bind("XF86AudioStop", hl.dsp.exec_cmd("noctalia msg media stop"), { locked = true })
 
 -- Screenshot keybindings NOTE: You may need to press Fn key as well
 hl.bind("Print", hl.dsp.exec_cmd(scriptsDir .. "/ScreenShot.sh --area")) -- screenshot (area)
@@ -81,9 +89,9 @@ hl.bind(mainMod .. " + CTRL + right", hl.dsp.exec_cmd("hyprctl dispatch movewind
 hl.bind(mainMod .. " + CTRL + up", hl.dsp.exec_cmd("hyprctl dispatch movewindow u"))
 hl.bind(mainMod .. " + CTRL + down", hl.dsp.exec_cmd("hyprctl dispatch movewindow d"))
 
-hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(scriptsDir .. "/Autoclick.sh toggle"), {
-	description = "Toggle autoclicker (ydotool)",
-})
+-- hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(scriptsDir .. "/Autoclick.sh toggle"), {
+-- 	description = "Toggle autoclicker (ydotool)",
+-- })
 
 -- Swap windows
 hl.bind(mainMod .. " + ALT + left", hl.dsp.window.swap({ direction = "left" }))
@@ -175,16 +183,11 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true }) -- 
 
 -- common shortcuts
 --hl.bind(mainMod .. " + " .. mainMod .. "_L", hl.dsp.exec_cmd("pkill rofi || rofi -show drun -modi drun,filebrowser,run,window")) -- Super Key to Launch rofi menu
-hl.bind(
-	mainMod .. " + D",
-	hl.dsp.exec_cmd(
-		"pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window -config ~/.config/rofi/config-launcher.rasi"
-	)
-) -- Main Menu (APP Launcher)
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher")) -- Main Menu (APP Launcher)
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd('xdg-open "https://"')) -- default browser
 --hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("pkill rofi || true && ags -t 'overview'")) -- desktop overview (if installed)
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("nautilus")) -- file manager
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
@@ -193,15 +196,24 @@ hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd("kitty --detach zsh -c 'export
 
 -- FEATURES / EXTRAS
 hl.bind(mainMod .. " + ALT + H", hl.dsp.exec_cmd(scriptsDir .. "/KeyHints.sh")) -- help / cheat sheet
-hl.bind(mainMod .. " + ALT + R", hl.dsp.exec_cmd(scriptsDir .. "/Refresh.sh")) -- Refresh waybar, swaync, rofi
+hl.bind(mainMod .. " + ALT + R", hl.dsp.exec_cmd(scriptsDir .. "/Refresh.sh")) -- Refresh Noctalia, rofi, quickshell
 hl.bind(mainMod .. " + ALT + E", hl.dsp.exec_cmd(scriptsDir .. "/RofiEmoji.sh")) -- emoji menu
-hl.bind(mainMod .. " + S", hl.dsp.exec_cmd(scriptsDir .. "/RofiSearch.sh")) -- Google search using rofi
-hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("rofi -show window")) -- list/switch apps using rofi
-hl.bind(mainMod .. " + ALT + O", hl.dsp.exec_cmd(scriptsDir .. "/ChangeBlur.sh")) -- Toggle blur settings
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center home")) -- Noctalia main menu
+hl.bind(mainMod .. " + ALT + S", hl.dsp.exec_cmd(scriptsDir .. "/RofiSearch.sh")) -- Google search using rofi
+hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("noctalia msg window-switcher")) -- list/switch apps using rofi
+hl.bind(mainMod .. " + CTRL + ALT + O", hl.dsp.exec_cmd(scriptsDir .. "/ChangeBlur.sh")) -- Toggle blur settings
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/GameMode.sh")) -- Toggle animations ON/OFF
-hl.bind(mainMod .. " + CTRL + SHIFT + G", hl.dsp.exec_cmd(scriptsDir .. "/SemiGameMode.sh")) -- Toggle animations ON/OFF (with blur on)
 hl.bind(mainMod .. " + ALT + L", hl.dsp.exec_cmd(scriptsDir .. "/ChangeLayout.sh")) -- Toggle Master or Dwindle Layout
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(scriptsDir .. "/ClipManager.sh")) -- Clipboard Manager
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard")) -- Clipboard Manager
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center power")) -- Power Menu
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center calendar")) -- Calendar Menu
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center weather")) -- Weather Menu
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center bluetooth")) -- Bluetooth Menu
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center network")) -- Network Menu
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center screen-time")) -- Screen Time
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center media")) -- Media Menu
+hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center monitor")) -- Monitor Menu
+hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center audio")) -- Audio Menu
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(scriptsDir .. "/SearXNGToggle.sh")) -- SearXNG
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNToggle.sh")) -- ProtonVPN Toggle
 hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd(scriptsDir .. "/ProtonVPNStatus.sh")) -- ProtonVPN Status
@@ -216,6 +228,10 @@ hl.bind(mainMod .. " + CTRL + F", hl.dsp.window.fullscreen({ mode = 1 })) -- fak
 hl.bind(mainMod .. " + SPACE", hl.dsp.window.float({ action = "toggle" })) -- Float Mode
 hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat")) -- All Float Mode
 hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd(scriptsDir .. "/Dropterminal.sh kitty")) -- Dropdown terminal
+
+-- Annotation
+hl.bind(mainMod .. " + CTRL + D", hl.dsp.exec_cmd("wayscriber --light-draw-toggle"))
+hl.bind(mainMod .. " + CTRL + SHIFT + D", hl.dsp.exec_cmd("wayscriber --light-toggle"))
 
 -- Desktop zooming or magnifier
 hl.bind(
@@ -233,22 +249,22 @@ hl.bind(
 ]])
 )
 
--- Waybar / Bar related
-hl.bind(mainMod .. " + CTRL + ALT + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar")) -- Toggle hide/show waybar
+-- Noctalia / legacy Waybar related
+hl.bind(mainMod .. " + CTRL + ALT + B", hl.dsp.exec_cmd("noctalia msg bar-toggle")) -- Toggle Noctalia bar
 hl.bind(mainMod .. " + CTRL + B", hl.dsp.exec_cmd(scriptsDir .. "/WaybarStyles.sh")) -- Waybar Styles Menu
 hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd(scriptsDir .. "/WaybarLayout.sh")) -- Waybar Layout Menu
 
 -- Night light toggle (Hyprsunset)
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(scriptsDir .. "/Hyprsunset.sh toggle"))
+-- hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(scriptsDir .. "/Hyprsunset.sh toggle"))
 
 -- FEATURES / EXTRAS
-hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd(scriptsDir .. "/RofiBeats.sh")) -- online music using rofi
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(scriptsDir .. "/WallpaperSelect.sh")) -- Select wallpaper to apply
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(scriptsDir .. "/WallpaperEffects.sh")) -- Wallpaper Effects by imagemagick
-hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(scriptsDir .. "/WallpaperRandom.sh")) -- Random wallpapers
+-- hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd(scriptsDir .. "/RofiBeats.sh")) -- online music using rofi
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("noctalia msg panel-toggle wallpaper")) -- Select wallpaper to apply
+-- hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(scriptsDir .. "/WallpaperEffects.sh")) -- Wallpaper Effects by imagemagick
+hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd("noctalia msg wallpaper-random")) -- Random wallpapers
 hl.bind(mainMod .. " + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle")) -- disable opacity on active window
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scriptsDir .. "/KeyBinds.sh")) -- search keybinds via rofi
-hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd(scriptsDir .. "/Animations.sh")) --hyprland animations menu
+hl.bind(mainMod .. " + CTRL + A", hl.dsp.exec_cmd(scriptsDir .. "/Animations.sh")) --hyprland animations menu
 -- Zsh theme switch moved to a script binding (removed to keep special:three on mainMod + SHIFT + O)
 hl.bind(
 	"ALT_L + SHIFT_L",
@@ -307,32 +323,40 @@ hl.bind(
 			.. "fi"
 	)
 )
-hl.bind("CTRL + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 10")) -- 1 = 10%
-hl.bind("CTRL + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 20")) -- 2 = 20%
-hl.bind("CTRL + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 30")) -- 3 = 30%
-hl.bind("CTRL + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 40")) -- 4 = 40%
-hl.bind("CTRL + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 50")) -- 5 = 50%
-hl.bind("CTRL + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 60")) -- 6 = 60%
-hl.bind("CTRL + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 70")) -- 7 = 70%
-hl.bind("CTRL + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 80")) -- 8 = 80%
-hl.bind("CTRL + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --set 90")) -- 9 = 90%
+hl.bind("CTRL + code:10", hl.dsp.exec_cmd("noctalia msg volume-set 10")) -- 1 = 10%
+hl.bind("CTRL + code:11", hl.dsp.exec_cmd("noctalia msg volume-set 20")) -- 2 = 20%
+hl.bind("CTRL + code:12", hl.dsp.exec_cmd("noctalia msg volume-set 30")) -- 3 = 30%
+hl.bind("CTRL + code:13", hl.dsp.exec_cmd("noctalia msg volume-set 40")) -- 4 = 40%
+hl.bind("CTRL + code:14", hl.dsp.exec_cmd("noctalia msg volume-set 50")) -- 5 = 50%
+hl.bind("CTRL + code:15", hl.dsp.exec_cmd("noctalia msg volume-set 60")) -- 6 = 60%
+hl.bind("CTRL + code:16", hl.dsp.exec_cmd("noctalia msg volume-set 70")) -- 7 = 70%
+hl.bind("CTRL + code:17", hl.dsp.exec_cmd("noctalia msg volume-set 80")) -- 8 = 80%
+hl.bind("CTRL + code:18", hl.dsp.exec_cmd("noctalia msg volume-set 90")) -- 9 = 90%
 
 -- Brightness quick set: CTRL + SHIFT + ` = 0%, CTRL + SHIFT + 1-9 = 10-90%, CTRL + SHIFT + 0 = 100%
-hl.bind("CTRL + SHIFT + code:49", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 0")) -- ~ = 0%
-hl.bind("CTRL + SHIFT + code:10", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 10")) -- ! = 10%
-hl.bind("CTRL + SHIFT + code:11", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 20")) -- @ = 20%
-hl.bind("CTRL + SHIFT + code:12", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 30")) -- # = 30%
-hl.bind("CTRL + SHIFT + code:13", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 40")) -- $ = 40%
-hl.bind("CTRL + SHIFT + code:14", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 50")) -- % = 50%
-hl.bind("CTRL + SHIFT + code:15", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 60")) -- ^ = 60%
-hl.bind("CTRL + SHIFT + code:16", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 70")) -- & = 70%
-hl.bind("CTRL + SHIFT + code:17", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 80")) -- * = 80%
-hl.bind("CTRL + SHIFT + code:18", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --set 90")) -- ( = 90%
+hl.bind("CTRL + SHIFT + code:49", hl.dsp.exec_cmd("noctalia msg brightness-set 0")) -- ~ = 0%
+hl.bind("CTRL + SHIFT + code:10", hl.dsp.exec_cmd("noctalia msg brightness-set 10")) -- ! = 10%
+hl.bind("CTRL + SHIFT + code:11", hl.dsp.exec_cmd("noctalia msg brightness-set 20")) -- @ = 20%
+hl.bind("CTRL + SHIFT + code:12", hl.dsp.exec_cmd("noctalia msg brightness-set 30")) -- # = 30%
+hl.bind("CTRL + SHIFT + code:13", hl.dsp.exec_cmd("noctalia msg brightness-set 40")) -- $ = 40%
+hl.bind("CTRL + SHIFT + code:14", hl.dsp.exec_cmd("noctalia msg brightness-set 50")) -- % = 50%
+hl.bind("CTRL + SHIFT + code:15", hl.dsp.exec_cmd("noctalia msg brightness-set 60")) -- ^ = 60%
+hl.bind("CTRL + SHIFT + code:16", hl.dsp.exec_cmd("noctalia msg brightness-set 70")) -- & = 70%
+hl.bind("CTRL + SHIFT + code:17", hl.dsp.exec_cmd("noctalia msg brightness-set 80")) -- * = 80%
+hl.bind("CTRL + SHIFT + code:18", hl.dsp.exec_cmd("noctalia msg brightness-set 90")) -- ( = 90%
 
 -- Volume step (5%): mainMod + - / +
-hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --dec"), { repeating = true })
-hl.bind(mainMod .. " + equal", hl.dsp.exec_cmd(scriptsDir .. "/Volume.sh --inc"), { repeating = true })
+hl.bind(
+	mainMod .. " + minus",
+	hl.dsp.exec_cmd("noctalia msg volume-down 5 && " .. scriptsDir .. "/Sounds.sh --volume"),
+	{ repeating = true }
+)
+hl.bind(
+	mainMod .. " + equal",
+	hl.dsp.exec_cmd("noctalia msg volume-up 5 && " .. scriptsDir .. "/Sounds.sh --volume"),
+	{ repeating = true }
+)
 
 -- Brightness step (5%): mainMod + _ (shift + -) / + (shift + =)
-hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --dec"), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.exec_cmd(scriptsDir .. "/Brightness.sh --inc"), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.exec_cmd("noctalia msg brightness-down 5"), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.exec_cmd("noctalia msg brightness-up 5"), { repeating = true })

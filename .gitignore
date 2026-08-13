@@ -33,6 +33,7 @@ hypr/.config/hypr/monitors.conf
 hypr/.config/hypr/monitors.conf.bak
 hypr/.config/hypr/wallpaper_effects/.wallpaper_current
 hypr/.config/hypr/wallust/wallust-hyprland.conf
+hypr/.config/hypr/.migration-backups
 
 # kitty
 kitty/.config/kitty/kitty-themes/01-Wallust.conf
@@ -50,3 +51,5 @@ herdr/.config/herdr/herdr-client.log
 herdr/.config/herdr/herdr-server.log
 herdr/.config/herdr/herdr.sock
 herdr/.config/herdr/session.json
+
+

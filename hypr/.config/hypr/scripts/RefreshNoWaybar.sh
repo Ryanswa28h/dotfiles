@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Modified version of Refresh.sh but waybar wont refresh
-# Used by automatic wallpaper change
-# Modified inorder to refresh rofi background, Wallust, SwayNC only
+# Modified refresh path for automatic wallpaper changes.
+# Refreshes rofi, Wallust, and Noctalia without external notification or bar shells.
 
 SCRIPTSDIR=$HOME/.config/hypr/scripts
 
@@ -33,8 +32,8 @@ pkill qs && qs &
 ${SCRIPTSDIR}/WallustSwww.sh
 sleep 0.2
 
-# reload swaync
-swaync-client --reload-config
+# Reload Noctalia after wallpaper-related refresh work.
+noctalia msg config-reload
 
 sleep 1
 

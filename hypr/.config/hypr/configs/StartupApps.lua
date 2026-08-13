@@ -7,10 +7,10 @@ local SwwwRandom = scriptsDir .. "/WallpaperAutoChange.sh"
 local livewallpaper = ""
 
 -- wallpaper stuff
-hl.on("hyprland.start", function()
-	hl.exec_cmd("swww-daemon")
-	--hl.exec_cmd("mpvpaper '*' -o \"load-scripts=no no-audio --loop\" " .. livewallpaper)
-end)
+-- hl.on("hyprland.start", function()
+-- 	hl.exec_cmd("swww-daemon")
+-- 	--hl.exec_cmd("mpvpaper '*' -o \"load-scripts=no no-audio --loop\" " .. livewallpaper)
+-- end)
 
 -- wallpaper random
 --hl.on("hyprland.start", function()
@@ -21,10 +21,12 @@ end)
 hl.on("hyprland.start", function()
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-	hl.exec_cmd("swww init")
+	-- hl.exec_cmd("swww init")
 
-	hl.exec_cmd(scriptsDir .. "/Hyprsunset.sh startup")
+	-- hl.exec_cmd(scriptsDir .. "/Hyprsunset.sh startup")
 	hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
+
+	hl.exec_cmd("wayscriber --daemon")
 
 	-- Initialize Drop Down terminal
 	hl.exec_cmd(scriptsDir .. "/Dropterminal.sh kitty &")
@@ -36,14 +38,13 @@ hl.on("hyprland.start", function()
 	-- starup apps
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("hyprpm reload") -- plugins
-	hl.exec_cmd("swaync")
+	hl.exec_cmd("pgrep -x noctalia >/dev/null || noctalia")
 	--hl.exec_cmd("ags")
 	hl.exec_cmd("blueman-applet")
 	--hl.exec_cmd("rog-control-center")
-	hl.exec_cmd("waybar")
 	hl.exec_cmd("qs") -- quickshell AGS Desktop Overview alternative
 	hl.exec_cmd("nm-applet &")
-	hl.exec_cmd("ydotoold") -- ydotoold (Autoclicker daemon)
+	-- hl.exec_cmd("ydotoold") -- ydotoold (Autoclicker daemon)
 
 	--clipboard manager
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
