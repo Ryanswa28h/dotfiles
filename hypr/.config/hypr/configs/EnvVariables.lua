@@ -16,7 +16,13 @@ hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
-hl.env("XDG_MENU_PREFIX", "plasma")
+hl.env("XDG_MENU_PREFIX", "plasma-")
+hl.env("SAL_USE_VCLPLUGIN", "kf6")
+hl.env("GTK_THEME", "Adwaita:dark")
+
+-- Fcitx5 environment
+hl.env("QT_IM_MODULE", "fcitx")
+hl.env("XMODIFIERS", "@im=fcitx")
 
 -- QT Variables
 hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")

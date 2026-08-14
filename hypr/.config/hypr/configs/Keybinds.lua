@@ -190,12 +190,12 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
-hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
+-- hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
 hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 
 -- FEATURES / EXTRAS
-hl.bind(mainMod .. " + ALT + H", hl.dsp.exec_cmd(scriptsDir .. "/KeyHints.sh")) -- help / cheat sheet
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd(scriptsDir .. "/KeyHints.sh")) -- help / cheat sheet
 hl.bind(mainMod .. " + ALT + R", hl.dsp.exec_cmd(scriptsDir .. "/Refresh.sh")) -- Refresh Noctalia, rofi, quickshell
 hl.bind(mainMod .. " + ALT + E", hl.dsp.exec_cmd(scriptsDir .. "/RofiEmoji.sh")) -- emoji menu
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("noctalia msg panel-toggle control-center home")) -- Noctalia main menu
@@ -316,7 +316,6 @@ hl.bind(
 			.. "pamixer -i 50 --allow-boost" -- boost above 100
 			.. scriptsDir
 			.. "/Sounds.sh --volume; "
-			.. 'notify-send -e -h int:value:100 -h "string:x-canonical-private-synchronous:volume_notif" -h boolean:SWAYNC_BYPASS_DND:true -u low -i "$HOME/.config/swaync/icons/volume-high.png" " Volume Level:" "100 %"; '
 			.. "else "
 			.. scriptsDir
 			.. "/Volume.sh --set 0; "

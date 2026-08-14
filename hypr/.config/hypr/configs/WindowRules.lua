@@ -110,7 +110,7 @@ hl.window_rule({ match = { tag = "^Quick_Cheat$" }, center = true })
 hl.window_rule({ match = { class = "^([Tt]hunar)$", title = "^negative:(.*[Tt]hunar.*)$" }, center = true })
 hl.window_rule({ match = { title = "^(ROG Control)$" }, center = true })
 hl.window_rule({ match = { tag = "^Quick-Settings$" }, center = true })
-hl.window_rule({ match = { title = "^(Keybindings)$" }, center = true })
+hl.window_rule({ match = { title = "^(Keybindings)$" }, float = true, center = true, opacity = "0.75 0.75" })
 hl.window_rule({
 	match = { class = "^(pavucontrol|org.pulseaudio.pavucontrol|com.saivert.pwvucontrol)$" },
 	center = true,

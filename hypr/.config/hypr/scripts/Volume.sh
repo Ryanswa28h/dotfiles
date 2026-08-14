@@ -130,7 +130,7 @@ elif [[ "$1" == "--set" ]]; then
     if [[ "$2" -gt 0 ]]; then
         pamixer -u
     fi
-    notify_user
+    # notify_user
 elif [[ "$1" == "--toggle" ]]; then
     toggle_mute
 elif [[ "$1" == "--toggle-mic" ]]; then

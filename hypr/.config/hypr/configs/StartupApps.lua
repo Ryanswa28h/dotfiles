@@ -35,6 +35,10 @@ hl.on("hyprland.start", function()
 	-- Polkit (Polkit Gnome / KDE)
 	hl.exec_cmd(scriptsDir .. "/Polkit.sh")
 
+	hl.exec_cmd("kbuildsycoca6 --noincremental")
+
+	hl.exec_cmd("fcitx5 -d")
+
 	-- starup apps
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("hyprpm reload") -- plugins
