@@ -121,7 +121,6 @@ After completing task, run relevant verification.
 
 Prefer project-defined commands:
 
-- test
 - typecheck
 - lint
 - format check
