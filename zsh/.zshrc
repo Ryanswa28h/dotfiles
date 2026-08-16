@@ -196,6 +196,13 @@ if (( $+commands[starship] )) && (( ! ${+functions[starship_precmd]} )); then
     eval "$(starship init zsh)"
 fi
 
+# Atuin
+eval "$(atuin init zsh --disable-up-arrow)"
+
+function zvm_after_init() {
+    eval "$(atuin init zsh --disable-up-arrow)"
+}
+
 # ===============================
 # Aliases
 # ===============================
@@ -894,5 +901,16 @@ if [[ $- == *i* ]] \
    && [[ -z "$ZSH_NO_TMUX" ]] \
    && [[ -z "$ZSH_NO_HERDR" ]] \
    && command -v tmux >/dev/null 2>&1; then
-    exec tmux new-session -A -s default
+
+    if tmux has-session 2>/dev/null; then
+        last_session="$(tmux show-option -gv @last-session 2>/dev/null)"
+
+        if [[ -n "$last_session" ]] && tmux has-session -t "$last_session" 2>/dev/null; then
+            exec tmux attach-session -t "$last_session"
+        else
+            exec tmux attach-session
+        fi
+    else
+        exec tmux new-session -s 00-ganteng
+    fi
 fi
