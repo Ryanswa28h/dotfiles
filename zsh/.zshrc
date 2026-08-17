@@ -1,3 +1,22 @@
+# New-machine bootstrap (run in `zsh -f` before using this configuration):
+#   sudo pacman -S --needed zsh git fzf zoxide starship atuin tmux thefuck
+#   mkdir -p ~/.local/share/zinit
+#   git clone https://github.com/zdharma-continuum/zinit.git \
+#     ~/.local/share/zinit/zinit.git
+#   source ~/.local/share/zinit/zinit.git/zinit.zsh
+#   zinit snippet OMZ::lib/git.zsh
+#   zinit snippet OMZ::lib/theme-and-appearance.zsh
+#   zinit snippet OMZ::plugins/sudo
+#   zinit snippet OMZ::plugins/thefuck
+#   zinit snippet OMZ::plugins/extract
+#   zinit snippet OMZ::plugins/colored-man-pages
+#   zinit snippet OMZ::plugins/archlinux
+#   zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
+#   zinit light jeffreytse/zsh-vi-mode
+#   zinit light Aloxaf/fzf-tab
+#   zinit light zsh-users/zsh-autosuggestions
+#   zinit light zdharma-continuum/fast-syntax-highlighting
+
 # ===============================
 # PATH
 # ===============================
@@ -37,21 +56,6 @@ path=($^path(N-/))
 export PATH
 
 # ===============================
-# Zinit Installer
-# ===============================
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing Zinit...%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit.git "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# ===============================
 # Shell options needed early
 # (EXTENDED_GLOB must be set before the compinit cache-check below,
 #  which relies on the (#q...) glob-qualifier syntax)
@@ -63,38 +67,20 @@ setopt NUMERIC_GLOB_SORT
 # ===============================
 # Theme & Core Plugins
 # ===============================
+# Directly source already-installed plugin files. Zinit remains only as their
+# cache location; no plugin-manager code runs during shell startup.
 
-# Load OMZ Library (needed for some OMZ plugins to work)
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
+# OMZ libraries and plugins.
+source "$HOME/.local/share/zinit/snippets/OMZ::lib/git.zsh/git.zsh"
+source "$HOME/.local/share/zinit/snippets/OMZ::lib/theme-and-appearance.zsh/theme-and-appearance.zsh"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins/sudo/sudo"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins/thefuck/thefuck"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins/extract/extract"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins/colored-man-pages/colored-man-pages"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins/archlinux/archlinux"
 
-# Standard OMZ plugin needed immediately
-zinit snippet OMZ::plugins/sudo
-
-# Non-critical OMZ plugins: load after the first prompt
-zinit ice wait"1" lucid
-zinit snippet OMZ::plugins/thefuck
-
-zinit ice wait"1" lucid
-zinit snippet OMZ::plugins/extract
-
-zinit ice wait"1" lucid
-zinit snippet OMZ::plugins/colored-man-pages
-
-zinit ice wait"1" lucid
-zinit snippet OMZ::plugins/archlinux
-
-zinit ice lucid
-zinit light jeffreytse/zsh-vi-mode
-
-# zinit ice lucid
-# zinit light marlonrichert/zsh-autocomplete
-
-zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
-zinit light zsh-users/zsh-autosuggestions
-
-zinit ice wait"0" lucid
-zinit light zdharma-continuum/fast-syntax-highlighting
+# Interactive editing mode. zvm_after_init remains defined below for Atuin.
+source "$HOME/.local/share/zinit/plugins/jeffreytse---zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 
 [[ -d "$HOME/.bun" ]] && fpath=("$HOME/.bun" $fpath)
 
@@ -112,8 +98,13 @@ fi
 
 unset _zcompdump
 
-zinit light Aloxaf/fzf-tab
-zinit snippet OMZ::plugins/fzf/fzf.plugin.zsh
+source "$HOME/.local/share/zinit/plugins/Aloxaf---fzf-tab/fzf-tab.plugin.zsh"
+source "$HOME/.local/share/zinit/snippets/OMZ::plugins--fzf/fzf.plugin.zsh/fzf.plugin.zsh"
+
+# Load these last so their ZLE wrappers see every preceding widget.
+source "$HOME/.local/share/zinit/plugins/zsh-users---zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+source "$HOME/.local/share/zinit/plugins/zdharma-continuum---fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+
 # Disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # Set descriptions format to enable group support
