@@ -69,6 +69,9 @@ setopt NUMERIC_GLOB_SORT
 # ===============================
 # Directly source already-installed plugin files. Zinit remains only as their
 # cache location; no plugin-manager code runs during shell startup.
+# OMZ's thefuck plugin expects this variable, normally exported by Zinit.
+export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/zinit}"
+[[ -d "$ZSH_CACHE_DIR" ]] || command mkdir -p -- "$ZSH_CACHE_DIR"
 
 # OMZ libraries and plugins.
 source "$HOME/.local/share/zinit/snippets/OMZ::lib/git.zsh/git.zsh"
