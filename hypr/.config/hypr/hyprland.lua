@@ -1,7 +1,7 @@
 local home = os.getenv("HOME")
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd(home .. "/.config/hypr/initial-boot.sh")
+	hl.exec_cmd(home .. "/.config/hypr/initial-boot.sh")
 end)
 
 hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
@@ -9,7 +9,7 @@ hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
 -- Sourcing external config files
 require("configs/Keybinds") -- Pre-configured keybinds
 
--- ## This is where you want to start tinkering 
+-- ## This is where you want to start tinkering
 
 require("configs/StartupApps") -- put your start-up packages on this file
 

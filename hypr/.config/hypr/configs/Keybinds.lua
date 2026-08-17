@@ -237,14 +237,14 @@ hl.bind(mainMod .. " + CTRL + SHIFT + D", hl.dsp.exec_cmd("wayscriber --light-to
 hl.bind(
 	"CTRL + SUPER + mouse_up",
 	hl.dsp.exec_cmd([[
-  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 2}')
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 1.5}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
 ]])
 )
 hl.bind(
 	"CTRL + SUPER + mouse_down",
 	hl.dsp.exec_cmd([[
-  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 2}')
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 1.5}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
 ]])
 )
@@ -359,3 +359,10 @@ hl.bind(
 -- Brightness step (5%): mainMod + _ (shift + -) / + (shift + =)
 hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.exec_cmd("noctalia msg brightness-down 5"), { repeating = true })
 hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.exec_cmd("noctalia msg brightness-up 5"), { repeating = true })
+
+hl.bind(
+	"ALT + R",
+	hl.dsp.exec_cmd(
+		"dbus-send --session --type=method_call --dest=com.openwhispr.App /com/openwhispr/App com.openwhispr.App.Toggle"
+	)
+)
