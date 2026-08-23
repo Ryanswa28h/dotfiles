@@ -94,6 +94,7 @@ hl.config({
 		workspace_back_and_forth = true,
 		allow_workspace_cycles = true,
 		pass_mouse_when_bound = false,
+		scroll_event_delay = 0,
 	},
 
 	--Could help when scaling and not pixelating
@@ -112,6 +113,8 @@ hl.config({
 		enable_hyprcursor = true,
 		warp_on_change_workspace = 0, -- 0=off, 1=on, 2=force (ignores no_warps)
 		no_warps = true,
+		zoom_detached_camera = false,
+		zoom_rigid = false,
 	},
 })
 
