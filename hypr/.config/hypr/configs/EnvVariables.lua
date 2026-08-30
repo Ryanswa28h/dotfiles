@@ -31,7 +31,7 @@ hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
 -- hyprland-qt-support
-hl.env("QT_QUICK_CONTROLS_STYLE", "org.hyprland.style")
+hl.env("QT_QUICK_CONTROLS_STYLE", "Basic")
 
 -- xwayland apps scale fix (useful if you are use monitor scaling).
 -- Set same value if you use scaling in Monitors.conf

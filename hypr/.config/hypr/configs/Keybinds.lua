@@ -13,6 +13,7 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg panel-toggle control-ce
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scriptsDir .. "/Quick_Settings.sh")) -- Settings Menu
 -- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("code"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("kitty yazi"))
+hl.bind("CTRL + SHIFT + ESCAPE", hl.dsp.exec_cmd("kitty btop"))
 
 -- Master Layout
 hl.bind(mainMod .. " + CTRL + D", hl.dsp.exec_cmd("hyprctl dispatch layoutmsg removemaster"))
@@ -166,9 +167,35 @@ hl.bind(mainMod .. " + CTRL + code:19", hl.dsp.window.move({ workspace = 10, fol
 hl.bind(mainMod .. " + CTRL + bracketleft", hl.dsp.window.move({ workspace = -1, follow = false })) -- brackets [
 hl.bind(mainMod .. " + CTRL + bracketright", hl.dsp.window.move({ workspace = 1, follow = false })) -- brackets ]
 
--- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+-- Scroll through existing workspaces with mainMod + scroll.
+-- Throttle this bind separately; binds.scroll_event_delay stays at 0 for smooth zoom.
+local workspace_scroll_ready = true
+local workspace_scroll_timer
+local workspace_next = hl.dsp.focus({ workspace = "e+1" })
+local workspace_previous = hl.dsp.focus({ workspace = "e-1" })
+
+workspace_scroll_timer = hl.timer(function()
+	workspace_scroll_ready = true
+	workspace_scroll_timer:set_enabled(false)
+end, { timeout = 200, type = "repeat" })
+workspace_scroll_timer:set_enabled(false)
+
+local function switch_workspace(dispatcher)
+	if not workspace_scroll_ready then
+		return
+	end
+
+	workspace_scroll_ready = false
+	hl.dispatch(dispatcher)
+	workspace_scroll_timer:set_enabled(true)
+end
+
+hl.bind(mainMod .. " + mouse_down", function()
+	switch_workspace(workspace_next)
+end)
+hl.bind(mainMod .. " + mouse_up", function()
+	switch_workspace(workspace_previous)
+end)
 -- hl.bind(mainMod .. " + period", hl.dsp.focus({ workspace = "e+1" }))
 -- hl.bind(mainMod .. " + comma", hl.dsp.focus({ workspace = "e-1" }))
 -- hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ workspace = "e+1" }))
@@ -190,7 +217,7 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty")) --terminal
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin")) -- file manager
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("kitty")) -- kitty terminal
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("krunner"))
--- hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
+hl.bind("ALT + SPACE", hl.dsp.exec_cmd("krunner"))
 hl.bind(mainMod .. " + CTRL + Return", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 hl.bind(mainMod .. " + CTRL + T", hl.dsp.exec_cmd("kitty --detach zsh -c 'export ZSH_NO_TMUX=1; exec zsh'")) -- no tmux terminal
 
@@ -237,14 +264,14 @@ hl.bind(mainMod .. " + CTRL + SHIFT + D", hl.dsp.exec_cmd("wayscriber --light-to
 hl.bind(
 	"CTRL + SUPER + mouse_up",
 	hl.dsp.exec_cmd([[
-  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 1.5}')
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f * 1.4}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
 ]])
 )
 hl.bind(
 	"CTRL + SUPER + mouse_down",
 	hl.dsp.exec_cmd([[
-  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 1.5}')
+  factor=$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {f = $2; if (f < 1) f = 1; print f / 1.4}')
   hyprctl eval "hl.config({ cursor = { zoom_factor = "$factor" } })"
 ]])
 )

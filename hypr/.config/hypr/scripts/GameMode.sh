@@ -24,7 +24,7 @@ if [ "$HYPRGAMEMODE" = "true" ]; then
     # magick -size 1x1 xc:black /tmp/gamemode-black.png
     # swww img /tmp/gamemode-black.png --transition-step 1
     sleep 0.1
-    swww kill
+    # swww kill
     notify-send -e -u low -i "$notif" " Gamemode:" " enabled"
     exit
 else
@@ -35,7 +35,7 @@ else
     #     orig_wall="$HOME/.config/rofi/.current_wallpaper"
     # fi
 
-    swww-daemon &
+    # swww-daemon &
     sleep 0.3 # wait for swww socket to be ready
     # if [ -n "$orig_wall" ] && [ -f "$orig_wall" ]; then
     #     swww img "$orig_wall"

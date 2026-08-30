@@ -28,8 +28,9 @@ hl.on("hyprland.start", function()
 
 	hl.exec_cmd("wayscriber --daemon")
 
-	-- Initialize Drop Down terminal
-	hl.exec_cmd(scriptsDir .. "/Dropterminal.sh kitty &")
+	-- Persist clipboard
+	hl.exec_cmd("wl-clip-persist --clipboard regular")
+
 	hl.exec_cmd(scriptsDir .. "/autostart_kde.sh")
 
 	-- Polkit (Polkit Gnome / KDE)
